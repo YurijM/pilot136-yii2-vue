@@ -23,6 +23,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div id="app"></div>
+
 <?php $this->registerJsFile('/js/app-frontend.js'); ?>
 
 <?php $this->endBody() ?>

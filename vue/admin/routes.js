@@ -3,8 +3,8 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-/*import Login from './components/Login';
-import User from './components/User';
+import Login from './components/Login';
+/*import User from './components/User';
 import Staff from './components/Staff';
 import Logout from './components/Logout';
 import NotFound from './components/NotFound';*/
@@ -12,7 +12,7 @@ import NotFound from './components/NotFound';*/
 import {store} from "./store";
 
 const routes = [
-	/*{
+	{
 		path: '',
 		redirect: {name: 'login'}
 	},
@@ -21,7 +21,7 @@ const routes = [
 		path: '/login',
 		component: Login
 	},
-	{
+	/*{
 		name: 'user',
 		path: '/user',
 		component: User,

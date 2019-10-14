@@ -4,16 +4,16 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-/*import login from './modules/login';
+import login from './modules/login';
 import user from './modules/user';
-import staff from './modules/staff';
+/*import staff from './modules/staff';
 import post from './modules/post';*/
 
 export const store = new Vuex.Store({
 	modules: {
-		/*login,
+		login,
 		user,
-		staff,
+		/*staff,
 		post*/
 	},
 	/*plugins: [createPersistedState(

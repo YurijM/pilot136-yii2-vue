@@ -6,7 +6,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
-//import './admin/style/main.scss';
+import './admin/style/main.scss';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {
