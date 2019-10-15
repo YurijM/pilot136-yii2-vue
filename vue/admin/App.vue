@@ -2,14 +2,14 @@
 	<b-container class="wrap d-flex flex-column">
 		<header class="d-flex align-items-center justify-content-between p-3 bg-dark text-warning">
 			<h5 class="text-center">Панель администрирования</h5>
-			<div v-if="admin" class="d-flex align-items-center">
+			<div v-if="isLog" class="d-flex align-items-center">
 				<font-awesome-icon :icon="['fas', 'user-circle']" class="fa-2x"/>
 				<span class="pl-3 font-weight-bold">{{admin}}</span>
 			</div>
 		</header>
 
 		<main class="d-flex flex-grow-1">
-			<aside v-if="admin" class="menu bg-secondary w-auto pr-3">
+			<aside v-if="isLog" class="menu bg-secondary w-auto pr-3">
 				<ym-admin-menu
 					:items="menu"/>
 			</aside>
@@ -44,6 +44,7 @@
 			return {
 				startYear: 2019,
 				currentYear: new Date().getFullYear(),
+				admin: '',
 				menu: [
 					{path: '/requisite', icon: 'file-contract', title: 'Реквизиты'},
 					{path: '/staff', icon: 'users', title: 'Штат'},
@@ -66,13 +67,17 @@
 		},
 		computed: {
 			...mapGetters('login', [
-				'isAdmin'
+				'isAdmin',
+				'getAdmin'
 			]),
-			admin() {
+			isLog() {
 				return this.isAdmin
 			},
 		},
 		watch: {
+			isLog(state) {
+				if (state) this.admin = this.getAdmin.name;
+			}
 		},
 		methods: {
 			sortMenu(a, b) {

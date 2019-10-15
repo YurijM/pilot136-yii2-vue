@@ -32,7 +32,7 @@ export default {
 		},
 		async setAdmin({commit}, admin) {
 			await axios
-			.get('http://pilot-vue-api/v1/user/check', {
+			.get('http://pilot136-yii2-vue-api/v1/user/check', {
 				params: {
 					name: admin.name,
 					password: admin.password

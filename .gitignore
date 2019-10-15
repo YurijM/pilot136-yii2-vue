@@ -45,6 +45,7 @@ phpunit.phar
 /backend/runtime/
 /backend/tests/
 /common/tests/
+/api/runtime/
 /console/runtime/
 /frontend/runtime/
 /frontend/tests/
