@@ -25,6 +25,7 @@ export default {
 			};
 		}
 	},
+	//axios.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('Token')
 	actions: {
 		clearAdmin({commit}) {
 			commit('CLEAR_ADMIN');
@@ -36,7 +37,13 @@ export default {
 				params: {
 					name: admin.name,
 					password: admin.password
-				}
+				},
+				/*headers: {
+					Authorization: 'Bearer 12345'
+				}*/
+				/*headers: {
+					Authorization: 'Bearer ' + Cookies.get('Token') //см. nuxtjs-blog/store/auth.js
+				}*/
 			})
 			.then(response => {
 				if (isNaN(response.data))
