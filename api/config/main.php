@@ -56,7 +56,7 @@ return [
 					'class' => UrlRule::class,
 					'controller' => 'v1/user',
 					'extraPatterns' => [
-						'GET check' => 'check',
+						'check' => 'check',
 					],
 					'pluralize' => false, //отключение множественного числа
 				],

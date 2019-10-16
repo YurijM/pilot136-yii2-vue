@@ -1,4 +1,5 @@
 import axios from 'axios';
+//axios.defaults.headers.common['Authorization'] = 'Bearer 12345';
 
 export default {
 	namespaced: true,
@@ -7,7 +8,8 @@ export default {
 			id: 0,
 			name: '',
 			codeError: 1
-		}	},
+		}
+	},
 	getters: {
 		getAdmin: state => state.admin,
 		isAdmin: (state, getters) => getters.getAdmin.id > 0,
@@ -34,17 +36,19 @@ export default {
 		async setAdmin({commit}, admin) {
 			await axios
 			.get('http://pilot136-yii2-vue-api/v1/user/check', {
+				headers: {
+					Authorization: 'Bearer 12345'
+				},
 				params: {
 					name: admin.name,
 					password: admin.password
 				},
-				/*headers: {
-					Authorization: 'Bearer 12345'
-				}*/
-				/*headers: {
-					Authorization: 'Bearer ' + Cookies.get('Token') //см. nuxtjs-blog/store/auth.js
-				}*/
 			})
+				/*axios({
+					method: 'get',
+					url: 'http://pilot136-yii2-vue-api/v1/user/check',
+					headers: { Authorization: 'Bearer 12345'}
+				})*/
 			.then(response => {
 				if (isNaN(response.data))
 					commit('SET_ADMIN', {
