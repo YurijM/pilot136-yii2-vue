@@ -1,5 +1,4 @@
 import axios from 'axios';
-//axios.defaults.headers.common['Authorization'] = 'Bearer 12345';
 
 export default {
 	namespaced: true,
@@ -31,14 +30,10 @@ export default {
 	actions: {
 		clearAdmin({commit}) {
 			commit('CLEAR_ADMIN');
-			//Cookies.remove('pilot-admin');
 		},
 		async setAdmin({commit}, admin) {
 			await axios
 			.get('http://pilot136-yii2-vue-api/v1/user/check', {
-				headers: {
-					Authorization: 'Bearer 12345'
-				},
 				params: {
 					name: admin.name,
 					password: admin.password
@@ -65,7 +60,6 @@ export default {
 			});
 		},
 		logout({dispatch}) {
-			//dispatch('clearToken');
 			dispatch('clearAdmin');
 			/*dispatch('setInfo',
 				{type: 'info', message: 'Сессия закрыта'},
