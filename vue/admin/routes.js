@@ -10,6 +10,7 @@ import Logout from './components/Logout';
 import NotFound from './components/NotFound';*/
 
 import {store} from "./store";
+import Act from "./components/Act";
 
 const routes = [
 	{
@@ -21,6 +22,11 @@ const routes = [
 		path: '/login',
 		component: Login
 	},
+	{
+		name: 'act',
+		path: '/act',
+		component: Act
+	}
 	/*{
 		name: 'user',
 		path: '/user',

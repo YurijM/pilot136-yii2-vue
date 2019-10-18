@@ -4,9 +4,10 @@
       v-for="(item, i) in items" :key="i"
       exact-active-class="active"
       :to="item.path"
+      link-classes="d-flex align-items-center"
     >
-
-      <font-awesome-icon :icon="item.icon" />&nbsp;{{item.title}}
+      <font-awesome-icon :icon="item.icon" size="lg" class="mr-3 text-warning" />
+	    <div>{{item.title}}</div>
     </b-nav-item>
 	</b-nav>
 </template>
@@ -27,10 +28,12 @@
 
 		&:hover {
 			color: #00ffff !important;
+			background-color: inherit;
 		}
 
 		&.active {
 			color: #ff0 !important;
+			background-color: inherit;
 		}
 	}
 </style>

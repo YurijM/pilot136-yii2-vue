@@ -36,7 +36,7 @@
 	import YmAdminMenu from './components/AdminMenu'
 
 	export default {
-		name: 'App',
+		name: 'app',
 		components: {
 			YmAdminMenu
 		},
