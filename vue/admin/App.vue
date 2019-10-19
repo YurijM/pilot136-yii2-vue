@@ -63,7 +63,15 @@
 		created() {
 			this.menu.sort(this.sortMenu);
 			this.menu.push({path: '/logout', icon: 'sign-out-alt', title: 'Выход'},
-			)
+			);
+			/*this.$router.beforeEach((to, from, next) => {
+				// Start the route progress bar.
+				NProgress.start();
+				next();
+			});
+			this.$router.afterEach((to, from) => {
+				NProgress.done();
+			});*/
 		},
 		computed: {
 			...mapGetters('login', [

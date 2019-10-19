@@ -6,7 +6,7 @@
       :to="item.path"
       link-classes="d-flex align-items-center"
     >
-      <font-awesome-icon :icon="item.icon" size="lg" class="mr-3 text-warning" />
+      <font-awesome-icon :icon="item.icon" size="lg" class="mr-3" />
 	    <div>{{item.title}}</div>
     </b-nav-item>
 	</b-nav>
@@ -23,12 +23,13 @@
 
 <style lang="scss" scoped>
 	.nav-link {
-		color: #eee;
+		color: #fff;
 		outline: none;
 
 		&:hover {
 			color: #00ffff !important;
 			background-color: inherit;
+			text-decoration: underline;
 		}
 
 		&.active {

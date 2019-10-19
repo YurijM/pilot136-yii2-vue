@@ -1,16 +1,17 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import NProgress from 'nprogress';
 
 Vue.use(VueRouter);
 
 import Login from './components/Login';
+import Act from "./components/Act";
 /*import User from './components/User';
 import Staff from './components/Staff';
 import Logout from './components/Logout';
 import NotFound from './components/NotFound';*/
 
 import {store} from "./store";
-import Act from "./components/Act";
 
 const routes = [
 	{
@@ -25,7 +26,7 @@ const routes = [
 	{
 		name: 'act',
 		path: '/act',
-		component: Act
+		component: Act,
 	}
 	/*{
 		name: 'user',
@@ -68,7 +69,26 @@ const routes = [
 	}*/
 ];
 
+/*
 export const router = new VueRouter({
 	routes,
 	mode: 'history'
+});*/
+
+const router = new VueRouter({
+	routes,
+	mode: 'history'
 });
+
+router.beforeResolve((to, from, next) => {
+	if (to.name) {
+		NProgress.start();
+	}
+	next();
+});
+
+router.afterEach((to, from) => {
+	NProgress.done();
+});
+
+export {router};
