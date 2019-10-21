@@ -27,6 +27,9 @@ const routes = [
 		name: 'act',
 		path: '/act',
 		component: Act,
+		async beforeEnter(from, to, next){
+			await checkLogin('act/loadActs', next);
+		}
 	}
 	/*{
 		name: 'user',
@@ -74,6 +77,15 @@ export const router = new VueRouter({
 	routes,
 	mode: 'history'
 });*/
+
+async function checkLogin(action, next) {
+	if (store.getters['login/isAdmin']) {
+		await store.dispatch(action);
+		next();
+	} else {
+		next('/login');
+	}
+};
 
 const router = new VueRouter({
 	routes,

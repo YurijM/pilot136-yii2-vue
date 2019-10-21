@@ -1,5 +1,5 @@
 <template>
-	<section class="login mx-auto mt-5 pb-4 bg-light">
+	<section class="login mx-auto my-5 pb-4 bg-light">
 		<div>
 			<b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
@@ -138,7 +138,7 @@
 						this.validLogin = true;
 
 						if (this.isAdmin)
-							this.$router.push('/user');
+							this.$router.push('/requisite');
 						else {
 							this.validLogin = false;
 							switch (this.getCodeError) {
