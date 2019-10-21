@@ -137,9 +137,14 @@
 
 						this.validLogin = true;
 
-						if (this.isAdmin)
+						if (this.isAdmin) {
+							this.$storage.set('admin', {name: this.admin.name, password: this.admin.password}, {ttl: 60 * 2 * 1000});
+							//console.log('storage :', this.$storage.get('admin'));
+							const s = JSON.stringify(this.$storage.get('admin'));
+							console.log('s :', s);
+							//console.log('storage :', this.$storage.get('admin'));
 							this.$router.push('/requisite');
-						else {
+						} else {
 							this.validLogin = false;
 							switch (this.getCodeError) {
 								case -1:

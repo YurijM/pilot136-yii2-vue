@@ -1,6 +1,17 @@
 import Vue from 'vue';
 import App from './admin/App.vue';
 
+import {Vue2Storage} from 'vue2-storage';
+
+Vue.use(Vue2Storage);
+/*// Можно заодно передать опции
+Vue.use(Vue2Storage, {
+	prefix: 'ym_',
+	driver: 'session',
+	//ttl: 60 * 60 * 24 * 1000 // 24 часа
+	ttl: 60 * 5 * 1000 // 5 минут
+});*/
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import BootstrapVue from 'bootstrap-vue';

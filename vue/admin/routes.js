@@ -21,7 +21,7 @@ const routes = [
 	{
 		name: 'login',
 		path: '/login',
-		component: Login
+		component: Login,
 	},
 	{
 		name: 'act',
@@ -85,7 +85,7 @@ async function checkLogin(action, next) {
 	} else {
 		next('/login');
 	}
-};
+}
 
 const router = new VueRouter({
 	routes,

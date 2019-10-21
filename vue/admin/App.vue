@@ -61,6 +61,15 @@
 			}
 		},
 		created() {
+			// Конфигурация плагина может быть изменена в любой момент.
+			// Просто вызовите метод setOptions и передайте в него объект с настройками.
+			this.$storage.setOptions({
+				prefix: 'ym_',
+				driver: 'local',
+				//ttl: 60 * 60 * 24 * 1000 // 24 часа
+				ttl: 60 * 5 * 1000 // 5 минут
+			});
+
 			this.menu.sort(this.sortMenu);
 			this.menu.push({path: '/logout', icon: 'sign-out-alt', title: 'Выход'},
 			);

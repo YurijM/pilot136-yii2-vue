@@ -45,12 +45,13 @@ export default {
 					headers: { Authorization: 'Bearer 12345'}
 				})*/
 			.then(response => {
-				if (isNaN(response.data))
+				if (isNaN(response.data)) {
 					commit('SET_ADMIN', {
 						id: response.data.id,
 						name: response.data.username,
 						codeError: 0
 					});
+				}
 				else
 					commit('SET_ADMIN', {
 						id: 0,
