@@ -70,7 +70,7 @@
 </template>
 
 <script>
-	import {mapGetters, mapActions} from 'vuex'
+	import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 	export default {
 		name: 'login',
@@ -86,15 +86,34 @@
 				errorPassword: ''
 			}
 		},
+		/*created() {
+			if (!this.isAdmin) {
+				const localStore = this.$storage.get('admin');
+				if (localStore) {
+					this.SET_ADMIN({
+						id: localStore.id,
+						name: localStore.name,
+						codeError: 0
+					});
+					this.$router.push('/requisite')
+				}
+			} else {
+				this.$router.push('/requisite')
+			}
+		},*/
 		computed: {
 			...mapGetters('login', [
 				'isAdmin',
+				'getAdmin',
 				'getCodeError'
 			]),
 		},
 		methods: {
+			...mapMutations('login', [
+				'SET_ADMIN'
+			]),
 			...mapActions('login', [
-				'setAdmin'
+				'checkAdmin'
 			]),
 			checkLogin() {
 				//this.validLogin = (this.form.login.trim() === '' ? false : true)
@@ -133,16 +152,16 @@
 					} catch (e) {
 						console.log('Ошибка авторизации:', e.message);
 					}*/
-						await this.setAdmin(this.admin);
+						await this.checkAdmin(this.admin);
 
 						this.validLogin = true;
 
 						if (this.isAdmin) {
-							this.$storage.set('admin', {name: this.admin.name, password: this.admin.password}, {ttl: 60 * 2 * 1000});
-							//console.log('storage :', this.$storage.get('admin'));
-							const s = JSON.stringify(this.$storage.get('admin'));
-							console.log('s :', s);
-							//console.log('storage :', this.$storage.get('admin'));
+							const admin = this.getAdmin;
+							this.$storage.set('admin', {
+								id: admin.id,
+								name: admin.name
+							});
 							this.$router.push('/requisite');
 						} else {
 							this.validLogin = false;

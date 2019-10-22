@@ -22,12 +22,41 @@ const routes = [
 		name: 'login',
 		path: '/login',
 		component: Login,
+		async beforeEnter(from, to, next) {
+			console.log('isAdmin: ', store.getters['login/isAdmin']);
+			if (store.getters['login/isAdmin']) {
+				next(router.back());
+			} else {
+				Vue.$storage.setOptions({
+					prefix: 'ym_',
+					driver: 'local',
+					//ttl: 60 * 60 * 24 * 1000 // 24 часа
+					ttl: 60 * 5 * 1000 // 5 минут
+				});
+
+				const admin = Vue.$storage.get('admin');
+				console.log('storage: ', JSON.stringify(Vue.$storage.options));
+				if (admin) {
+					await store.commit(
+						'login/SET_ADMIN',
+						{
+							id: admin.id,
+							name: admin.name,
+							codeError: 0
+						}
+					);
+					next(router.back());
+				} else {
+					next();
+				}
+			}
+		}
 	},
 	{
 		name: 'act',
 		path: '/act',
 		component: Act,
-		async beforeEnter(from, to, next){
+		async beforeEnter(from, to, next) {
 			await checkLogin('act/loadActs', next);
 		}
 	}

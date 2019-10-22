@@ -32,6 +32,11 @@
 			text-decoration: underline;
 		}
 
+		&:focus {
+			color: #fff;
+			background-color: inherit;
+		}
+
 		&.active {
 			color: #ff0 !important;
 			background-color: inherit;

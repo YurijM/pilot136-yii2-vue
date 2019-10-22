@@ -31,7 +31,7 @@ export default {
 		clearAdmin({commit}) {
 			commit('CLEAR_ADMIN');
 		},
-		async setAdmin({commit}, admin) {
+		async checkAdmin({commit}, admin) {
 			await axios
 			.get('http://pilot136-yii2-vue-api/v1/user/check', {
 				params: {
