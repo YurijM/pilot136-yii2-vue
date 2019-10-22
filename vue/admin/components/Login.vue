@@ -86,7 +86,23 @@
 				errorPassword: ''
 			}
 		},
-		/*created() {
+		/*beforeRouteUpdate(to, from, next) {
+			console.log('isAdmin: ', this.isAdmin);
+			if (!this.isAdmin) {
+				const localStore = this.$storage.get('admin');
+				if (localStore) {
+					this.SET_ADMIN({
+						id: localStore.id,
+						name: localStore.name,
+						codeError: 0
+					});
+					next('/requisite')
+				}
+			} else {
+				next('/requisite')
+			}
+		},*/
+		created() {
 			if (!this.isAdmin) {
 				const localStore = this.$storage.get('admin');
 				if (localStore) {
@@ -100,7 +116,7 @@
 			} else {
 				this.$router.push('/requisite')
 			}
-		},*/
+		},
 		computed: {
 			...mapGetters('login', [
 				'isAdmin',

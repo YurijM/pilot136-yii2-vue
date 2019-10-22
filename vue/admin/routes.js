@@ -22,8 +22,7 @@ const routes = [
 		name: 'login',
 		path: '/login',
 		component: Login,
-		async beforeEnter(from, to, next) {
-			console.log('isAdmin: ', store.getters['login/isAdmin']);
+		/*async beforeEnter(from, to, next) {
 			if (store.getters['login/isAdmin']) {
 				next(router.back());
 			} else {
@@ -35,7 +34,6 @@ const routes = [
 				});
 
 				const admin = Vue.$storage.get('admin');
-				console.log('storage: ', JSON.stringify(Vue.$storage.options));
 				if (admin) {
 					await store.commit(
 						'login/SET_ADMIN',
@@ -50,15 +48,15 @@ const routes = [
 					next();
 				}
 			}
-		}
+		}*/
 	},
 	{
 		name: 'act',
 		path: '/act',
 		component: Act,
-		async beforeEnter(from, to, next) {
+		/*async beforeEnter(from, to, next) {
 			await checkLogin('act/loadActs', next);
-		}
+		}*/
 	}
 	/*{
 		name: 'user',
@@ -119,6 +117,45 @@ async function checkLogin(action, next) {
 const router = new VueRouter({
 	routes,
 	mode: 'history'
+});
+
+router.beforeEach(async(from, to, next) => {
+	if (store.getters['login/isAdmin']) {
+		/*if (from.name === 'login') {
+			next(router.back());
+		} else {
+			next();
+		}*/
+		next()
+	} else {
+		Vue.$storage.setOptions({
+			prefix: 'ym_',
+			driver: 'local',
+			//ttl: 60 * 60 * 24 * 1000 // 24 часа
+			ttl: 60 * 5 * 1000 // 5 минут
+		});
+
+		const admin = Vue.$storage.get('admin');
+		if (admin) {
+			await store.commit(
+				'login/SET_ADMIN',
+				{
+					id: admin.id,
+					name: admin.name,
+					codeError: 0
+				}
+			);
+
+			/*if (from.name === 'login') {
+				next(router.back());
+			} else {
+				next();
+			}*/
+			next();
+		} else {
+			next();
+		}
+	}
 });
 
 router.beforeResolve((to, from, next) => {
