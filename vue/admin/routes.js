@@ -158,7 +158,7 @@ router.beforeEach(async(from, to, next) => {
 			if (from.name !== 'login') {
 				await store.dispatch('common/setInfo', {
 					type: 'info',
-					message: 'Сессия закрыта'
+					message: '<pre>Сессия закрыта.\nНеоходимо сначала авторизоваться.</pre>'
 				});
 
 				next('/login');

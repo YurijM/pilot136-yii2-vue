@@ -29,6 +29,11 @@ select:-moz-focusring {
   font-size: .95em
 }
 
+.toast {
+  font-size: inherit;
+  max-width: 300px
+}
+
 /* Сайт */
 /************************************************/
 * {
