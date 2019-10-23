@@ -120,13 +120,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async(from, to, next) => {
+	await store.dispatch('common/clearInfo');
+
 	if (store.getters['login/isAdmin']) {
 		/*if (from.name === 'login') {
 			next(router.back());
 		} else {
 			next();
 		}*/
-		next()
+		next();
 	} else {
 		Vue.$storage.setOptions({
 			prefix: 'ym_',
@@ -153,7 +155,16 @@ router.beforeEach(async(from, to, next) => {
 			}*/
 			next();
 		} else {
-			next();
+			if (from.name !== 'login') {
+				await store.dispatch('common/setInfo', {
+					type: 'info',
+					message: 'Сессия закрыта'
+				});
+
+				next('/login');
+			} else {
+				next();
+			}
 		}
 	}
 });

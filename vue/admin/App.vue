@@ -71,29 +71,58 @@
 			});
 
 			this.menu.sort(this.sortMenu);
-			this.menu.push({path: '/logout', icon: 'sign-out-alt', title: 'Выход'},
-			);
-			/*this.$router.beforeEach((to, from, next) => {
-				// Start the route progress bar.
-				NProgress.start();
-				next();
-			});
-			this.$router.afterEach((to, from) => {
-				NProgress.done();
-			});*/
+			this.menu.push({path: '/logout', icon: 'sign-out-alt', title: 'Выход'});
 		},
 		computed: {
 			...mapGetters('login', [
 				'isAdmin',
 				'getAdmin'
 			]),
+			...mapGetters('common', [
+				'getInfo'
+			]),
 			isLog() {
 				return this.isAdmin
 			},
+			info() {
+				console.log('getInfo.message: ', this.getInfo.message);
+				return this.getInfo.message
+			}
 		},
 		watch: {
 			isLog(state) {
 				if (state) this.admin = this.getAdmin.name;
+			},
+			info(message) {
+				console.log('message: ', message);
+				if (message) {
+					const h = this.$createElement;
+					// Create the message
+					const vNodesMsg = h(
+						'div',
+						{class: ['d-flex', 'w-100', 'py-1']},
+						[
+							h('div', {class: ['fa-2x', 'pr-3']}, [
+								h('font-awesome-icon', {props: {icon: 'exclamation-circle'}})
+							]),
+							h('div', message),
+						]
+					);
+					// Pass the vNodes as an array for message and title
+					this.$bvToast.toast([vNodesMsg], {
+						headerClass: ['d-none'],
+						modalClass: ['in'],
+						//title: null,
+						//noFade: true,
+						noAutoHide: true,
+						//autoHideDelay: 10000,
+						solid: true,
+						//noCloseButton: true,
+						toaster: 'b-toaster-top-center',
+						variant: this.getInfo.type,
+						toastClass: 'mx-auto'
+					});
+				}
 			}
 		},
 		methods: {

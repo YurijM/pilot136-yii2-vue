@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+import common from './modules/common';
 import login from './modules/login';
 import user from './modules/user';
 /*import staff from './modules/staff';
@@ -11,6 +12,7 @@ import post from './modules/post';*/
 
 export const store = new Vuex.Store({
 	modules: {
+		common,
 		login,
 		user,
 		/*staff,
