@@ -61,6 +61,7 @@
 			}
 		},
 		created() {
+			document.title = 'ТСЖ "Пилот" - Админка';
 			// Конфигурация плагина может быть изменена в любой момент.
 			// Просто вызовите метод setOptions и передайте в него объект с настройками.
 			this.$storage.setOptions({
@@ -85,7 +86,6 @@
 				return this.isAdmin
 			},
 			info() {
-				console.log('getInfo.message: ', this.getInfo.message);
 				return this.getInfo.message
 			}
 		},
@@ -94,7 +94,6 @@
 				if (state) this.admin = this.getAdmin.name;
 			},
 			info(message) {
-				console.log('message: ', message);
 				if (message) {
 					const h = this.$createElement;
 					// Create the message
@@ -114,7 +113,7 @@
 						modalClass: ['in'],
 						//title: null,
 						//noFade: true,
-						noAutoHide: true,
+						//noAutoHide: true,
 						//autoHideDelay: 10000,
 						solid: true,
 						//noCloseButton: true,

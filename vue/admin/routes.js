@@ -22,41 +22,17 @@ const routes = [
 		name: 'login',
 		path: '/login',
 		component: Login,
-		/*async beforeEnter(from, to, next) {
-			if (store.getters['login/isAdmin']) {
-				next(router.back());
-			} else {
-				Vue.$storage.setOptions({
-					prefix: 'ym_',
-					driver: 'local',
-					//ttl: 60 * 60 * 24 * 1000 // 24 часа
-					ttl: 60 * 5 * 1000 // 5 минут
-				});
-
-				const admin = Vue.$storage.get('admin');
-				if (admin) {
-					await store.commit(
-						'login/SET_ADMIN',
-						{
-							id: admin.id,
-							name: admin.name,
-							codeError: 0
-						}
-					);
-					next(router.back());
-				} else {
-					next();
-				}
-			}
-		}*/
+		meta: {
+			title: 'Авторизация'
+		}
 	},
 	{
 		name: 'act',
 		path: '/act',
 		component: Act,
-		/*async beforeEnter(from, to, next) {
-			await checkLogin('act/loadActs', next);
-		}*/
+		meta: {
+			title: 'Акты'
+		}
 	}
 	/*{
 		name: 'user',
@@ -119,7 +95,9 @@ const router = new VueRouter({
 	mode: 'history'
 });
 
-router.beforeEach(async(from, to, next) => {
+const TITLE_DEFAULT = 'ТСЖ "Пилот" - Админка';
+
+router.beforeEach(async (from, to, next) => {
 	await store.dispatch('common/clearInfo');
 
 	if (store.getters['login/isAdmin']) {
@@ -158,7 +136,7 @@ router.beforeEach(async(from, to, next) => {
 			if (from.name !== 'login') {
 				await store.dispatch('common/setInfo', {
 					type: 'info',
-					message: '<pre>Сессия закрыта.\nНеоходимо сначала авторизоваться.</pre>'
+					message: 'Сначала необходимо авторизоваться.'
 				});
 
 				next('/login');
@@ -177,6 +155,8 @@ router.beforeResolve((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
+	document.title = to.meta.title || TITLE_DEFAULT;
+
 	NProgress.done();
 });
 

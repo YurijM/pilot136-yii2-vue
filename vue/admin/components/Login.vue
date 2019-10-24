@@ -1,13 +1,5 @@
 <template>
 	<section class="login mx-auto my-5 pb-4 bg-light">
-		<div>
-			<b-button v-b-modal.modal-1>Launch demo modal</b-button>
-
-			<b-modal id="modal-1" modal-class="in" title="BootstrapVue">
-				<p class="my-4">Hello from modal!</p>
-			</b-modal>
-		</div>
-
 		<div
 			class="title d-flex align-items-center justify-content-between mb-3 p-3 alert-primary"
 		>
