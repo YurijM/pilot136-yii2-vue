@@ -1,6 +1,6 @@
 <template>
 	<b-container>
-		<ym-page-header :title="head" :count="count" link="Добавить акт" @onAddNewDoc="addAct"/>
+		<ym-page-header :title="title" :count="count" link="Добавить акт" @onAddNewDoc="addAct"/>
 
 		<b-alert v-if="count = 0" class="text-center" show variant="info">Актов нет</b-alert>
 
@@ -12,16 +12,13 @@
 	import YmPageHeader from './PageHeader'
 
 	export default {
-		name: 'act',
-		head() {
-			return {title: 'qwerty'}
-		},
+		name: 'Act',
 		components: {
 			YmPageHeader
 		},
 		data() {
 			return {
-				head: 'Акты',
+				title: 'Акты',
 				count: 0
 			}
 		},

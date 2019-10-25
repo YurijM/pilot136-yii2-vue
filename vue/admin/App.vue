@@ -68,7 +68,7 @@
 				prefix: 'ym_',
 				driver: 'local',
 				//ttl: 60 * 60 * 24 * 1000 // 24 часа
-				ttl: 60 * 5 * 1000 // 5 минут
+				ttl: 60 * 60 * 1 * 1000 // 1 час
 			});
 
 			this.menu.sort(this.sortMenu);

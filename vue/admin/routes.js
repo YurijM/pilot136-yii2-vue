@@ -6,10 +6,8 @@ Vue.use(VueRouter);
 
 import Login from './components/Login';
 import Act from "./components/Act";
-/*import User from './components/User';
-import Staff from './components/Staff';
-import Logout from './components/Logout';
-import NotFound from './components/NotFound';*/
+import Post from './components/Post';
+//import NotFound from './components/NotFound';
 
 import {store} from "./store";
 
@@ -27,6 +25,18 @@ const routes = [
 		}
 	},
 	{
+		name: 'post',
+		path: '/post',
+		component: Post,
+		meta: {
+			title: 'Должности'
+		},
+		async afterEnter(from, to, next) {
+			await store.dispatch('post/loadPosts');
+			next();
+		}
+	},
+	{
 		name: 'act',
 		path: '/act',
 		component: Act,
@@ -35,32 +45,6 @@ const routes = [
 		}
 	}
 	/*{
-		name: 'user',
-		path: '/user',
-		component: User,
-		async beforeEnter(from, to, next){
-			if (store.getters['login/isAdmin']) {
-				await store.dispatch('user/loadUsers');
-				next();
-			} else {
-				next('/login');
-			}
-		}
-	},
-	{
-		name: 'staff',
-		path: '/staff/:page',
-		component: Staff,
-		async beforeEnter(from, to, next){
-			if (store.getters['login/isAdmin']) {
-				await store.dispatch('staff/loadStaff');
-				next();
-			} else {
-				next('/login');
-			}
-		}
-	},
-	{
 		name: 'logout',
 		path: '/logout',
 		component: Logout,
@@ -101,18 +85,13 @@ router.beforeEach(async (from, to, next) => {
 	await store.dispatch('common/clearInfo');
 
 	if (store.getters['login/isAdmin']) {
-		/*if (from.name === 'login') {
-			next(router.back());
-		} else {
-			next();
-		}*/
 		next();
 	} else {
 		Vue.$storage.setOptions({
 			prefix: 'ym_',
 			driver: 'local',
 			//ttl: 60 * 60 * 24 * 1000 // 24 часа
-			ttl: 60 * 5 * 1000 // 5 минут
+			ttl: 60 * 60 * 1 * 1000 // 1 час
 		});
 
 		const admin = Vue.$storage.get('admin');
@@ -125,12 +104,6 @@ router.beforeEach(async (from, to, next) => {
 					codeError: 0
 				}
 			);
-
-			/*if (from.name === 'login') {
-				next(router.back());
-			} else {
-				next();
-			}*/
 			next();
 		} else {
 			if (from.name !== 'login') {
