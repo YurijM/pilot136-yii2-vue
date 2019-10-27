@@ -23,6 +23,7 @@ export default {
 			await axios
 			.get('http://pilot136-yii2-vue-api/v1/post/list')
 			.then(response => {
+				console.log('posts: ', response.data.posts);
 				commit('SET_POSTS', response.data.posts);
 			});
 		},

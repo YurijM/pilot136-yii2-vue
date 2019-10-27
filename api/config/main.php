@@ -41,16 +41,11 @@ return [
 			'rules' => [
 				[
 					'class' => UrlRule::class,
-					'controller' => [
-						'v1/post',
-						//'v1/staff',
-						//'v1/user'
+					'controller' => 'v1/post',
+					'extraPatterns' => [
+						'GET list' => 'list',
 					],
 					'pluralize' => false, //отключение множественного числа
-					//'prefix' => 'api',
-					'tokens' => [
-						'{id}' => '<id:\\w+>'
-					]
 				],
 				[
 					'class' => UrlRule::class,

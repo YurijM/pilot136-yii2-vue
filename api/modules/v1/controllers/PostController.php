@@ -4,6 +4,8 @@ namespace api\modules\v1\controllers;
 
 use Yii;
 use common\models\Post;
+use yii\db\Query;
+
 
 class PostController extends ApiController
 {
@@ -11,9 +13,16 @@ class PostController extends ApiController
 
 	public function actionList()
 	{
-		$posts = Post::find()->orderBy('post');
+		$model = (new Query())->from('post')
+			->select([
+				'id' => 'id',
+				'post' => 'post',
+				'order_no' => 'order_no'
+			])
+			->orderBy(['post' => SORT_ASC])
+			->all();
 
-		return $posts;
+		return ['posts' => $model];
 	}
 }
 

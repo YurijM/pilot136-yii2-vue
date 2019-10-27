@@ -31,7 +31,7 @@ const routes = [
 		meta: {
 			title: 'Должности'
 		},
-		async afterEnter(from, to, next) {
+		async beforeEnter(from, to, next) {
 			await store.dispatch('post/loadPosts');
 			next();
 		}
