@@ -60,6 +60,11 @@
 				]
 			}
 		},
+		provide: function () {
+			return {
+				deleteDoc: this.deleteDoc
+			}
+		},
 		created() {
 			document.title = 'ТСЖ "Пилот" - Админка';
 			// Конфигурация плагина может быть изменена в любой момент.
@@ -125,6 +130,9 @@
 			}
 		},
 		methods: {
+			deleteDoc: function () {
+				console.log('deleteFile')
+			},
 			sortMenu(a, b) {
 				// Используем toUpperCase() для преобразования регистра
 				const item1 = a.title.toUpperCase();

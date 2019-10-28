@@ -2,6 +2,59 @@
 	<b-container>
 		<ym-page-header :title="title" :count="posts.length" link="Добавить должность" @onAddNewDoc="addPost"/>
 
+		<b-modal
+			id="postEdit"
+			:header-class="['alert-primary', 'border-primary', 'border-bottom']"
+			modal-class="in"
+			:footer-class="['alert-primary', 'border-primary', 'border-top']"
+			ref="modal"
+			:title="modalTitle"
+			hide-header-close
+			ok-variant="primary"
+			:ok-title="okTitle"
+			cancel-variant="outline-dark"
+			cancel-title="Отменить"
+			@hidden="resetModal"
+			@ok="handleOk"
+		>
+			<form ref="form" @submit.stop.prevent="handleSubmit">
+				<b-form-group
+					:state="statePost"
+					label="Должность"
+					label-for="inputPost"
+					label-size="sm"
+					label-class="font-weight-bold"
+					invalid-feedback="Должность должна быть заполнена"
+				>
+					<b-form-input
+						id="inputPost"
+						v-model="post.post"
+						:state="statePost"
+						:autofocus="true"
+						required
+					></b-form-input>
+				</b-form-group>
+
+				<b-form-group
+					:state="stateOrderNo"
+					label="Порядок отображения"
+					label-for="inputOrderNo"
+					label-size="sm"
+					label-class="font-weight-bold"
+					:invalid-feedback="errorOrderNo"
+				>
+					<b-form-input
+						id="inputOrderNo"
+						v-model="post.order_no"
+						:state="statePost"
+						type="number"
+						min="1"
+						required
+					></b-form-input>
+				</b-form-group>
+			</form>
+		</b-modal>
+
 		<b-alert
 			v-if="posts.length === 0"
 			class="text-center"
@@ -45,9 +98,20 @@
 		components: {
 			YmPageHeader
 		},
+		inject: ['deleteDoc'],
 		data() {
 			return {
 				title: 'Должности',
+				post: {
+					id: null,
+					post: '',
+					order_no: null
+				},
+				statePost: null,
+				stateOrderNo: null,
+				errorOrderNo: null,
+				modalTitle: '',
+				okTitle: '',
 				fields: [
 					{
 						key: 'recNo',
@@ -88,8 +152,89 @@
 			}
 		},
 		methods: {
+			...mapActions('post', [
+				'createPost'
+			]),
 			addPost() {
+				this.modalTitle = 'Добавить должность';
+				this.okTitle = 'Сохранить';
+				this.$bvModal.show('postEdit');
+			},
+			updatePost(item, button) {
+				this.modalTitle = 'Редактировать запись';
+				this.okTitle = 'Обновить';
+				this.post.id = item._id;
+				this.post.post = item.post;
+				this.post.order_no = item.order_no;
+				this.$root.$emit('bv::show::modal', 'postEdit', button)
+			},
+			deletePost(item) {
+				this.deleteDoc();
+				/*this.$deleteDoc(this, item, {
+					type: 'post',
+					name: 'должность',
+					title: item.post
+				})*/
+			},
+			checkFormValidity() {
+				const validPost = this.$refs.form.inputPost.checkValidity();
+				this.statePost = validPost ? 'valid' : 'invalid';
 
+				const validOrderNo = this.$refs.form.inputOrderNo.checkValidity();
+				this.stateOrderNo = validOrderNo ? 'valid' : 'invalid';
+
+				if (!this.$refs.form.inputOrderNo.value) {
+					this.errorOrderNo = "Поле должно быть заполнено"
+				} else if (!this.$refs.form.inputOrderNo.value < 1) {
+					this.errorOrderNo = "Значение должно быть не меньше 1"
+				}
+
+				return (validPost && validOrderNo);
+			},
+			resetModal() {
+				this.post.id = null;
+				this.post.post = '';
+				this.post.order_no = null;
+
+				this.statePost = null;
+				this.stateOrderNo = null
+			},
+			handleOk(bvModalEvt) {
+				// Prevent modal from closing
+				bvModalEvt.preventDefault();
+				// Trigger submit handler
+				this.handleSubmit()
+			},
+			async handleSubmit() {
+				// Exit when the form isn't valid
+				/*if (!this.checkFormValidity()) {
+					return
+				}*/
+
+				try {
+					/*if (this.post.id) {
+						await this.$store.dispatch('post/update', this.post);
+					} else {
+						await this.$store.dispatch('post/create', this.post);
+					}
+
+					this.docs = await this.$store.dispatch('post/list');
+
+					this.resetModal();
+				} catch (e) {
+					this.$store.dispatch('setInfo', {type: 'danger', message: e.message})
+				}*/
+					if (!this.post.id) {
+						await this.createPost(this.post);
+					}
+				} catch (e) {
+					console.log('Ошибка try post: ', e)
+				}
+
+				// Hide the modal manually
+				this.$nextTick(() => {
+					this.$refs.modal.hide()
+				})
 			}
 		}
 	}

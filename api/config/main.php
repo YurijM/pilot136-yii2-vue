@@ -44,6 +44,7 @@ return [
 					'controller' => 'v1/post',
 					'extraPatterns' => [
 						'GET list' => 'list',
+						'POST create' => 'create'
 					],
 					'pluralize' => false, //отключение множественного числа
 				],
