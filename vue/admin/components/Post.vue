@@ -77,11 +77,11 @@
 			<template v-slot:cell(recNo)="data">
 				{{data.index + 1}}
 			</template>
-			<template v-slot:cell(edit)="row">
-				<b-button @click="updatePost(row.item, $event.target)" variant="outline-primary">
+			<template v-slot:cell(edit)="data">
+				<b-button @click="updatePost(data.item, $event.target)" variant="outline-primary">
 					<font-awesome-icon icon="pencil-alt"/>
 				</b-button>
-				<b-button @click="deletePost(row.item)" variant="outline-danger">
+				<b-button @click="deletePost(data.item)" variant="outline-danger">
 					<font-awesome-icon icon="trash-alt"/>
 				</b-button>
 			</template>
@@ -153,7 +153,8 @@
 		},
 		methods: {
 			...mapActions('post', [
-				'createPost'
+				'createPost',
+				'removePost'
 			]),
 			addPost() {
 				this.modalTitle = 'Добавить должность';
@@ -169,12 +170,11 @@
 				this.$root.$emit('bv::show::modal', 'postEdit', button)
 			},
 			deletePost(item) {
-				this.deleteDoc();
-				/*this.$deleteDoc(this, item, {
+				this.deleteDoc(this, item, {
 					type: 'post',
 					name: 'должность',
 					title: item.post
-				})*/
+				});
 			},
 			checkFormValidity() {
 				const validPost = this.$refs.form.inputPost.checkValidity();
@@ -207,9 +207,9 @@
 			},
 			async handleSubmit() {
 				// Exit when the form isn't valid
-				/*if (!this.checkFormValidity()) {
+				if (!this.checkFormValidity()) {
 					return
-				}*/
+				}
 
 				try {
 					/*if (this.post.id) {

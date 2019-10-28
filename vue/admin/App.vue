@@ -130,8 +130,65 @@
 			}
 		},
 		methods: {
-			deleteDoc: function () {
-				console.log('deleteFile')
+			deleteDoc: (page, item, doc) => {
+				const h = page.$createElement;
+				// Create the message
+				const vNodesMsg = h(
+					'div',
+					{
+						class: ['d-flex', 'w-100', 'pb-3'],
+						style: {borderBottom: '1px solid #000'}
+					},
+					[
+						h('div', {class: ['fa-2x', 'pr-3']}, [
+							h('font-awesome-icon', {props: {icon: 'question-circle'}})
+						]),
+						h('div',
+							`Вы действительно хотите удалить ${doc.name} "${doc.title}"?`),
+					]
+				);
+				page.$bvModal.msgBoxConfirm([vNodesMsg], {
+					title: null,
+					size: 'sm',
+					buttonSize: 'sm',
+					okTitle: 'Да',
+					cancelTitle: 'Нет',
+					bodyClass: ['alert-primary', 'pb-0'],
+					modalClass: 'in',
+					footerClass: ['alert-primary', 'py-3', 'px-4', 'border-top-0'],
+					centered: true
+				})
+				.then(async (value) => {
+					if (Boolean(value)) {
+						console.log('value: ', value);
+						try {
+							await page.removePost(item.id)
+						} catch (err) {
+							console.log('remove: ', err)
+						}
+						/*try {
+							await page.$store.dispatch(`${doc.type}/delete`, item);
+
+							if ("currentPage" in page) {
+								let idx = page.docs.map((obj) => obj._id).indexOf(item._id);
+								//if (idx > 0) idx--;
+								if (page.docs.length - 1 > page.perPage) {
+									page.currentPage = Math.trunc(idx / page.perPage + 1)
+								} else {
+									page.currentPage = 1
+								}
+							}
+
+							page.docs = await page.$store.dispatch(`${doc.type}/list`)
+						} catch (e) {
+							page.$store.dispatch('setInfo', {type: 'danger', message: e.message})
+						}*/
+					}
+				})
+				.catch(err => {
+					//page.$store.dispatch('setInfo', {type: 'danger', message: err.toString()});
+					console.log('err: ', err)
+				});
 			},
 			sortMenu(a, b) {
 				// Используем toUpperCase() для преобразования регистра

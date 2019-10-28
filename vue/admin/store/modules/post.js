@@ -4,7 +4,8 @@ import common from './common';
 export default {
 	namespaced: true,
 	state: {
-		posts: []
+		posts: [],
+		post: null,
 	},
 	getters: {
 		getPosts: state => state.posts,
@@ -16,12 +17,34 @@ export default {
 		SET_POSTS(state, payload) {
 			state.posts = payload;
 		},
+		SORT_POSTS(state) {
+			state.posts.sort((a, b) => {
+				// Используем toUpperCase() для преобразования регистра
+				const item1 = a.post.toUpperCase();
+				const item2 = b.post.toUpperCase();
+
+				let result = 0;
+				if (item1 > item2) {
+					result = 1;
+				} else if (item1 < item2) {
+					result = -1;
+				}
+				return result;
+			});
+		},
+		GET_POST(state, payload) {
+			state.post = null;
+			state.post = state.posts.filter(post => post.id === payload)[0];
+		},
 		ADD_POST(state, payload) {
 			state.posts.push({
 				id: payload.id,
 				post: payload.post,
 				order_no: payload.order_no
 			});
+		},
+		DELETE_POST(state, payload) {
+			state.posts = state.posts.filter(post => post.id !== payload);
 		}
 	},
 	actions: {
@@ -42,6 +65,7 @@ export default {
 			.post('http://pilot136-yii2-vue-api/v1/post/create', formData)
 			.then(response => {
 				commit('ADD_POST', response.data);
+				commit('SORT_POSTS');
 				dispatch('common/setInfo', {
 					type: 'success',
 					message: `Должность '${response.data.post}' добавлена`
@@ -49,6 +73,29 @@ export default {
 			})
 			.catch(error => {
 				console.log('Create Post Error ', error);
+				dispatch('common/setInfo', {
+					type: 'danger',
+					message: 'Ошибка при добавлении должности (см. в консоли "Create Post Error")'
+				}, {root: true});
+			});
+		},
+		async removePost({state, commit, dispatch}, id) {
+			await axios
+			.delete(`http://pilot136-yii2-vue-api/v1/post/${id}`)
+			.then(response => {
+				commit('GET_POST', id);
+				commit('DELETE_POST', id);
+				dispatch('common/setInfo', {
+					type: 'success',
+					message: `Должность '${state.post.post}' удалена`
+				}, {root: true});
+			})
+			.catch(error => {
+				console.log('Delete Post Error ', error);
+				dispatch('common/setInfo', {
+					type: 'danger',
+					message: 'Ошибка при удалении должности (см. в консоли "Delete Post Error")'
+				}, {root: true});
 			});
 		}
 	}
