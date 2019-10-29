@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import {mapGetters} from 'vuex'
+	import {mapGetters, mapActions} from 'vuex'
 	import YmAdminMenu from './components/AdminMenu'
 
 	export default {
@@ -69,12 +69,12 @@
 			document.title = 'ТСЖ "Пилот" - Админка';
 			// Конфигурация плагина может быть изменена в любой момент.
 			// Просто вызовите метод setOptions и передайте в него объект с настройками.
-			this.$storage.setOptions({
+			/*this.$storage.setOptions({
 				prefix: 'ym_',
 				driver: 'local',
 				//ttl: 60 * 60 * 24 * 1000 // 24 часа
 				ttl: 60 * 60 * 1 * 1000 // 1 час
-			});
+			});*/
 
 			this.menu.sort(this.sortMenu);
 			this.menu.push({path: '/logout', icon: 'sign-out-alt', title: 'Выход'});
@@ -130,6 +130,9 @@
 			}
 		},
 		methods: {
+			...mapActions('common', [
+				'setInfo'
+			]),
 			deleteDoc: (page, item, doc) => {
 				const h = page.$createElement;
 				// Create the message
@@ -160,11 +163,14 @@
 				})
 				.then(async (value) => {
 					if (Boolean(value)) {
-						console.log('value: ', value);
 						try {
 							await page.removePost(item.id)
 						} catch (err) {
-							console.log('remove: ', err)
+							console.log('Remove Post Error: ', err);
+							await page.$store.dispatch('common/setInfo', {
+								type: 'danger',
+								message: 'Ошибка при удалении должности (см. в консоли "Remove Post Error")'
+							}, {root: true});
 						}
 						/*try {
 							await page.$store.dispatch(`${doc.type}/delete`, item);
@@ -185,9 +191,12 @@
 						}*/
 					}
 				})
-				.catch(err => {
-					//page.$store.dispatch('setInfo', {type: 'danger', message: err.toString()});
-					console.log('err: ', err)
+				.catch(async (err) => {
+					console.log('Post Modal Error: ', err);
+					await page.$store.dispatch('common/setInfo', {
+						type: 'danger',
+						message: 'Ошибка при создании модального окна (см. в консоли "Post Modal Error")'
+					}, {root: true});
 				});
 			},
 			sortMenu(a, b) {

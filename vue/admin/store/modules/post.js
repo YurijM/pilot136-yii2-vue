@@ -1,11 +1,10 @@
 import axios from 'axios';
-import common from './common';
 
 export default {
 	namespaced: true,
 	state: {
 		posts: [],
-		post: null,
+		post: null
 	},
 	getters: {
 		getPosts: state => state.posts,
@@ -76,6 +75,29 @@ export default {
 				dispatch('common/setInfo', {
 					type: 'danger',
 					message: 'Ошибка при добавлении должности (см. в консоли "Create Post Error")'
+				}, {root: true});
+			});
+		},
+		async updatePost({state, commit, dispatch}, id) {
+			await axios
+			.put(`http://pilot136-yii2-vue-api/v1/post/${id}`)
+			.then(response => {
+				const i = state.posts.map(el => el.id).indexOf(id)[0];
+				state.posts[i].post = post.post;
+				state.posts[i].order_no = post.order_no;
+
+				commit('SORT_POSTS');
+
+				dispatch('common/setInfo', {
+					type: 'success',
+					message: `Должность '${response.data.post}' добавлена`
+				}, {root: true});
+			})
+			.catch(error => {
+				console.log('Update Post Error ', error);
+				dispatch('common/setInfo', {
+					type: 'danger',
+					message: 'Ошибка при изменении должности (см. в консоли "Update Post Error")'
 				}, {root: true});
 			});
 		},

@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 import Login from './components/Login';
 import Act from "./components/Act";
 import Post from './components/Post';
+import Requisite from './components/Requisite';
 //import NotFound from './components/NotFound';
 
 import {store} from "./store";
@@ -22,6 +23,18 @@ const routes = [
 		component: Login,
 		meta: {
 			title: 'Авторизация'
+		}
+	},
+	{
+		name: 'requisite',
+		path: '/requisite',
+		component: Requisite,
+		meta: {
+			title: 'Должности'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('requisite/loadRequisites');
+			next();
 		}
 	},
 	{
@@ -91,7 +104,7 @@ router.beforeEach(async (from, to, next) => {
 			prefix: 'ym_',
 			driver: 'local',
 			//ttl: 60 * 60 * 24 * 1000 // 24 часа
-			ttl: 60 * 60 * 1 * 1000 // 1 час
+			ttl: 60 * 60 * 8 * 1000 // 8 часов
 		});
 
 		const admin = Vue.$storage.get('admin');

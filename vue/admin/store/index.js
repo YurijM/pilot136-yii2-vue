@@ -7,6 +7,7 @@ Vue.use(Vuex);
 import common from './modules/common';
 import login from './modules/login';
 import user from './modules/user';
+import requisite from './modules/requisite';
 import post from './modules/post';
 
 export const store = new Vuex.Store({
@@ -14,6 +15,7 @@ export const store = new Vuex.Store({
 		common,
 		login,
 		user,
+		requisite,
 		post
 	},
 	/*plugins: [createPersistedState(

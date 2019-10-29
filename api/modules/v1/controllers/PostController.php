@@ -2,10 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
-use Yii;
-use common\models\Post;
 use yii\db\Query;
-
 
 class PostController extends ApiController
 {
@@ -25,5 +22,3 @@ class PostController extends ApiController
 		return ['posts' => $model];
 	}
 }
-
-

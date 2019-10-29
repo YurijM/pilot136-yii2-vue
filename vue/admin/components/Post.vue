@@ -1,6 +1,11 @@
 <template>
 	<b-container>
-		<ym-page-header :title="title" :count="posts.length" link="Добавить должность" @onAddNewDoc="addPost"/>
+		<ym-page-header
+			:title="title"
+			:count="posts.length"
+			link="Добавить должность"
+			@onAddNewDoc="addPost"
+		/>
 
 		<b-modal
 			id="postEdit"
@@ -78,7 +83,7 @@
 				{{data.index + 1}}
 			</template>
 			<template v-slot:cell(edit)="data">
-				<b-button @click="updatePost(data.item, $event.target)" variant="outline-primary">
+				<b-button @click="editPost(data.item, $event.target)" variant="outline-primary">
 					<font-awesome-icon icon="pencil-alt"/>
 				</b-button>
 				<b-button @click="deletePost(data.item)" variant="outline-danger">
@@ -154,6 +159,7 @@
 		methods: {
 			...mapActions('post', [
 				'createPost',
+				'updatePost',
 				'removePost'
 			]),
 			addPost() {
@@ -161,10 +167,10 @@
 				this.okTitle = 'Сохранить';
 				this.$bvModal.show('postEdit');
 			},
-			updatePost(item, button) {
+			editPost(item, button) {
 				this.modalTitle = 'Редактировать запись';
 				this.okTitle = 'Обновить';
-				this.post.id = item._id;
+				this.post.id = item.id;
 				this.post.post = item.post;
 				this.post.order_no = item.order_no;
 				this.$root.$emit('bv::show::modal', 'postEdit', button)
@@ -177,11 +183,14 @@
 				});
 			},
 			checkFormValidity() {
-				const validPost = this.$refs.form.inputPost.checkValidity();
+				/*const validPost = this.$refs.form.inputPost.checkValidity();
 				this.statePost = validPost ? 'valid' : 'invalid';
 
 				const validOrderNo = this.$refs.form.inputOrderNo.checkValidity();
-				this.stateOrderNo = validOrderNo ? 'valid' : 'invalid';
+				this.stateOrderNo = validOrderNo ? 'valid' : 'invalid';*/
+
+				this.statePost = this.$refs.form.inputPost.checkValidity();
+				this.stateOrderNo = this.$refs.form.inputOrderNo.checkValidity();
 
 				if (!this.$refs.form.inputOrderNo.value) {
 					this.errorOrderNo = "Поле должно быть заполнено"
@@ -189,7 +198,8 @@
 					this.errorOrderNo = "Значение должно быть не меньше 1"
 				}
 
-				return (validPost && validOrderNo);
+				//return (validPost && validOrderNo);
+				return (this.statePost && this.stateOrderNo);
 			},
 			resetModal() {
 				this.post.id = null;
@@ -206,7 +216,7 @@
 				this.handleSubmit()
 			},
 			async handleSubmit() {
-				// Exit when the form isn't valid
+			// Exit when the form isn't valid
 				if (!this.checkFormValidity()) {
 					return
 				}
@@ -226,6 +236,8 @@
 				}*/
 					if (!this.post.id) {
 						await this.createPost(this.post);
+					} else {
+						await this.updatePost(this.post.id);
 					}
 				} catch (e) {
 					console.log('Ошибка try post: ', e)
