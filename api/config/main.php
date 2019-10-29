@@ -54,8 +54,9 @@ return [
 					'controller' => 'v1/post',
 					'extraPatterns' => [
 						'GET list' => 'list',
-						'POST create' => 'create',
-						'DELETE delete' => 'delete'
+						/*'POST' => 'create',
+						'PUT {id}' => 'update',
+						'DELETE' => 'delete'*/
 					],
 					'pluralize' => false, //отключение множественного числа
 				],

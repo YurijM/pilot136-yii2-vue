@@ -237,7 +237,7 @@
 					if (!this.post.id) {
 						await this.createPost(this.post);
 					} else {
-						await this.updatePost(this.post.id);
+						await this.updatePost(this.post);
 					}
 				} catch (e) {
 					console.log('Ошибка try post: ', e)

@@ -61,7 +61,7 @@ export default {
 			formData.set('post', post.post);
 			formData.set('order_no', post.order_no);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/post/create', formData)
+			.post('http://pilot136-yii2-vue-api/v1/post', formData)
 			.then(response => {
 				commit('ADD_POST', response.data);
 				commit('SORT_POSTS');
@@ -78,19 +78,26 @@ export default {
 				}, {root: true});
 			});
 		},
-		async updatePost({state, commit, dispatch}, id) {
+		async updatePost({state, commit, dispatch}, post) {
+			const formData = new FormData();
+			formData.set('post', post.post);
+			formData.set('order_no', post.order_no);
+			console.log('post.post: ', post.post);
 			await axios
-			.put(`http://pilot136-yii2-vue-api/v1/post/${id}`)
+			.put(`http://pilot136-yii2-vue-api/v1/post/${post.id}`, formData)
 			.then(response => {
-				const i = state.posts.map(el => el.id).indexOf(id)[0];
+				console.log('response: ', response);
+				/*const i = state.posts.map(el => el.id).indexOf(post.id);
+				console.log('i: ', i);
 				state.posts[i].post = post.post;
-				state.posts[i].order_no = post.order_no;
+				state.posts[i].order_no = post.order_no;*/
+				//dispatch('loadPosts');
 
-				commit('SORT_POSTS');
+				//commit('SORT_POSTS');
 
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: `Должность '${response.data.post}' добавлена`
+					message: `Должность '${response.data.post}' обновлена`
 				}, {root: true});
 			})
 			.catch(error => {
