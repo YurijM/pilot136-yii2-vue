@@ -65,7 +65,7 @@ export default {
 			formData.set('requisite', requisite.requisite);
 			formData.set('value', requisite.value);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/requisite/create', formData)
+			.post('http://pilot136-yii2-vue-api/v1/requisite', formData)
 			.then(response => {
 				commit('ADD_REQUISITE', response.data);
 				commit('SORT_REQUISITES');
@@ -82,7 +82,7 @@ export default {
 				}, {root: true});
 			});
 		},
-		async updateRequisite({commit, dispatch}, post) {
+		async updateRequisite({commit, dispatch}, requisite) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
 			formData.set('requisite', requisite.requisite);

@@ -30,7 +30,7 @@ const routes = [
 		path: '/requisite',
 		component: Requisite,
 		meta: {
-			title: 'Должности'
+			title: 'Реквизиты'
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('requisite/loadRequisites');
