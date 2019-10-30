@@ -106,7 +106,7 @@ export default {
 				}, {root: true});
 			});
 		},
-		async removePost({state, commit, dispatch}, id) {
+		async deletePost({state, commit, dispatch}, id) {
 			await axios
 			.delete(`http://pilot136-yii2-vue-api/v1/post/${id}`)
 			.then(response => {

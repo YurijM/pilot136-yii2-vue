@@ -160,8 +160,10 @@
 			...mapActions('post', [
 				'createPost',
 				'updatePost',
-				'removePost'
 			]),
+			...mapActions('post', {
+				removeDoc: 'deletePost'
+			}),
 			addPost() {
 				this.modalTitle = 'Добавить должность';
 				this.okTitle = 'Сохранить';
@@ -177,7 +179,7 @@
 			},
 			deletePost(item) {
 				this.deleteDoc(this, item, {
-					type: 'post',
+					type: 'Post',
 					name: 'должность',
 					title: item.post
 				});

@@ -164,12 +164,12 @@
 				.then(async (value) => {
 					if (Boolean(value)) {
 						try {
-							await page.removePost(item.id)
+							await page.removeDoc(item.id)
 						} catch (err) {
-							console.log('Remove Post Error: ', err);
+							console.log(`Remove ${doc.type} Error: `, err);
 							await page.$store.dispatch('common/setInfo', {
 								type: 'danger',
-								message: 'Ошибка при удалении должности (см. в консоли "Remove Post Error")'
+								message: 'Ошибка при удалении документа (см. в консоли "Remove ' + doc.type + ' Error")'
 							}, {root: true});
 						}
 						/*try {
@@ -192,10 +192,10 @@
 					}
 				})
 				.catch(async (err) => {
-					console.log('Post Modal Error: ', err);
+					console.log(`${doc.type} Modal Error: `, err);
 					await page.$store.dispatch('common/setInfo', {
 						type: 'danger',
-						message: 'Ошибка при создании модального окна (см. в консоли "Post Modal Error")'
+						message: 'Ошибка при создании модального окна (см. в консоли "' + doc.type + ' Modal Error")'
 					}, {root: true});
 				});
 			},

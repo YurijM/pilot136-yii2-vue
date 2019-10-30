@@ -42,8 +42,12 @@ export default {
 				value: payload.value
 			});
 		},
+		UPDATE_REQUISITE(state, payload) {
+			const i = state.requisites.map(el => el.id).indexOf(payload.id.toString());
+			state.requisites[i] = payload;
+		},
 		DELETE_REQUISITE(state, payload) {
-			state.requisites = state.requisites.filter(requisite => requisite.id !== payload);
+			state.requisites = state.requisites.filter(el => el.id !== payload);
 		}
 	},
 	actions: {
@@ -78,7 +82,31 @@ export default {
 				}, {root: true});
 			});
 		},
-		async removeRequisite({state, commit, dispatch}, id) {
+		async updateRequisite({commit, dispatch}, post) {
+			const formData = new FormData();
+			formData.set('_method', 'PUT');
+			formData.set('requisite', requisite.requisite);
+			formData.set('value', requisite.value);
+			await axios
+			.post(`http://pilot136-yii2-vue-api/v1/requisite/${requisite.id}`, formData)
+			.then(response => {
+				commit('UPDATE_REQUISITE', response.data);
+				commit('SORT_REQUISITES');
+
+				dispatch('common/setInfo', {
+					type: 'success',
+					message: 'Реквизит обновлен'
+				}, {root: true});
+			})
+			.catch(error => {
+				console.log('Update Requisite Error ', error);
+				dispatch('common/setInfo', {
+					type: 'danger',
+					message: 'Ошибка при изменении реквизита (см. в консоли "Update Requisite Error")'
+				}, {root: true});
+			});
+		},
+		async deleteRequisite({state, commit, dispatch}, id) {
 			await axios
 			.delete(`http://pilot136-yii2-vue-api/v1/requisite/${id}`)
 			.then(response => {

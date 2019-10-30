@@ -81,7 +81,7 @@
 				{{data.index + 1}}
 			</template>
 			<template v-slot:cell(edit)="data">
-				<b-button @click="updateRequisite(data.item, $event.target)" variant="outline-primary">
+				<b-button @click="editRequisite(data.item, $event.target)" variant="outline-primary">
 					<font-awesome-icon icon="pencil-alt"/>
 				</b-button>
 				<b-button @click="deleteRequisite(data.item)" variant="outline-danger">
@@ -123,7 +123,6 @@
 						thStyle: {width: '2em'},
 						tdClass: ['py-0', 'px-2', 'align-middle', 'text-center']
 					},
-					/*{key: 'id', thClass: 'text-center', tdClass: ['py-0', 'px-2', 'align-middle', 'text-center']},*/
 					{
 						key: 'requisite',
 						label: 'Реквизит',
@@ -157,14 +156,17 @@
 		methods: {
 			...mapActions('requisite', [
 				'createRequisite',
-				'removeRequisite'
+				'updateRequisite'
 			]),
+			...mapActions('requisite', {
+				removeDoc: 'deleteRequisite'
+			}),
 			addRequisite() {
 				this.modalTitle = 'Добавить реквизит';
 				this.okTitle = 'Сохранить';
 				this.$bvModal.show('requisiteEdit');
 			},
-			updateRequisite(item, button) {
+			editRequisite(item, button) {
 				this.modalTitle = 'Редактировать запись';
 				this.okTitle = 'Обновить';
 				this.requisite.id = item.id;
@@ -174,18 +176,12 @@
 			},
 			deleteRequisite(item) {
 				this.deleteDoc(this, item, {
-					type: 'requisite',
+					type: 'Requisite',
 					name: 'реквизит',
 					title: item.requisite
 				});
 			},
 			checkFormValidity() {
-				/*const validRequisite = this.$refs.form.inputRequisite.checkValidity();
-				this.stateRequisite = validRequisite ? 'valid' : 'invalid';
-
-				const validValue = this.$refs.form.inputValue.checkValidity();
-				this.stateValue = validValue ? 'valid' : 'invalid';*/
-
 				this.stateRequisite = this.$refs.form.inputRequisite.checkValidity();
 				this.stateValue = this.$refs.form.inputValue.checkValidity();
 
@@ -195,7 +191,6 @@
 					this.errorValue = "Значение должно быть не меньше 1"
 				}
 
-				//return (validRequisite && validValue);
 				return (this.stateRequisite && this.stateValue);
 			},
 			resetModal() {
@@ -207,33 +202,25 @@
 				this.stateValue = null
 			},
 			handleOk(bvModalEvt) {
-// Prevent modal from closing
+				// Prevent modal from closing
 				bvModalEvt.preventDefault();
-// Trigger submit handler
+				// Trigger submit handler
 				this.handleSubmit()
 			},
 			async handleSubmit() {
-// Exit when the form isn't valid
+				// Exit when the form isn't valid
 				if (!this.checkFormValidity()) {
 					return
 				}
 
 				try {
-					/*if (this.requisite.id) {
-						await this.$store.dispatch('requisite/update', this.requisite);
-					} else {
-						await this.$store.dispatch('requisite/create', this.requisite);
-					}
-
-					this.docs = await this.$store.dispatch('requisite/list');
-
-					this.resetModal();
-				} catch (e) {
-					this.$store.dispatch('setInfo', {type: 'danger', message: e.message})
-				}*/
 					if (!this.requisite.id) {
 						await this.createRequisite(this.requisite);
+					} else {
+						await this.updateRequisite(this.requisite);
 					}
+
+					this.resetModal();
 				} catch (e) {
 					console.log('Ошибка try requisite: ', e)
 				}

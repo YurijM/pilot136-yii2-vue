@@ -43,9 +43,7 @@ return [
 					'class' => UrlRule::class,
 					'controller' => 'v1/requisite',
 					'extraPatterns' => [
-						'GET list' => 'list',
-						'POST create' => 'create',
-						'DELETE delete' => 'delete'
+						'GET list' => 'list'
 					],
 					'pluralize' => false, //отключение множественного числа
 				],
