@@ -60,6 +60,17 @@ return [
 				],
 				[
 					'class' => UrlRule::class,
+					'controller' => 'v1/staff',
+					'extraPatterns' => [
+						'GET list' => 'list',
+						'POST add' => 'add',
+						'PUT edit' => 'edit',
+						'DELETE remove' => 'remove',
+					],
+					'pluralize' => false, //отключение множественного числа
+				],
+				[
+					'class' => UrlRule::class,
 					'controller' => 'v1/user',
 					'extraPatterns' => [
 						'GET check' => 'check',

@@ -8,7 +8,9 @@ use Yii;
  * This is the model class for table "staff".
  *
  * @property int $id
- * @property string $person
+ * @property string $family
+ * @property string $name
+ * @property string $patronymic
  *
  * @property PostStaff[] $postStaff
  * @property Post[] $posts
@@ -29,8 +31,8 @@ class Staff extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['person'], 'required'],
-            [['person'], 'string', 'max' => 64],
+            [['family', 'name', 'patronymic'], 'required'],
+            [['family', 'name', 'patronymic'], 'string', 'max' => 32],
         ];
     }
 
@@ -41,7 +43,9 @@ class Staff extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'person' => 'Person',
+            'family' => 'Family',
+            'name' => 'Name',
+            'patronymic' => 'Patronymic',
         ];
     }
 

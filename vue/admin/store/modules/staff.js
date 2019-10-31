@@ -3,24 +3,44 @@ import axios from 'axios';
 export default {
 	namespaced: true,
 	state: {
-		requisites: [],
-		requisite: null,
+		staff: [],
+		person: [],
+		count: 0
 	},
 	getters: {
-		getRequisites: state => state.requisites,
+		getStaff: state => state.staff,
+		getCount: state => state.staff.length
 	},
 	mutations: {
-		CLEAR_REQUISITES(state) {
-			state.requisites = [];
+		CLEAR_STAFF(state) {
+			state.staff = [];
 		},
-		SET_REQUISITES(state, payload) {
-			state.requisites = payload;
+		SET_STAFF(state, payload) {
+			let prevPersonId = 0;
+			let postIds = [];
+			let posts = [];
+			for (let i = 0, len = payload.length; i < len; ++i) {
+				if (prevPersonId === payload[i].id || prevPersonId === 0) {
+					postIds.push(payload[i].post_id);
+					posts.push(payload[i].post);
+					payload[i].post_id = null;
+				} else {
+					payload[i - 1].post_id = postIds;
+					payload[i - 1].post = posts;
+					postIds = [payload[i].post_id];
+					posts = [payload[i].post];
+				}
+
+				prevPersonId = payload[i].id;
+			}
+
+			state.staff = payload.filter(el => el.post_id !== null);
 		},
-		SORT_REQUISITES(state) {
-			state.requisites.sort((a, b) => {
+		SORT_STAFF(state) {
+			state.staff.sort((a, b) => {
 				// Используем toUpperCase() для преобразования регистра
-				const item1 = a.requisite.toUpperCase();
-				const item2 = b.requisite.toUpperCase();
+				const item1 = a.person.toUpperCase();
+				const item2 = b.person.toUpperCase();
 
 				let result = 0;
 				if (item1 > item2) {
@@ -31,48 +51,57 @@ export default {
 				return result;
 			});
 		},
-		GET_REQUISITE(state, payload) {
-			state.requisite = null;
-			state.requisite = state.requisites.filter(requisite => requisite.id === payload)[0];
+		GET_PERSON(state, payload) {
+			state.person = state.staff.filter(el => el.id === payload)[0];
 		},
-		ADD_REQUISITE(state, payload) {
-			state.requisites.push({
+		ADD_PERSON(state, payload) {
+
+			state.staff.push({
 				id: payload.id,
-				requisite: payload.requisite,
-				value: payload.value
+				person: `${payload.family} ${payload.name} ${payload.patronymic}`,
+				post: payload.posts
 			});
 		},
-		UPDATE_REQUISITE(state, payload) {
-			const i = state.requisites.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
-			state.requisites[i] = payload;
+		UPDATE_STAFF(state, payload) {
+			const i = state.staff.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
+			state.staff[i] = payload;
 		},
-		DELETE_REQUISITE(state, payload) {
-			state.requisites = state.requisites.filter(el => el.id !== payload);
+		DELETE_STAFF(state, payload) {
+			state.staff = state.staff.filter(el => el.id !== payload);
 		}
 	},
 	actions: {
-		async loadRequisites({commit}) {
-			commit('CLEAR_REQUISITES');
+		async loadStaff({commit}) {
+			commit('CLEAR_STAFF');
 
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/requisite/list')
+			.get('http://pilot136-yii2-vue-api/v1/staff/list')
 			.then(response => {
-				commit('SET_REQUISITES', response.data.requisites);
+				commit('SET_STAFF', response.data);
 			});
 		},
-		async createRequisite({commit, dispatch}, requisite) {
+		async createStaff({commit, dispatch}, staff) {
 			const formData = new FormData();
-			formData.set('requisite', requisite.requisite);
-			formData.set('value', requisite.value);
+			formData.set('family', staff.family);
+			formData.set('name', staff.name);
+			formData.set('patronymic', staff.patronymic);
+			formData.set('posts', staff.posts);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/requisite', formData)
+			.post('http://pilot136-yii2-vue-api/v1/staff/add', formData)
 			.then(response => {
-				commit('ADD_REQUISITE', response.data);
-				commit('SORT_REQUISITES');
-				dispatch('common/setInfo', {
-					type: 'success',
-					message: `Реквизит '${response.data.requisite}' добавлен`
-				}, {root: true});
+				if (response === '') {
+					commit('ADD_PERSON', staff);
+					commit('SORT_STAFF');
+					dispatch('common/setInfo', {
+						type: 'success',
+						message: `Сотрудник '${staff.family} ${staff.name} ${staff.patronymic}' добавлен в штат`
+					}, {root: true});
+				} else {
+					dispatch('common/setInfo', {
+						type: 'danger',
+						message: response
+					}, {root: true});
+				}
 			})
 			.catch(error => {
 				console.log('Create Requisite Error ', error);

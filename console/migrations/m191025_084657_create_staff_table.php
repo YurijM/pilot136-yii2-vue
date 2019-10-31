@@ -17,7 +17,9 @@ class m191025_084657_create_staff_table extends Migration
 	{
 		$this->createTable('{{%staff}}', [
 			'id' => $this->primaryKey(),
-			'person' => $this->string(64)->notNull(),
+			'family' => $this->string(32)->notNull(),
+			'name' => $this->string(32)->notNull(),
+			'patronymic' => $this->string(32)->notNull(),
 		]);
 	}
 

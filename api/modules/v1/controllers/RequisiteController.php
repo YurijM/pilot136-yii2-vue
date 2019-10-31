@@ -6,8 +6,6 @@ use yii\db\Query;
 
 class RequisiteController extends ApiController
 {
-	public $modelClass = 'common\models\Requisite';
-
 	public function actionList()
 	{
 		$model = (new Query())->from('requisite')

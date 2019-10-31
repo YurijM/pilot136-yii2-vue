@@ -43,7 +43,7 @@ export default {
 			});
 		},
 		UPDATE_POST(state, payload) {
-			const i = state.posts.map(el => el.id.toString()).indexOf(payload.id.toString());
+			const i = state.posts.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
 			state.posts[i] = payload;
 		},
 		DELETE_POST(state, payload) {
