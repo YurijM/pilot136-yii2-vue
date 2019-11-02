@@ -49,7 +49,8 @@ class StaffController extends ApiController
 			$result = 'Ошибка записи в таблицу staff (' +
 				$params['family'] + ' ' + $params['name'] + $params['patronymic'] + ')';
 		}
-		return $result;
+
+		return compact(['result', 'staff']);
 	}
 
 	public function actionRemove()
@@ -82,13 +83,12 @@ class StaffController extends ApiController
 			PostStaff::deleteAll('staff_id = ' + $params['staff_id']);
 
 			$result = addPosts($params['posts'], $staff->id);
-
-			if (Staff::deleteAll($params['staff_id']) == 0) {
-				$result = 'Ошибка удаления из таблицы staff (staff_id = ' + $params['staff_id'] + ')';
-			} else {
-				$result = 'Ошибка удаления из таблицы post_staff (staff_id = ' + $params['staff_id'] + ')';
-			}
+		} else {
+			$result = 'Ошибка записи в таблицу staff (' +
+				$params['family'] + ' ' + $params['name'] + $params['patronymic'] + ')';
 		}
+
+		return compact(['result', 'staff']);
 	}
 
 	public function addPosts($posts, $staff_id) {

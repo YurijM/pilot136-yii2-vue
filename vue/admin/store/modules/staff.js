@@ -55,11 +55,10 @@ export default {
 			state.person = state.staff.filter(el => el.id === payload)[0];
 		},
 		ADD_PERSON(state, payload) {
-
 			state.staff.push({
 				id: payload.id,
 				person: `${payload.family} ${payload.name} ${payload.patronymic}`,
-				post: payload.posts
+				posts: payload.posts
 			});
 		},
 		UPDATE_STAFF(state, payload) {
@@ -89,9 +88,9 @@ export default {
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/staff/add', formData)
 			.then(response => {
-				if (response === '') {
-					commit('ADD_PERSON', staff);
-					commit('SORT_STAFF');
+				if (response.data.result === '') {
+					commit('ADD_PERSON', response.data.staff);
+					commit('SORT_PERSON');
 					dispatch('common/setInfo', {
 						type: 'success',
 						message: `Сотрудник '${staff.family} ${staff.name} ${staff.patronymic}' добавлен в штат`
@@ -99,7 +98,7 @@ export default {
 				} else {
 					dispatch('common/setInfo', {
 						type: 'danger',
-						message: response
+						message: response.data.result
 					}, {root: true});
 				}
 			})
@@ -111,33 +110,37 @@ export default {
 				}, {root: true});
 			});
 		},
-		async updateRequisite({commit, dispatch}, requisite) {
+		async updateStaff({commit, dispatch}, staff) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
-			formData.set('requisite', requisite.requisite);
-			formData.set('value', requisite.value);
+			formData.set('family', staff.family);
+			formData.set('name', staff.name);
+			formData.set('patronymic', staff.patronymic);
+			formData.set('posts', staff.posts);
 			await axios
-			.post(`http://pilot136-yii2-vue-api/v1/requisite/${requisite.id}`, formData)
+			.post(`http://pilot136-yii2-vue-api/v1/staff/edit/${staff.id}`, formData)
 			.then(response => {
-				commit('UPDATE_REQUISITE', response.data);
-				commit('SORT_REQUISITES');
+				commit('UPDATE_STAFF', response.data.staff);
+				commit('SORT_STAFF');
 
-				dispatch('common/setInfo', {
-					type: 'success',
-					message: `Реквизит ${response.data.requisite} обновлен`
-				}, {root: true});
+				if (response.data.result === '') {
+					dispatch('common/setInfo', {
+						type: 'success',
+						message: `Сотрудник ${response.data.staff.family} ${response.data.staff.name} ${response.data.staff.patronymic} обновлен`
+					}, {root: true});
+				}
 			})
 			.catch(error => {
-				console.log('Update Requisite Error ', error);
+				console.log('Update Staff Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при изменении реквизита (см. в консоли "Update Requisite Error")'
+					message: 'Ошибка при изменении сотрудника (см. в консоли "Update Staff Error")'
 				}, {root: true});
 			});
 		},
-		async deleteRequisite({state, commit, dispatch}, id) {
+		async deleteStaff({state, commit, dispatch}, id) {
 			await axios
-			.delete(`http://pilot136-yii2-vue-api/v1/requisite/${id}`)
+			.delete(`http://pilot136-yii2-vue-api/v1/staff/remove/${id}`)
 			.then(response => {
 				commit('GET_REQUISITE', id);
 				commit('DELETE_REQUISITE', id);
