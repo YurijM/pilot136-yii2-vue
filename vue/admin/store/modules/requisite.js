@@ -32,7 +32,6 @@ export default {
 			});
 		},
 		GET_REQUISITE(state, payload) {
-			state.requisite = null;
 			state.requisite = state.requisites.filter(requisite => requisite.id === payload)[0];
 		},
 		ADD_REQUISITE(state, payload) {
@@ -43,7 +42,7 @@ export default {
 			});
 		},
 		UPDATE_REQUISITE(state, payload) {
-			const i = state.requisites.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
+			const i = state.requisites.map(el => parseInt(el.id)).indexOf(payload.id);
 			state.requisites[i] = payload;
 		},
 		DELETE_REQUISITE(state, payload) {
@@ -95,7 +94,7 @@ export default {
 
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: `Реквизит ${response.data.requisite} обновлен`
+					message: `Реквизит '${response.data.requisite}' обновлен`
 				}, {root: true});
 			})
 			.catch(error => {

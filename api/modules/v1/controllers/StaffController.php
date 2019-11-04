@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Post;
 use common\models\PostStaff;
 use common\models\Staff;
 use Yii;
@@ -9,9 +10,11 @@ use yii\db\Query;
 
 class StaffController extends ApiController
 {
+	public $modelClass = 'common\models\Staff';
+
 	public function actionList()
 	{
-		$params = Yii::$app->getRequest()->getQueryParams();
+		//$params = Yii::$app->getRequest()->getQueryParams();
 
 		$model = (new Query())->from('staff s')
 			->select([
@@ -26,8 +29,8 @@ class StaffController extends ApiController
 				'person' => SORT_ASC,
 				'p.order_no' => SORT_ASC
 			])
-			->offset($params['start'])
-			->limit($params['limit'])
+			/*->offset($params['start'])
+			->limit($params['limit'])*/
 			->all();
 
 		return $model;
@@ -44,65 +47,76 @@ class StaffController extends ApiController
 		$staff->patronymic = $params['patronymic'];
 
 		if ($staff->save()) {
-			$result = addPosts($params['posts'], $staff->id);
+			$postIds = explode(',', $params['postIds']);
+			$result = $this->addPosts($postIds, $staff->id);
 		} else {
-			$result = 'Ошибка записи в таблицу staff (' +
-				$params['family'] + ' ' + $params['name'] + $params['patronymic'] + ')';
+			$result = "Ошибка записи в таблицу staff ({$params['family']} {$params['name']} {$params['patronymic']})";
 		}
 
 		return compact(['result', 'staff']);
-	}
-
-	public function actionRemove()
-	{
-		$result = '';
-		$params = Yii::$app->getRequest()->getQueryParams();
-
-		if (PostStaff::deleteAll('staff_id = ' + $params['staff_id']) > 0) {
-			if (Staff::deleteAll($params['staff_id']) == 0) {
-				$result = 'Ошибка удаления из таблицы staff (staff_id = ' + $params['staff_id'] + ')';
-			}
-		} else {
-			$result = 'Ошибка удаления из таблицы post_staff (staff_id = ' + $params['staff_id'] + ')';
-		}
-
-		return $result;
 	}
 
 	public function actionEdit()
 	{
 		$result = '';
+		$posts = '';
+
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$staff = Staff::findOne($params['staff_id']);
+		$staff = Staff::findOne($params['id']);
 		$staff->family = $params['family'];
 		$staff->name = $params['name'];
 		$staff->patronymic = $params['patronymic'];
 
 		if ($staff->save()) {
-			PostStaff::deleteAll('staff_id = ' + $params['staff_id']);
+			PostStaff::deleteAll("staff_id = {$params['id']}");
 
-			$result = addPosts($params['posts'], $staff->id);
+			$postIds = explode(',', $params['postIds']);
+			//$posts = Post::findOne($postIds[0])->post;
+			$result = $this->addPosts($postIds, $staff->id);
+			if ($result == '') {
+				foreach ($postIds as $item) {
+					$post = Post::findOne($item);
+					if ($posts != '') {
+						$posts .= ", {$post->post}";
+					} else {
+						$posts = $post->post;
+					}
+				}
+			}
 		} else {
-			$result = 'Ошибка записи в таблицу staff (' +
-				$params['family'] + ' ' + $params['name'] + $params['patronymic'] + ')';
+			$result = "Ошибка записи в таблицу staff ({$params['family']} {$params['name']} {$params['patronymic']})";
 		}
 
-		return compact(['result', 'staff']);
+		return compact(['result', 'staff', 'posts']);
 	}
 
-	public function addPosts($posts, $staff_id) {
+	public function actionRemove()
+	{
+		$result = '';
+		$params = Yii::$app->getRequest()->getBodyParams();
+
+		if (PostStaff::deleteAll(['staff_id' => $params['id']]) > 0) {
+			if (Staff::deleteAll(['id' => $params['id']]) == 0) {
+				$result = "Ошибка удаления из таблицы staff (staff_id = {$params['id']})";
+			}
+		} else {
+			$result = "Ошибка удаления из таблицы post_staff (staff_id = ' + {$params['id']})";
+		}
+
+		return $result;
+	}
+
+	protected function addPosts($posts, $staff_id) {
 		$result = '';
 
-		foreach ($posts as $post_id) {
+		foreach ($posts as $item) {
 			$post = new PostStaff();
 			$post->staff_id = $staff_id;
-			$post->post_id = $post_id;
+			$post->post_id = $item;
 
 			if (!$post->save()) {
-				$result = 'Ошибка записи в таблицу post_staff (' +
-					'staff_id = ' + $staff_id +
-					', post_id = ' + $post + ')';
+				$result = "Ошибка записи в таблицу post_staff (staff_id = {$staff_id}, post_id = {$item})";
 				break;
 			}
 		}

@@ -6,6 +6,8 @@ use yii\db\Query;
 
 class PostController extends ApiController
 {
+	public $modelClass = 'common\models\Post';
+
 	public function actionList()
 	{
 		$model = (new Query())->from('post')

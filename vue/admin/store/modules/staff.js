@@ -16,6 +16,8 @@ export default {
 			state.staff = [];
 		},
 		SET_STAFF(state, payload) {
+			if (payload.length === 0) return;
+
 			let prevPersonId = 0;
 			let postIds = [];
 			let posts = [];
@@ -23,7 +25,7 @@ export default {
 				if (prevPersonId === payload[i].id || prevPersonId === 0) {
 					postIds.push(payload[i].post_id);
 					posts.push(payload[i].post);
-					payload[i].post_id = null;
+					if (i > 0) payload[i - 1].post_id = null;
 				} else {
 					payload[i - 1].post_id = postIds;
 					payload[i - 1].post = posts;
@@ -34,7 +36,11 @@ export default {
 				prevPersonId = payload[i].id;
 			}
 
+			payload[payload.length - 1].post_id = postIds;
+			payload[payload.length - 1].post = posts;
+
 			state.staff = payload.filter(el => el.post_id !== null);
+			state.staff.forEach((item, i, arr) => item.post = item.post.join(', '));
 		},
 		SORT_STAFF(state) {
 			state.staff.sort((a, b) => {
@@ -56,14 +62,17 @@ export default {
 		},
 		ADD_PERSON(state, payload) {
 			state.staff.push({
-				id: payload.id,
-				person: `${payload.family} ${payload.name} ${payload.patronymic}`,
-				posts: payload.posts
+				id: payload.staff.id,
+				person: `${payload.staff.family} ${payload.staff.name} ${payload.staff.patronymic}`,
+				post_id: payload.post_id,
+				post: payload.post
 			});
 		},
 		UPDATE_STAFF(state, payload) {
-			const i = state.staff.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
-			state.staff[i] = payload;
+			const i = state.staff.map(el => parseInt(el.id)).indexOf(payload.staff.id);
+			state.staff[i].person = `${payload.staff.family} ${payload.staff.name} ${payload.staff.patronymic}`;
+			state.staff[i].post_id = payload.post_id;
+			state.staff[i].post = payload.posts;
 		},
 		DELETE_STAFF(state, payload) {
 			state.staff = state.staff.filter(el => el.id !== payload);
@@ -84,13 +93,19 @@ export default {
 			formData.set('family', staff.family);
 			formData.set('name', staff.name);
 			formData.set('patronymic', staff.patronymic);
-			formData.set('posts', staff.posts);
+			/*for (let i = 0; i < staff.posts.length; i++) {
+				console.log(`staff.posts[${i}]: `, staff.posts[i]);
+				formData.append('posts[]', staff.posts[i]);
+			}*/
+			//formData.set('posts', JSON.stringify(staff.posts));
+			formData.set('postIds', staff.postIds);
+			//console.log('formData.posts: ', formData.get('posts'));
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/staff/add', formData)
 			.then(response => {
 				if (response.data.result === '') {
-					commit('ADD_PERSON', response.data.staff);
-					commit('SORT_PERSON');
+					commit('ADD_PERSON', {staff: response.data.staff, post: staff.posts, post_id: staff.postIds});
+					commit('SORT_STAFF');
 					dispatch('common/setInfo', {
 						type: 'success',
 						message: `Сотрудник '${staff.family} ${staff.name} ${staff.patronymic}' добавлен в штат`
@@ -103,30 +118,36 @@ export default {
 				}
 			})
 			.catch(error => {
-				console.log('Create Requisite Error ', error);
+				console.log('Create Staff Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при добавлении реквизита (см. в консоли "Create Requisite Error")'
+					message: 'Ошибка при добавлении сотрудника (см. в консоли "Create Staff Error")'
 				}, {root: true});
 			});
 		},
 		async updateStaff({commit, dispatch}, staff) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
+			formData.set('id', staff.id);
 			formData.set('family', staff.family);
 			formData.set('name', staff.name);
 			formData.set('patronymic', staff.patronymic);
-			formData.set('posts', staff.posts);
+			formData.set('postIds', staff.postIds);
 			await axios
-			.post(`http://pilot136-yii2-vue-api/v1/staff/edit/${staff.id}`, formData)
+			.post('http://pilot136-yii2-vue-api/v1/staff/edit', formData)
 			.then(response => {
-				commit('UPDATE_STAFF', response.data.staff);
+				commit('UPDATE_STAFF', {staff: response.data.staff, post_id: staff.postIds, posts: response.data.posts});
 				commit('SORT_STAFF');
 
 				if (response.data.result === '') {
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Сотрудник ${response.data.staff.family} ${response.data.staff.name} ${response.data.staff.patronymic} обновлен`
+						message: `Сотрудник '${response.data.staff.family} ${response.data.staff.name} ${response.data.staff.patronymic}' обновлен`
+					}, {root: true});
+				} else {
+					dispatch('common/setInfo', {
+						type: 'danger',
+						message: response.data.result
 					}, {root: true});
 				}
 			})
@@ -139,21 +160,31 @@ export default {
 			});
 		},
 		async deleteStaff({state, commit, dispatch}, id) {
+			const formData = new FormData();
+			formData.set('_method', 'DELETE');
+			formData.set('id', id);
 			await axios
-			.delete(`http://pilot136-yii2-vue-api/v1/staff/remove/${id}`)
+			.post('http://pilot136-yii2-vue-api/v1/staff/remove', formData)
 			.then(response => {
-				commit('GET_REQUISITE', id);
-				commit('DELETE_REQUISITE', id);
-				dispatch('common/setInfo', {
-					type: 'success',
-					message: `Реквизит '${state.requisite.requisite}' удален`
-				}, {root: true});
+				commit('GET_PERSON', id);
+				commit('DELETE_STAFF', id);
+				if (response.data === '') {
+					dispatch('common/setInfo', {
+						type: 'success',
+						message: `Сотрудник '${state.person.person}' удален`
+					}, {root: true});
+				} else {
+					dispatch('common/setInfo', {
+						type: 'danger',
+						message: response.data
+					}, {root: true});
+				}
 			})
 			.catch(error => {
-				console.log('Delete Requisite Error ', error);
+				console.log('Delete Staff Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при удалении реквизита (см. в консоли "Delete Requisite Error")'
+					message: 'Ошибка при удалении реквизита (см. в консоли "Delete Staff Error")'
 				}, {root: true});
 			});
 		}

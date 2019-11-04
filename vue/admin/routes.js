@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 import Login from './components/Login';
 import Act from "./components/Act";
 import Post from './components/Post';
+import Staff from './components/Staff';
 import Requisite from './components/Requisite';
 //import NotFound from './components/NotFound';
 
@@ -46,6 +47,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('post/loadPosts');
+			next();
+		}
+	},
+	{
+		name: 'staff',
+		path: '/staff',
+		component: Staff,
+		meta: {
+			title: 'Штат'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('staff/loadStaff');
 			next();
 		}
 	},

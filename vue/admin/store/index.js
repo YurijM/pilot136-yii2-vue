@@ -9,6 +9,7 @@ import login from './modules/login';
 import user from './modules/user';
 import requisite from './modules/requisite';
 import post from './modules/post';
+import staff from './modules/staff';
 
 export const store = new Vuex.Store({
 	modules: {
@@ -16,7 +17,8 @@ export const store = new Vuex.Store({
 		login,
 		user,
 		requisite,
-		post
+		post,
+		staff
 	},
 	/*plugins: [createPersistedState(
 		{

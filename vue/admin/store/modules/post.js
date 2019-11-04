@@ -43,7 +43,7 @@ export default {
 			});
 		},
 		UPDATE_POST(state, payload) {
-			const i = state.posts.map(el => el.id.toInteger()).indexOf(payload.id.toInteger());
+			const i = state.posts.map(el => parseInt(el.id)).indexOf(payload.id);
 			state.posts[i] = payload;
 		},
 		DELETE_POST(state, payload) {
@@ -95,7 +95,7 @@ export default {
 
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: 'Должность обновлена'
+					message: `Должность '${response.data.post}' обновлена`
 				}, {root: true});
 			})
 			.catch(error => {

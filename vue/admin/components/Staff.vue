@@ -3,8 +3,9 @@
 		<ym-page-header :title="title" :count="count" link="Добавить сотрудника" @onAddNewDoc="addPerson"/>
 
 		<b-modal
-			id="staffEdit"
+			id="personEdit"
 			:header-class="['alert-primary', 'border-primary', 'border-bottom']"
+			modal-class="in"
 			:footer-class="['alert-primary', 'border-primary', 'border-top']"
 			ref="modal"
 			:title="modalTitle"
@@ -88,7 +89,7 @@
 			</form>
 		</b-modal>
 
-		<b-alert v-if="docs.length === 0" class="text-center" show variant="info">Сотрудники не заведены</b-alert>
+		<b-alert v-if="count == 0" class="text-center" show variant="info">Сотрудники не заведены</b-alert>
 
 		<div
 			v-else
@@ -97,7 +98,7 @@
 		>
 			<div>
 				<b-pagination
-					v-if="docs.length > perPage"
+					v-if="count > perPage"
 					v-model="currentPage"
 					:total-rows="staffRows"
 					:per-page="perPage"
@@ -106,20 +107,17 @@
 				></b-pagination>
 
 				<b-table
+					id="table-staff"
 					striped
 					small
 					responsive="sm"
 					:fields="fields"
-					:items="docs"
+					:items="staff"
 					:per-page="perPage"
 					:current-page="currentPage"
 				>
 					<template v-slot:cell(recNo)="data">
 						{{data.index + ((currentPage - 1) * perPage) + 1}}
-					</template>
-
-					<template v-slot:cell(person)="data">
-						{{data.item.family}} {{data.item.name}} {{data.item.patronymic}}
 					</template>
 
 					<template v-slot:cell(edit)="data">
@@ -134,7 +132,7 @@
 			</div>
 
 			<b-pagination
-				v-if="docs.length > perPage"
+				v-if="count > perPage"
 				v-model="currentPage"
 				:total-rows="staffRows"
 				:per-page="perPage"
@@ -148,6 +146,7 @@
 <script>
 	import YmPageHeader from './PageHeader'
 	import {mapGetters, mapActions} from 'vuex'
+
 	const {PER_PAGE} = require('../../constants');
 
 	export default {
@@ -159,6 +158,7 @@
 		data() {
 			return {
 				title: 'Штат',
+				posts: [],
 				options: [],
 				selected: [],
 				labelPost: 'ещё ничего не выбрано',
@@ -170,14 +170,169 @@
 					family: '',
 					name: '',
 					patronymic: '',
-					posts: []
+					postIds: [],
+					posts: ''
 				},
 				stateFamily: null,
 				stateName: null,
 				statePatronymic: null,
 				statePost: null,
 				modalTitle: '',
-				okTitle: ''
+				okTitle: '',
+				fields: [
+					{
+						key: 'recNo',
+						label: '№',
+						thClass: ['text-center', 'align-middle'],
+						thStyle: {width: '2em'},
+						tdClass: ['py-0', 'px-2', 'align-middle', 'text-center']
+					},
+					{
+						key: 'person',
+						label: 'Сотрудник',
+						thClass: ['text-center', 'align-middle'],
+						tdClass: ['px-2', 'align-middle']
+					},
+					{
+						key: 'post',
+						label: 'Должность(и)',
+						thClass: ['align-middle'],
+						tdClass: ['px-2', 'align-middle']
+					},
+					{
+						key: 'edit',
+						label: '',
+						thStyle: {width: '7em'},
+						thClass: ['text-center', 'align-middle'],
+						tdClass: ['py-1', 'px-2', 'align-middle', 'text-right']
+					}
+				],
+			}
+		},
+		async created() {
+			await this.$store.dispatch('post/loadPosts');
+			this.posts = this.$store.getters['post/getPosts'];
+			this.options = [];
+			this.posts.forEach((item, i, posts) => {
+				this.options.push({
+					value: item.id,
+					text: item.post
+				})
+			});
+		},
+		computed: {
+			...mapGetters('staff', [
+				'getStaff',
+				'getCount'
+			]),
+			...mapGetters('post', [
+				'getPosts'
+			]),
+			staff() {
+				return this.getStaff;
+			},
+			count() {
+				return this.getCount;
+			},
+			postChange() {
+				return this.selected
+			}
+		},
+		watch: {
+			postChange(selected) {
+				this.selectedPosts = '';
+				selected.forEach((item, i, items) => {
+					if (i > 0) this.selectedPosts += ', ';
+					this.selectedPosts += this.options.find(option => option.value === item).text
+				});
+				this.labelPost = (this.selectedPosts ? this.selectedPosts : 'ещё ничего не выбрано')
+			}
+		},
+		methods: {
+			...mapActions('staff', [
+				'createStaff',
+				'updateStaff'
+			]),
+			...mapActions('staff', {
+				removeDoc: 'deleteStaff'
+			}),
+			addPerson() {
+				this.modalTitle = 'Добавить сотрудника';
+				this.okTitle = 'Сохранить';
+				this.$bvModal.show('personEdit');
+			},
+			editPerson(item, button) {
+				this.modalTitle = 'Редактировать запись';
+				this.okTitle = 'Обновить';
+				this.person.id = item.id;
+				const person = item.person.split(' ');
+				this.person.family = person[0];
+				this.person.name = person[1];
+				this.person.patronymic = person[2];
+				this.selected = item.post_id;
+				this.selectedPosts = item.post;
+				this.$root.$emit('bv::show::modal', 'personEdit', button)
+			},
+			deletePerson(item) {
+				this.deleteDoc(this, item, {
+					type: 'Staff',
+					name: 'сотрудник',
+					title: item.person
+				});
+			},
+			checkFormValidity() {
+				this.stateFamily = this.$refs.form.inputFamily.checkValidity();
+				this.stateName = this.$refs.form.inputName.checkValidity();
+				this.statePatronymic = this.$refs.form.inputPatronymic.checkValidity();
+				this.statePost = (this.selected.length > 0);
+
+				return (this.stateFamily && this.stateName && this.statePatronymic && this.statePost);
+			},
+			resetModal() {
+				this.person.id = null;
+				this.person.family = '';
+				this.person.name = '';
+				this.person.patronymic = '';
+				this.person.postIds = [];
+				this.person.posts = '';
+
+				this.selected = [];
+				this.selectedPosts = '';
+
+				this.stateFamily = null;
+				this.stateName = null;
+				this.statePatronymic = null;
+				this.statePost = null;
+			},
+			handleOk(bvModalEvt) {
+				// Prevent modal from closing
+				bvModalEvt.preventDefault();
+				// Trigger submit handler
+				this.handleSubmit()
+			},
+			async handleSubmit() {
+				// Exit when the form isn't valid
+				if (!this.checkFormValidity()) {
+					return
+				}
+
+				try {
+					this.person.postIds = this.selected;
+					this.person.posts = this.selectedPosts;
+
+					if (!this.person.id) {
+						await this.createStaff(this.person);
+					} else {
+						await this.updateStaff(this.person);
+					}
+				} catch (e) {
+					console.log('Ошибка try staff: ', e)
+				}
+
+				// Hide the modal manually
+				this.$nextTick(() => {
+					this.$refs.modal.hide()
+				})
 			}
 		}
 	}
