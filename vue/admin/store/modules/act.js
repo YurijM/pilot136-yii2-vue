@@ -18,14 +18,18 @@ export default {
 	},
 	actions: {
 		clearActs({commit}) {
-			commit('CLEAR_USERS');
+			commit('CLEAR_ACTS');
 		},
 		async loadActs({commit, dispatch}) {
-			dispatch('clearActs');
+			await axios
+			.get('http://pilot136-yii2-vue-api/v1/act?page=1')//, {headers: {'X-Pagination-Per-Page':	'5'}})
+			.then(response => {
+				console.log(response.headers);
+				console.log(response.config);
+				dispatch('clearActs');
+				commit('SET_ACTS', response.data);
 
-			/*await axios
-			.get('http://pilot136-yii2-vue-api/v1/act')
-			.then(response => commit('SET_USERS', response.data));*/
-		}
+			});
+		},
 	}
 };

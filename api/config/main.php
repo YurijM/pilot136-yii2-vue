@@ -79,10 +79,7 @@ return [
 				],
 				[
 					'class' => UrlRule::class,
-					'controller' => 'v1/staff',
-					'extraPatterns' => [
-						'GET list' => 'list',
-					],
+					'controller' => 'v1/act',
 					'pluralize' => false, //отключение множественного числа
 				]
 			],

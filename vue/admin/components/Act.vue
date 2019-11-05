@@ -1,14 +1,15 @@
 <template>
 	<b-container>
-		<ym-page-header :title="title" :count="count" link="Добавить акт" @onAddNewDoc="addAct"/>
-
-		<b-alert v-if="count = 0" class="text-center" show variant="info">Актов нет</b-alert>
-
-		<div v-else></div>
+		<ul>
+			<li v-for="act in acts">
+				{{act.id}}
+			</li>
+		</ul>
 	</b-container>
 </template>
 
 <script>
+	import {mapGetters} from 'vuex'
 	import YmPageHeader from './PageHeader'
 
 	export default {
@@ -20,6 +21,14 @@
 			return {
 				title: 'Акты',
 				count: 0
+			}
+		},
+		computed: {
+			...mapGetters('act', [
+				'getActs'
+			]),
+			acts() {
+				return this.getActs;
 			}
 		},
 		methods: {

@@ -68,6 +68,10 @@ const routes = [
 		component: Act,
 		meta: {
 			title: 'Акты'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('act/loadActs');
+			next();
 		}
 	}
 	/*{
