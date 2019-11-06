@@ -22,10 +22,8 @@ export default {
 		},
 		async loadActs({commit, dispatch}) {
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/act?page=1')//, {headers: {'X-Pagination-Per-Page':	'5'}})
+			.get('http://pilot136-yii2-vue-api/v1/act')
 			.then(response => {
-				console.log(response.headers);
-				console.log(response.config);
 				dispatch('clearActs');
 				commit('SET_ACTS', response.data);
 
