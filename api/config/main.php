@@ -1,4 +1,5 @@
 <?php
+
 use yii\rest\UrlRule;
 
 $params = array_merge(
@@ -80,6 +81,9 @@ return [
 				[
 					'class' => UrlRule::class,
 					'controller' => 'v1/act',
+					'extraPatterns' => [
+						'GET list' => 'list',
+					],
 					'pluralize' => false, //отключение множественного числа
 				]
 			],

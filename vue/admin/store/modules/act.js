@@ -22,10 +22,10 @@ export default {
 		},
 		async loadActs({commit, dispatch}) {
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/act')
+			.get('http://pilot136-yii2-vue-api/v1/act/list')
 			.then(response => {
 				dispatch('clearActs');
-				commit('SET_ACTS', response.data);
+				commit('SET_ACTS', response.data.acts);
 
 			});
 		},
