@@ -45,11 +45,12 @@
 					label-for="inputYear"
 					label-size="sm"
 					label-class="font-weight-bold"
+					invalid-feedback="Год должен быть указан"
 				>
 					<b-form-select
 						id="inputYear"
 						v-model="act.year"
-						required
+						:state="stateYear"
 						:options="years"
 					/>
 				</b-form-group>
@@ -152,6 +153,7 @@
 					file: null
 				},
 				stateTitle: null,
+				stateYear: null,
 				stateFile: null,
 				modalTitle: '',
 				okTitle: '',
@@ -179,6 +181,9 @@
 						thClass: ['text-center', 'align-middle'],
 						thStyle: {width: '4em'},
 						tdClass: ['px-1', 'text-center'],
+						/*formatter: value => {
+							return (value === YEAR_NONE ? '' : value)
+						}*/
 					},
 					{
 						key: 'file',
@@ -243,9 +248,75 @@
 					title: item.title
 				});
 			},
-			deleteFile() {},
-			resetModal() {},
-			handleOk() {},
+			deleteFile() {
+			},
+			checkFormValidity() {
+				this.stateTitle = this.$refs.form.inputTitle.checkValidity();
+				this.stateYear = (this.$refs.form.inputYear.value !== YEAR_NONE);
+				this.stateFile = ((this.act.id && !this.act.oldFile) ? true : Boolean(this.act.file));
+
+				return (this.stateTitle && this.stateYear && this.stateFile);
+			},
+			resetModal() {
+				this.act.id = null;
+				this.act.title = '';
+				this.act.year = YEAR_NONE;
+				this.act.fileName = '';
+				this.act.oldFille = '';
+				this.act.file = null;
+
+				this.stateTitle = null;
+				this.stateYear = null;
+				this.stateFile = null;
+			},
+			handleOk(bvModalEvt) {
+				// Prevent modal from closing
+				bvModalEvt.preventDefault();
+				// Trigger submit handler
+				this.handleSubmit()
+			},
+			async handleSubmit() {
+				if (!this.checkFormValidity()) {
+					return
+				}
+
+				try {
+					if (!this.act.id) {
+						await this.createAct(this.act);
+					} else {
+						await this.updateAct(this.act);
+					}
+				} catch (e) {
+					console.log('Ошибка try act: ', e)
+				}
+
+				// Hide the modal manually
+				this.$nextTick(() => {
+					this.$refs.modal.hide()
+				})
+
+
+					/*if (this.act.id) {
+						await this.$store.dispatch('act/update', this.act);
+					} else {
+						const obj = await this.$store.dispatch('act/create', this.act);
+						this.act.id = obj._id;
+					}
+
+					this.docs = await this.$store.dispatch('act/list');
+					let idx = this.docs.map((obj) => obj._id).indexOf(this.doc.id);
+					this.currentPage = Math.trunc(idx / this.perPage + 1);
+
+					this.resetModal();
+				} catch (e) {
+					this.$store.dispatch('setInfo', {type: 'danger', message: e.message})
+				}
+
+				// Hide the modal manually
+				this.$nextTick(() => {
+					this.$refs.modal.hide()
+				})*/
+			}
 		}
 	}
 </script>

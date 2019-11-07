@@ -29,5 +29,7 @@ export default {
 
 			});
 		},
+		createAct({commit, dispatch}) {},
+		updateAct({commit, dispatch}) {},
 	}
 };

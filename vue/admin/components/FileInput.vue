@@ -52,7 +52,7 @@
 			isEdit: Boolean,
 			typeDoc: String,
 			doc: Object,
-			stateFile: String,
+			stateFile: Boolean,
       accept: String
 		}
 	}
