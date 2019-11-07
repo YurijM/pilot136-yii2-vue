@@ -49,6 +49,7 @@
 					<b-form-select
 						id="inputYear"
 						v-model="act.year"
+						required
 						:options="years"
 					/>
 				</b-form-group>
@@ -126,7 +127,7 @@
 </template>
 
 <script>
-	import {mapGetters} from 'vuex'
+	import {mapGetters, mapActions} from 'vuex'
 	import YmPageHeader from './PageHeader'
 	import YmFileInput from './FileInput'
 
@@ -138,6 +139,7 @@
 			YmPageHeader,
 			YmFileInput
 		},
+		inject: ['deleteDoc'],
 		data() {
 			return {
 				title: 'Акты',
@@ -156,6 +158,7 @@
 				perPage: PER_PAGE,
 				currentPage: 1,
 				years: [],
+				accept: [...MIMETYPE_PDF, ...EXT_PDF].join(','),
 				fields: [
 					{
 						key: 'recNo',
@@ -195,7 +198,7 @@
 			}
 		},
 		created() {
-			this.years.push({value: YEAR_NONE, text: 'Без указания года'});
+			this.years.push({value: YEAR_NONE, text: 'Укажите год'});
 
 			for (let year = START_YEAR; year <= END_YEAR; year++) {
 				this.years.push({value: year, text: '' + year})
@@ -213,11 +216,36 @@
 			},
 		},
 		methods: {
+			...mapActions('act', [
+				'createAct',
+				'updateAct',
+			]),
+			...mapActions('act', {
+				removeDoc: 'deleteAct'
+			}),
 			addAct() {
 				this.modalTitle = 'Добавить акт';
 				this.okTitle = 'Сохранить';
 				this.$bvModal.show('actEdit');
 			},
+			editAct(item, button) {
+				this.modalTitle = 'Редактировать запись';
+				this.okTitle = 'Обновить';
+				this.act.id = item.id;
+				this.act.title = item.title;
+				this.act.year = item.year;
+				this.$root.$emit('bv::show::modal', 'actEdit', button)
+			},
+			deleteAct(item) {
+				this.deleteDoc(this, item, {
+					type: 'Act',
+					name: 'акт',
+					title: item.title
+				});
+			},
+			deleteFile() {},
+			resetModal() {},
+			handleOk() {},
 		}
 	}
 </script>
