@@ -83,6 +83,9 @@ return [
 					'controller' => 'v1/act',
 					'extraPatterns' => [
 						'GET list' => 'list',
+						'POST add' => 'add',
+						'PUT edit' => 'edit',
+						'DELETE remove' => 'remove',
 					],
 					'pluralize' => false, //отключение множественного числа
 				]
