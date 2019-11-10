@@ -41,10 +41,10 @@ export default {
 				}
 			})
 			.then(response => {
-				if (response.data.result !== '') {
+				if (response.data.result === '') {
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Акт '${act.title}' (файл '${response.data.act.file}' сохранён`
+						message: `Акт '${act.title}' (файл '${response.data.act.file}') сохранён`
 					}, {root: true});
 				} else {
 					dispatch('common/setInfo', {

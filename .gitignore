@@ -49,3 +49,5 @@ phpunit.phar
 /console/runtime/
 /frontend/runtime/
 /frontend/tests/
+
+/api/web/downloads/
