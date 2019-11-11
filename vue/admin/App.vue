@@ -62,7 +62,8 @@
 		},
 		provide: function () {
 			return {
-				deleteDoc: this.deleteDoc
+				deleteDoc: this.deleteDoc,
+				deleteFile: this.deleteFile
 			}
 		},
 		created() {
@@ -133,6 +134,58 @@
 			...mapActions('common', [
 				'setInfo'
 			]),
+			deleteFile: (page, doc) => {
+				const h = page.$createElement;
+				// Create the message
+				const vNodesMsg = h(
+					'div',
+					{
+						class: ['d-flex', 'w-100', 'pb-3'],
+						style: {borderBottom: '1px solid #000'}
+					},
+					[
+						h('div', {class: ['fa-2x', 'pr-3']}, [
+							h('fa', {props: {icon: 'question-circle'}})
+						]),
+						h('div',
+							`Вы действительно хотите удалить файл "${doc.fileName}", а затем загрузить другой?`),
+					]
+				);
+				page.$bvModal.msgBoxConfirm([vNodesMsg], {
+					title: null,
+					size: 'sm',
+					buttonSize: 'sm',
+					okTitle: 'Да',
+					cancelTitle: 'Нет',
+					bodyClass: ['alert-primary', 'pb-0'],
+					footerClass: ['alert-primary', 'py-3', 'px-4', 'border-top-0'],
+					centered: true
+				})
+				.then(async (value) => {
+					if (Boolean(value)) {
+						try {
+							await page.removeFile(doc.fileOldName);
+							doc.fileOldName = fileName;
+							doc.fileName = '';
+						} catch (err) {
+							console.log(`Remove File Error: `, err);
+							await page.$store.dispatch('common/setInfo', {
+								type: 'danger',
+								message: 'Ошибка при удалении файла (см. в консоли "Remove File Error")'
+							}, {root: true});
+						}
+					} else {
+						doc.fileOldName = ''
+					}
+				})
+				.catch(async (err) => {
+					console.log(`File Delete Modal Error: `, err);
+					await page.$store.dispatch('common/setInfo', {
+						type: 'danger',
+						message: 'Ошибка при создании модального окна (см. в консоли "File Delete Modal Error")'
+					}, {root: true});
+				})
+			},
 			deleteDoc: (page, item, doc) => {
 				const h = page.$createElement;
 				// Create the message
@@ -172,23 +225,6 @@
 								message: 'Ошибка при удалении документа (см. в консоли "Remove ' + doc.type + ' Error")'
 							}, {root: true});
 						}
-						/*try {
-							await page.$store.dispatch(`${doc.type}/delete`, item);
-
-							if ("currentPage" in page) {
-								let idx = page.docs.map((obj) => obj._id).indexOf(item._id);
-								//if (idx > 0) idx--;
-								if (page.docs.length - 1 > page.perPage) {
-									page.currentPage = Math.trunc(idx / page.perPage + 1)
-								} else {
-									page.currentPage = 1
-								}
-							}
-
-							page.docs = await page.$store.dispatch(`${doc.type}/list`)
-						} catch (e) {
-							page.$store.dispatch('setInfo', {type: 'danger', message: e.message})
-						}*/
 					}
 				})
 				.catch(async (err) => {

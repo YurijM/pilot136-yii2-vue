@@ -1,24 +1,24 @@
 <template>
   <div>
     <div v-if="isEdit">
-      <div class="d-flex">
-        <div>
-          <div class="col-form-label-sm font-weight-bold">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex align-items-baseline">
+          <div class="col-form-label-sm font-weight-bold mr-4">
             {{typeDoc}}
           </div>
 
           <div>{{doc.fileName}}</div>
         </div>
 
-        <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+        <div class="justify-content-right">
           <b-button size="sm" pill variant="danger" @click="$emit('onDeleteOldFile')">
-            <fa class="text-light" icon="minus-circle"/>
+            <font-awesome-icon class="text-light" icon="minus-circle"/>
             Удалить файл
           </b-button>
         </div>
       </div>
 
-      <div class="font-italic text-primary border-top border-primary small mt-1 pt-1">
+      <div class="font-italic text-primary border-top border-primary small pt-1">
         Чтобы заменить существующий файл, сначала надо его удалить, а потом загрузить новый
       </div>
     </div>

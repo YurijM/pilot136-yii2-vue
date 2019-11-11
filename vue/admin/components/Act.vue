@@ -57,11 +57,11 @@
 
 				<ym-file-input
 					:isEdit="(act.id !== null && act.fileName !== '')"
-					typeDoc="Акт (pdf-файл)"
+					typeDoc="Файл"
 					:doc="act"
 					:stateFile="stateFile"
 					:accept="accept"
-					@onDeleteOldFile="deleteFile"
+					@onDeleteOldFile="deleteFileAct"
 				/>
 			</form>
 		</b-modal>
@@ -105,7 +105,7 @@
 					</template>
 
 					<template v-slot:cell(edit)="data">
-						<b-button @click="updateAct(data.item, $event.target)" variant="outline-primary">
+						<b-button @click="editAct(data.item, $event.target)" variant="outline-primary">
 							<font-awesome-icon icon="pencil-alt"/>
 						</b-button>
 						<b-button @click="deleteAct(data.item)" variant="outline-danger">
@@ -140,7 +140,7 @@
 			YmPageHeader,
 			YmFileInput
 		},
-		inject: ['deleteDoc'],
+		inject: ['deleteDoc', 'deleteFile'],
 		data() {
 			return {
 				title: 'Акты',
@@ -149,7 +149,7 @@
 					title: '',
 					year: YEAR_NONE,
 					fileName: '',
-					oldFile: '',
+					fileOldName: '',
 					file: null
 				},
 				stateTitle: null,
@@ -167,20 +167,20 @@
 						label: '№',
 						thClass: ['text-center', 'align-middle'],
 						thStyle: {width: '2em'},
-						tdClass: ['px-1', 'text-center', 'table-rec-no'],
+						tdClass: ['p-1', 'text-center', 'table-rec-no'],
 					},
 					{
 						key: 'title',
 						label: 'Акт',
 						thClass: ['text-center', 'align-middle'],
-						tdClass: ['px-1'],
+						tdClass: ['p-1'],
 					},
 					{
 						key: 'year',
 						label: 'Год',
 						thClass: ['text-center', 'align-middle'],
 						thStyle: {width: '4em'},
-						tdClass: ['px-1', 'text-center'],
+						tdClass: ['p-1', 'text-center'],
 						/*formatter: value => {
 							return (value === YEAR_NONE ? '' : value)
 						}*/
@@ -190,14 +190,14 @@
 						label: 'Файл',
 						thClass: ['text-center', 'align-middle'],
 						thStyle: {width: '10em'},
-						tdClass: ['px-1', 'text-center'],
+						tdClass: ['p-1', 'text-center'],
 					},
 					{
 						key: 'edit',
 						label: '',
 						thStyle: {width: '6em'},
 						thClass: ['text-center', 'align-middle'],
-						tdClass: ['px-1', 'text-right', 'table-edit-button']
+						tdClass: ['p-1', 'text-right', 'table-edit-button']
 					}
 				],
 			}
@@ -226,7 +226,8 @@
 				'updateAct',
 			]),
 			...mapActions('act', {
-				removeDoc: 'deleteAct'
+				removeDoc: 'deleteAct',
+				removeFile: 'deleteFileAct'
 			}),
 			addAct() {
 				this.modalTitle = 'Добавить акт';
@@ -239,6 +240,7 @@
 				this.act.id = item.id;
 				this.act.title = item.title;
 				this.act.year = item.year;
+				this.act.fileName = item.file;
 				this.$root.$emit('bv::show::modal', 'actEdit', button)
 			},
 			deleteAct(item) {
@@ -248,12 +250,13 @@
 					title: item.title
 				});
 			},
-			deleteFile() {
+			deleteFileAct() {
+				this.deleteFile(this, act)
 			},
 			checkFormValidity() {
 				this.stateTitle = this.$refs.form.inputTitle.checkValidity();
 				this.stateYear = (this.$refs.form.inputYear.value !== YEAR_NONE);
-				this.stateFile = ((this.act.id && !this.act.oldFile) ? true : Boolean(this.act.file));
+				this.stateFile = ((this.act.id && !this.act.fileOldName) ? true : Boolean(this.act.file));
 
 				return (this.stateTitle && this.stateYear && this.stateFile);
 			},
@@ -262,7 +265,7 @@
 				this.act.title = '';
 				this.act.year = YEAR_NONE;
 				this.act.fileName = '';
-				this.act.oldFille = '';
+				this.act.fileOldName = '';
 				this.act.file = null;
 
 				this.stateTitle = null;

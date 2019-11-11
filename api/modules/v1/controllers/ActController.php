@@ -51,4 +51,9 @@ class ActController extends ApiController
 
 		return compact(['act', 'result']);
 	}
+
+	public function actionDeletefile($fileOldName) {
+		$result = $fileOldName;
+		return $result;
+	}
 }
