@@ -13,14 +13,14 @@
         <div class="justify-content-right">
           <b-button size="sm" pill variant="danger" @click="$emit('onDeleteFile')">
             <font-awesome-icon class="text-light" icon="minus-circle"/>
-            Удалить файл
+            Заменить файл
           </b-button>
         </div>
       </div>
 
-      <div class="font-italic text-primary border-top border-primary small pt-1">
+      <!--<div class="font-italic text-primary border-top border-primary small pt-1">
         Чтобы заменить существующий файл, сначала надо его удалить, а потом загрузить новый
-      </div>
+      </div>-->
     </div>
 
     <b-form-group

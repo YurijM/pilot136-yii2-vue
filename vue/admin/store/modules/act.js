@@ -73,12 +73,13 @@ export default {
 			})
 			.then(response => {
 				if (response.data.result === '') {
+					commit('ADD_ACT', response.data.act);
+					commit('SORT_ACTS');
+
 					dispatch('common/setInfo', {
 						type: 'success',
 						message: `Акт '${act.title}' (файл '${response.data.act.file}') сохранён`
 					}, {root: true});
-					commit('ADD_ACT', response.data.act);
-					commit('SORT_ACTS');
 				} else {
 					dispatch('common/setInfo', {
 						type: 'danger',
@@ -99,17 +100,19 @@ export default {
 			formData.set('_method', 'PUT');
 			formData.set('id', act.id);
 			formData.set('title', act.title);
+			formData.set('year', act.year);
+			formData.set('fileName', act.fileName);
 			formData.set('file', act.file);
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/act/edit', formData)
 			.then(response => {
 				if (response.data.result === '') {
-					commit('UPDATE_ACT', act);
+					commit('UPDATE_ACT', response.data.act);
 					commit('SORT_ACTS');
 
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Аст '${act.title}' обновлен`
+						message: `Акт '${act.title}' обновлен`
 					}, {root: true});
 				} else {
 					dispatch('common/setInfo', {
