@@ -8,6 +8,7 @@ use yii\helpers\BaseFileHelper;
 
 class ActController extends ApiController
 {
+	const PATH_TO_ACTS = '@api/web/downloads/acts';
 	public $modelClass = 'common\models\Act';
 
 	public function actionList() {
@@ -21,7 +22,7 @@ class ActController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$path = Yii::getAlias('@api/web/downloads/acts');
+		$path = Yii::getAlias(PATH_TO_ACTS);
 		BaseFileHelper::createDirectory($path);
 
 		$ext = substr($_FILES['file']['name'], strrpos($_FILES['file']['name'], '.'));
@@ -52,8 +53,42 @@ class ActController extends ApiController
 		return compact(['act', 'result']);
 	}
 
-	public function actionDeletefile($fileOldName) {
-		$result = $fileOldName;
+	public function editAct() {
+		$result = '';
+		$params = Yii::$app->getRequest()->getBodyParams();
+
+		$act = Act::findOne($params['id']);
+		$act->title = $params['title'];
+
+		if ($act->file != $params['file']) {
+			// Сохранить новый файл
+		}
+
+		if (!$act->save()) {
+			$result = 'Ошибка при обновлении акта (' . $act->id . ')';
+		}
+
+		return $result;
+	}
+
+	public function actionDeletefile() {
+		$result = '';
+		$params = Yii::$app->getRequest()->getBodyParams();
+
+		$result = $this->deleteFile($params['fileName']);
+
+		return $result;
+	}
+
+	protected function deleteFile($fileName) {
+		$result = '';
+		$path = Yii::getAlias(PATH_TO_ACTS);
+		$file = $path . DIRECTORY_SEPARATOR . $fileName;
+
+		if (!unlink($file)) {
+			$result = 'Ошибка при удалении файла ' . $file;
+		}
+
 		return $result;
 	}
 }

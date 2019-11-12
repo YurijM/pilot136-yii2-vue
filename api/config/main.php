@@ -86,6 +86,7 @@ return [
 						'POST add' => 'add',
 						'PUT edit' => 'edit',
 						'DELETE remove' => 'remove',
+						'DELETE deletefile' => 'deletefile',
 					],
 					'pluralize' => false, //отключение множественного числа
 				]

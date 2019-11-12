@@ -184,7 +184,7 @@ export default {
 				console.log('Delete Staff Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при удалении реквизита (см. в консоли "Delete Staff Error")'
+					message: 'Ошибка при удалении сотрудника (см. в консоли "Delete Staff Error")'
 				}, {root: true});
 			});
 		}

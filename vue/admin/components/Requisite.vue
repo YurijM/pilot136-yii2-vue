@@ -71,7 +71,7 @@
 			v-else
 			striped
 			small
-			class="mx-auto"
+			class="mx-auto mt-3"
 			:style="{maxWidth: '350px'}"
 			responsive="sm"
 			:fields="fields"
@@ -119,28 +119,28 @@
 					{
 						key: 'recNo',
 						label: '№',
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '2em'},
-						tdClass: ['py-0', 'px-2', 'align-middle', 'text-center']
+						tdClass: ['p-1', 'align-middle', 'text-center']
 					},
 					{
 						key: 'requisite',
 						label: 'Реквизит',
-						thClass: ['text-center', 'align-middle'],
-						tdClass: ['px-2', 'align-middle']
+						thClass: ['p-1', 'text-center', 'align-middle'],
+						tdClass: ['p-1', 'align-middle']
 					},
 					{
 						key: 'value',
 						label: 'Значение',
-						thClass: ['text-center', 'align-middle'],
-						tdClass: ['px-2', 'align-middle', 'text-center']
+						thClass: ['p-1', 'text-center', 'align-middle'],
+						tdClass: ['p-1', 'align-middle', 'text-center']
 					},
 					{
 						key: 'edit',
 						label: '',
-						thStyle: {width: '7em'},
-						thClass: ['text-center', 'align-middle'],
-						tdClass: ['py-1', 'px-2', 'align-middle', 'text-right']
+						thStyle: {width: '6em'},
+						thClass: ['p-1', 'text-center', 'align-middle'],
+						tdClass: ['p-1', 'align-middle', 'text-right']
 					}
 				],
 			}

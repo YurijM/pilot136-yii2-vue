@@ -61,7 +61,7 @@
 					:doc="act"
 					:stateFile="stateFile"
 					:accept="accept"
-					@onDeleteOldFile="deleteFileAct"
+					@onDeleteFile="deleteFileAct"
 				/>
 			</form>
 		</b-modal>
@@ -165,20 +165,20 @@
 					{
 						key: 'recNo',
 						label: '№',
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '2em'},
 						tdClass: ['p-1', 'text-center', 'table-rec-no'],
 					},
 					{
 						key: 'title',
 						label: 'Акт',
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						tdClass: ['p-1'],
 					},
 					{
 						key: 'year',
 						label: 'Год',
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '4em'},
 						tdClass: ['p-1', 'text-center'],
 						/*formatter: value => {
@@ -188,15 +188,15 @@
 					{
 						key: 'file',
 						label: 'Файл',
-						thClass: ['text-center', 'align-middle'],
-						thStyle: {width: '10em'},
+						thClass: ['p-1', 'text-center', 'align-middle'],
+						//thStyle: {width: '10em'},
 						tdClass: ['p-1', 'text-center'],
 					},
 					{
 						key: 'edit',
 						label: '',
 						thStyle: {width: '6em'},
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						tdClass: ['p-1', 'text-right', 'table-edit-button']
 					}
 				],
@@ -251,7 +251,7 @@
 				});
 			},
 			deleteFileAct() {
-				this.deleteFile(this, act)
+				this.deleteFile(this, this.act)
 			},
 			checkFormValidity() {
 				this.stateTitle = this.$refs.form.inputTitle.checkValidity();

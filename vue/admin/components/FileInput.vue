@@ -11,7 +11,7 @@
         </div>
 
         <div class="justify-content-right">
-          <b-button size="sm" pill variant="danger" @click="$emit('onDeleteOldFile')">
+          <b-button size="sm" pill variant="danger" @click="$emit('onDeleteFile')">
             <font-awesome-icon class="text-light" icon="minus-circle"/>
             Удалить файл
           </b-button>

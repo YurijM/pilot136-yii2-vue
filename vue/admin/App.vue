@@ -145,7 +145,7 @@
 					},
 					[
 						h('div', {class: ['fa-2x', 'pr-3']}, [
-							h('fa', {props: {icon: 'question-circle'}})
+							h('font-awesome-icon', {props: {icon: 'question-circle'}})
 						]),
 						h('div',
 							`Вы действительно хотите удалить файл "${doc.fileName}", а затем загрузить другой?`),
@@ -158,14 +158,15 @@
 					okTitle: 'Да',
 					cancelTitle: 'Нет',
 					bodyClass: ['alert-primary', 'pb-0'],
+					modalClass: 'in',
 					footerClass: ['alert-primary', 'py-3', 'px-4', 'border-top-0'],
 					centered: true
 				})
 				.then(async (value) => {
 					if (Boolean(value)) {
 						try {
-							await page.removeFile(doc.fileOldName);
-							doc.fileOldName = fileName;
+							await page.removeFile(doc.fileName);
+							doc.fileOldName = doc.fileName;
 							doc.fileName = '';
 						} catch (err) {
 							console.log(`Remove File Error: `, err);

@@ -41,6 +41,10 @@ export default {
 		},
 		ADD_ACT(state, payload) {
 			state.acts.push(payload);
+		},
+		UPDATE_ACT(state, payload) {
+			const i = state.acts.map(el => parseInt(el.id)).indexOf(payload.id);
+			state.acts[i] = payload;
 		}
 	},
 	actions: {
@@ -99,13 +103,13 @@ export default {
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/act/edit', formData)
 			.then(response => {
-				commit('UPDATE_STAFF', {staff: response.data.staff, post_id: staff.postIds, posts: response.data.posts});
-				commit('SORT_STAFF');
-
 				if (response.data.result === '') {
+					commit('UPDATE_ACT', act);
+					commit('SORT_ACTS');
+
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Сотрудник '${response.data.staff.family} ${response.data.staff.name} ${response.data.staff.patronymic}' обновлен`
+						message: `Аст '${act.title}' обновлен`
 					}, {root: true});
 				} else {
 					dispatch('common/setInfo', {
@@ -115,18 +119,20 @@ export default {
 				}
 			})
 			.catch(error => {
-				console.log('Update Staff Error ', error);
+				console.log('Update Act Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при изменении сотрудника (см. в консоли "Update Staff Error")'
+					message: 'Ошибка при изменении акта (см. в консоли "Update Act Error")'
 				}, {root: true});
 			});
 		},
-		async deleteFile({commit, dispatch}, fileOldName) {
+		async deleteFileAct({commit, dispatch}, fileName) {
+			const formData = new FormData();
+			formData.set('_method', 'DELETE');
+			formData.set('fileName', fileName);
 			await axios
-			.get(`http://pilot136-yii2-vue-api/v1/act/deletefile/${fileOldName}`)
+			.post('http://pilot136-yii2-vue-api/v1/act/deletefile', formData)
 			.then(response => {
-				console.log(response.data.result);
 				/*dispatch('clearActs');
 				commit('SET_ACTS', response.data.acts);
 				commit('SORT_ACTS');*/
