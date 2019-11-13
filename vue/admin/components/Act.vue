@@ -56,12 +56,10 @@
 				</b-form-group>
 
 				<ym-file-input
-					:isEdit="(act.id !== null && act.fileName !== '')"
-					typeDoc="Файл"
+					:isEdit="act.id !== null"
 					:doc="act"
 					:stateFile="stateFile"
 					:accept="accept"
-					@onDeleteFile="deleteFileAct"
 				/>
 			</form>
 		</b-modal>
@@ -140,7 +138,7 @@
 			YmPageHeader,
 			YmFileInput
 		},
-		inject: ['deleteDoc', 'deleteFile'],
+		inject: ['deleteDoc'],
 		data() {
 			return {
 				title: 'Акты',
@@ -149,7 +147,6 @@
 					title: '',
 					year: YEAR_NONE,
 					fileName: '',
-					fileOldName: '',
 					file: null
 				},
 				stateTitle: null,
@@ -226,8 +223,7 @@
 				'updateAct',
 			]),
 			...mapActions('act', {
-				removeDoc: 'deleteAct',
-				removeFile: 'deleteFileAct'
+				removeDoc: 'deleteAct'
 			}),
 			addAct() {
 				this.modalTitle = 'Добавить акт';
@@ -250,13 +246,10 @@
 					title: item.title
 				});
 			},
-			deleteFileAct() {
-				this.deleteFile(this, this.act)
-			},
 			checkFormValidity() {
 				this.stateTitle = this.$refs.form.inputTitle.checkValidity();
 				this.stateYear = (this.$refs.form.inputYear.value !== YEAR_NONE);
-				this.stateFile = ((this.act.id && !this.act.fileOldName) ? true : Boolean(this.act.file));
+				this.stateFile = (this.act.id ? true : Boolean(this.act.file));
 
 				return (this.stateTitle && this.stateYear && this.stateFile);
 			},
@@ -265,7 +258,6 @@
 				this.act.title = '';
 				this.act.year = YEAR_NONE;
 				this.act.fileName = '';
-				this.act.fileOldName = '';
 				this.act.file = null;
 
 				this.stateTitle = null;

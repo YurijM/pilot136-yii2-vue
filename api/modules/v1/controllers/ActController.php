@@ -24,29 +24,6 @@ class ActController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		/*$path = Yii::getAlias(PATH_TO_ACTS);
-		BaseFileHelper::createDirectory($path);
-
-		$ext = substr($_FILES['file']['name'], strrpos($_FILES['file']['name'], '.'));
-		$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
-		$fileName = 'act-' . $params['year'] . '-' . $now . $ext;
-		$file = $path . DIRECTORY_SEPARATOR . $fileName;*/
-
-		/*// Проверяем загружен ли файл
-		if(is_uploaded_file($_FILES['file']['tmp_name'])) {
-			// Если файл загружен успешно, перемещаем его
-			// из временной директории в конечную
-			if (move_uploaded_file($_FILES['file']['tmp_name'], $file)) {
-				if (!$act->save()) {
-					$result = 'Ошибка при сохранении в БД акта "' . $act->title . '"';
-				}
-			} else {
-				$result = 'Ошибка при сохранении файла "' . $file . '"';
-			}
-		} else {
-			$result = 'Ошибка при загрузке файла "' . $_FILES['file']['name'] . '"';
-		}*/
-
 		$loadResult = $this->loadFile($_FILES['file'], $params['year']);
 
 		if ($loadResult['result'] === '') {
@@ -58,7 +35,10 @@ class ActController extends ApiController
 			if (!$act->save()) {
 				$result = 'Ошибка при сохранении в БД акта "' . $act->title . '"';
 			}
+		} else {
+			$result = $loadResult['result'];
 		}
+
 		return compact(['act', 'result']);
 	}
 
@@ -100,12 +80,19 @@ class ActController extends ApiController
 		return compact(['act', 'result']);
 	}
 
-	public function actionDeletefile()
-	{
+	public function actionRemove() {
 		$result = '';
+
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$result = $this->deleteFile($params['fileName']);
+		$act = Act::findOne($params['id']);
+		$result = $this->deleteFile($act->file);
+
+		if ($result === '') {
+			if (!$act->delete()) {
+				$result = 'Ошибка при удалении записи из табдицы act (' . $act->id . ')';
+			}
+		}
 
 		return $result;
 	}
@@ -119,7 +106,7 @@ class ActController extends ApiController
 
 		$ext = substr($file['name'], strrpos($file['name'], '.'));
 		//$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
-		$now = date('Ymd-his');
+		$now = date('Ymdhis');
 		$fileName = 'act-' . $year . '-' . $now . $ext;
 		$fullName = $path . DIRECTORY_SEPARATOR . $fileName;
 

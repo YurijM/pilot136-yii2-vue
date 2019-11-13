@@ -1,32 +1,18 @@
 <template>
   <div>
     <div v-if="isEdit">
-      <div class="d-flex align-items-center justify-content-between mb-3">
         <div class="d-flex align-items-baseline">
           <div class="col-form-label-sm font-weight-bold mr-4">
-            {{typeDoc}}
+            Текущий файл
           </div>
 
           <div>{{doc.fileName}}</div>
         </div>
-
-        <div class="justify-content-right">
-          <b-button size="sm" pill variant="danger" @click="$emit('onDeleteFile')">
-            <font-awesome-icon class="text-light" icon="minus-circle"/>
-            Заменить файл
-          </b-button>
-        </div>
-      </div>
-
-      <!--<div class="font-italic text-primary border-top border-primary small pt-1">
-        Чтобы заменить существующий файл, сначала надо его удалить, а потом загрузить новый
-      </div>-->
     </div>
 
     <b-form-group
-      v-else
       :state="stateFile"
-      :label="typeDoc"
+      :label="(isEdit ? 'Заменить на новый файл' : 'Файл')"
       label-for="inputFile"
       label-size="sm"
       label-class="font-weight-bold"
@@ -50,7 +36,6 @@
 		name: 'file-input',
 		props: {
 			isEdit: Boolean,
-			typeDoc: String,
 			doc: Object,
 			stateFile: Boolean,
       accept: String

@@ -5,11 +5,13 @@ export default {
 	state: {
 		staff: [],
 		person: [],
-		count: 0
+		count: 0,
+		currentIdx: 1
 	},
 	getters: {
 		getStaff: state => state.staff,
-		getCount: state => state.staff.length
+		getCount: state => state.staff.length,
+		getCurrentIdx: state => state.currentIdx
 	},
 	mutations: {
 		CLEAR_STAFF(state) {
@@ -60,6 +62,9 @@ export default {
 		GET_PERSON(state, payload) {
 			state.person = state.staff.filter(el => el.id === payload)[0];
 		},
+		SET_CURRENT_IDX(state, payload) {
+			state.currentIdx = payload;
+		},
 		ADD_PERSON(state, payload) {
 			state.staff.push({
 				id: payload.staff.id,
@@ -88,24 +93,22 @@ export default {
 				commit('SET_STAFF', response.data);
 			});
 		},
-		async createStaff({commit, dispatch}, staff) {
+		async createStaff({state, commit, dispatch}, staff) {
 			const formData = new FormData();
 			formData.set('family', staff.family);
 			formData.set('name', staff.name);
 			formData.set('patronymic', staff.patronymic);
-			/*for (let i = 0; i < staff.posts.length; i++) {
-				console.log(`staff.posts[${i}]: `, staff.posts[i]);
-				formData.append('posts[]', staff.posts[i]);
-			}*/
-			//formData.set('posts', JSON.stringify(staff.posts));
 			formData.set('postIds', staff.postIds);
-			//console.log('formData.posts: ', formData.get('posts'));
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/staff/add', formData)
 			.then(response => {
 				if (response.data.result === '') {
 					commit('ADD_PERSON', {staff: response.data.staff, post: staff.posts, post_id: staff.postIds});
 					commit('SORT_STAFF');
+					commit(
+						'SET_CURRENT_IDX',
+						state.staff.map(el => parseInt(el.id)).indexOf(response.data.staff.id)
+					);
 					dispatch('common/setInfo', {
 						type: 'success',
 						message: `Сотрудник '${staff.family} ${staff.name} ${staff.patronymic}' добавлен в штат`
@@ -125,7 +128,7 @@ export default {
 				}, {root: true});
 			});
 		},
-		async updateStaff({commit, dispatch}, staff) {
+		async updateStaff({state, commit, dispatch}, staff) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
 			formData.set('id', staff.id);
@@ -136,10 +139,13 @@ export default {
 			await axios
 			.post('http://pilot136-yii2-vue-api/v1/staff/edit', formData)
 			.then(response => {
-				commit('UPDATE_STAFF', {staff: response.data.staff, post_id: staff.postIds, posts: response.data.posts});
-				commit('SORT_STAFF');
-
 				if (response.data.result === '') {
+					commit('UPDATE_STAFF', {staff: response.data.staff, post_id: staff.postIds, posts: response.data.posts});
+					commit('SORT_STAFF');
+					commit(
+						'SET_CURRENT_IDX',
+						state.staff.map(el => parseInt(el.id)).indexOf(staff.id)
+					);
 					dispatch('common/setInfo', {
 						type: 'success',
 						message: `Сотрудник '${response.data.staff.family} ${response.data.staff.name} ${response.data.staff.patronymic}' обновлен`

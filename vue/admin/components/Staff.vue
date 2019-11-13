@@ -83,7 +83,7 @@
 						v-model="selected"
 						:options="options"
 						multiple
-						:select-size="4">
+						:select-size="posts.length">
 					</b-form-select>
 				</b-form-group>
 			</form>
@@ -94,14 +94,16 @@
 		<div
 			v-else
 			class="d-flex flex-column justify-content-between mt-3 mx-auto"
-			:style="{minHeight: '70vh', maxWidth: '750px'}"
+			:style="{minHeight: '70vh', maxWidth: '675px'}"
 		>
 			<div>
 				<b-pagination
 					v-if="count > perPage"
 					v-model="currentPage"
-					:total-rows="staffRows"
+					:total-rows="count"
 					:per-page="perPage"
+					pills
+					size="sm"
 					aria-controls="table-staff"
 					align="center"
 				></b-pagination>
@@ -135,7 +137,9 @@
 			<b-pagination
 				v-if="count > perPage"
 				v-model="currentPage"
-				:total-rows="staffRows"
+				pills
+				size="sm"
+				:total-rows="count"
 				:per-page="perPage"
 				aria-controls="table-staff"
 				align="center"
@@ -198,7 +202,7 @@
 						key: 'post',
 						label: 'Должность(и)',
 						thClass: ['p-1', 'text-center', 'align-middle'],
-						tdClass: ['p-1', 'align-middle']
+						tdClass: ['p-1', 'text-center', 'align-middle']
 					},
 					{
 						key: 'edit',
@@ -224,7 +228,8 @@
 		computed: {
 			...mapGetters('staff', [
 				'getStaff',
-				'getCount'
+				'getCount',
+				'getCurrentIdx'
 			]),
 			...mapGetters('post', [
 				'getPosts'
@@ -321,11 +326,13 @@
 					this.person.postIds = this.selected;
 					this.person.posts = this.selectedPosts;
 
-					if (!this.person.id) {
-						await this.createStaff(this.person);
-					} else {
+					if (this.person.id) {
 						await this.updateStaff(this.person);
+					} else {
+						await this.createStaff(this.person);
 					}
+
+					this.currentPage = Math.trunc(this.getCurrentIdx / this.perPage + 1);
 				} catch (e) {
 					console.log('Ошибка try staff: ', e)
 				}
@@ -340,5 +347,4 @@
 </script>
 
 <style scoped>
-
 </style>

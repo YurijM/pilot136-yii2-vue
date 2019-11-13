@@ -2,7 +2,7 @@
   <div class="title d-flex text-center justify-content-between align-items-center py-2 px-5">
     <h3 class="mb-0 text-danger">
       {{title}}
-      <span v-if="count > 0" class="small">
+      <span v-if="count > perPage" class="small">
         (всего {{count}})
       </span>
     </h3>
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  const {PER_PAGE} = require('../../constants');
+
 	export default {
 		name: 'page-header',
     props: {
@@ -18,6 +20,10 @@
       count: {
 				type: Number,
         default: 0
+      },
+      perPage: {
+        type: Number,
+        default: PER_PAGE
       },
       link: String,
       functionName: String

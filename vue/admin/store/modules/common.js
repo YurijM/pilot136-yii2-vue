@@ -21,7 +21,8 @@ export default {
 		}
 	},
 	actions: {
-		setInfo({commit}, info) {
+		async setInfo({commit, dispatch}, info) {
+			await dispatch('clearInfo');
 			commit('SET_INFO', info);
 		},
 		clearInfo({commit}) {

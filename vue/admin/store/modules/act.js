@@ -39,12 +39,18 @@ export default {
 				return result;
 			});
 		},
+		GET_ACT(state, payload) {
+			state.act = state.acts.filter(el => el.id === payload)[0];
+		},
 		ADD_ACT(state, payload) {
 			state.acts.push(payload);
 		},
 		UPDATE_ACT(state, payload) {
 			const i = state.acts.map(el => parseInt(el.id)).indexOf(payload.id);
 			state.acts[i] = payload;
+		},
+		DELETE_ACT(state, payload) {
+			state.acts = state.acts.filter(el => el.id !== payload);
 		}
 	},
 	actions: {
@@ -78,7 +84,7 @@ export default {
 
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Акт '${act.title}' (файл '${response.data.act.file}') сохранён`
+						message: `Документ '${act.title}' (файл '${response.data.act.file}') сохранён`
 					}, {root: true});
 				} else {
 					dispatch('common/setInfo', {
@@ -112,7 +118,7 @@ export default {
 
 					dispatch('common/setInfo', {
 						type: 'success',
-						message: `Акт '${act.title}' обновлен`
+						message: `Документ '${act.title}' обновлен`
 					}, {root: true});
 				} else {
 					dispatch('common/setInfo', {
@@ -129,16 +135,33 @@ export default {
 				}, {root: true});
 			});
 		},
-		async deleteFileAct({commit, dispatch}, fileName) {
+		async deleteAct({state, commit, dispatch}, id) {
 			const formData = new FormData();
 			formData.set('_method', 'DELETE');
-			formData.set('fileName', fileName);
+			formData.set('id', id);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/act/deletefile', formData)
+			.post('http://pilot136-yii2-vue-api/v1/act/remove', formData)
 			.then(response => {
-				/*dispatch('clearActs');
-				commit('SET_ACTS', response.data.acts);
-				commit('SORT_ACTS');*/
+				commit('GET_ACT', id);
+				commit('DELETE_ACT', id);
+				if (response.data === '') {
+					dispatch('common/setInfo', {
+						type: 'success',
+						message: `Документ '${state.act.title}' удален`
+					}, {root: true});
+				} else {
+					dispatch('common/setInfo', {
+						type: 'danger',
+						message: response.data
+					}, {root: true});
+				}
+			})
+			.catch(error => {
+				console.log('Delete Act Error ', error);
+				dispatch('common/setInfo', {
+					type: 'danger',
+					message: 'Ошибка при удалении акта (см. в консоли "Delete Act Error")'
+				}, {root: true});
 			});
 		}
 	}
