@@ -78,22 +78,6 @@
 				errorPassword: ''
 			}
 		},
-		/*beforeRouteUpdate(to, from, next) {
-			console.log('isAdmin: ', this.isAdmin);
-			if (!this.isAdmin) {
-				const localStore = this.$storage.get('admin');
-				if (localStore) {
-					this.SET_ADMIN({
-						id: localStore.id,
-						name: localStore.name,
-						codeError: 0
-					});
-					next('/requisite')
-				}
-			} else {
-				next('/requisite')
-			}
-		},*/
 		created() {
 			if (!this.isAdmin) {
 				const localStore = this.$storage.get('admin');
@@ -147,19 +131,6 @@
 			async onSubmit() {
 				if (this.$refs.form.checkValidity()) {
 					try {
-						/*const formData = {
-							login: this.admin.login,
-							password: this.admin.password
-						};
-
-						await this.$store.dispatch('auth/login', formData);
-
-						if (this.$store.getters['auth/isAuth']) {
-							this.$router.push('/admin/requisite');
-						}
-					} catch (e) {
-						console.log('Ошибка авторизации:', e.message);
-					}*/
 						await this.checkAdmin(this.admin);
 
 						this.validLogin = true;

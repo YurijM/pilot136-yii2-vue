@@ -11,7 +11,7 @@ import Staff from './components/Staff';
 import Requisite from './components/Requisite';
 //import NotFound from './components/NotFound';
 
-import {store} from "./store";
+import {store} from "../store";
 
 const routes = [
 	{
@@ -109,7 +109,7 @@ const router = new VueRouter({
 	mode: 'history'
 });
 
-const TITLE_DEFAULT = 'ТСЖ "Пилот" - Админка';
+const TITLE_DEFAULT = 'ТСЖ "Пилот"';
 
 router.beforeEach(async (from, to, next) => {
 	await store.dispatch('common/clearInfo');
@@ -158,7 +158,8 @@ router.beforeResolve((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
-	document.title = to.meta.title || TITLE_DEFAULT;
+	//document.title = to.meta.title || TITLE_DEFAULT;
+	document.title = (to.meta.title ? to.meta.title + ' - ' : '') + TITLE_DEFAULT;
 
 	NProgress.done();
 });

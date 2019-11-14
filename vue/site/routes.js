@@ -3,14 +3,14 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-/*import Main from './components/Main';
-import Certificate from './components/Certificate';
+import Main from './components/Main';
+/*import Certificate from './components/Certificate';
 import Finance from './components/Finance';*/
 
-import {store} from './store';
+import {store} from '../store';
 
 const routes = [
-	/*{
+	{
 		path: '',
 		redirect: {name: 'main'}
 	},
@@ -18,14 +18,14 @@ const routes = [
 		name: 'main',
 		path: '/',
 		component: Main,
-		async beforeEnter(from, to, next){
+		/*async beforeEnter(from, to, next){
 			await store.dispatch('staff/loadPosts');
 			await store.dispatch('staff/sortPostsByOrderNo');
 			await store.dispatch('staff/loadStaff');
 			next();
-		}
+		}*/
 	},
-	{
+	/*{
 		name: 'certificate',
 		path: '/certificate',
 		component: Certificate

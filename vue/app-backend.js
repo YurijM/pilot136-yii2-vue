@@ -64,7 +64,7 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 import {router} from './admin/routes';
-import {store} from './admin/store';
+import {store} from './store';
 
 Vue.config.productionTip = false;
 

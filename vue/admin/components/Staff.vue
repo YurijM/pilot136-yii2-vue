@@ -94,7 +94,7 @@
 		<div
 			v-else
 			class="d-flex flex-column justify-content-between mt-3 mx-auto"
-			:style="{minHeight: '70vh', maxWidth: '675px'}"
+			:style="{minHeight: '78vh', maxWidth: '675px'}"
 		>
 			<div>
 				<b-pagination

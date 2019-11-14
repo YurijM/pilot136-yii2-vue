@@ -289,28 +289,6 @@
 				this.$nextTick(() => {
 					this.$refs.modal.hide()
 				})
-
-
-					/*if (this.act.id) {
-						await this.$store.dispatch('act/update', this.act);
-					} else {
-						const obj = await this.$store.dispatch('act/create', this.act);
-						this.act.id = obj._id;
-					}
-
-					this.docs = await this.$store.dispatch('act/list');
-					let idx = this.docs.map((obj) => obj._id).indexOf(this.doc.id);
-					this.currentPage = Math.trunc(idx / this.perPage + 1);
-
-					this.resetModal();
-				} catch (e) {
-					this.$store.dispatch('setInfo', {type: 'danger', message: e.message})
-				}
-
-				// Hide the modal manually
-				this.$nextTick(() => {
-					this.$refs.modal.hide()
-				})*/
 			}
 		}
 	}

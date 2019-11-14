@@ -5,12 +5,30 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import BootstrapVue from 'bootstrap-vue';
 
+import './site/style/main.scss';
+
 Vue.use(BootstrapVue);
 
-import {router} from './site/routes';
-import {store} from './site/store';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {
+	faFileContract,
+	faAd,
+	faCameraRetro,
+} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
+library.add(
+	faFileContract,
+	faAd,
+	faCameraRetro,
+);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
+
+import {router} from './site/routes';
+import {store} from './store';
 
 new Vue({
 	store,

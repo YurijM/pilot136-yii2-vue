@@ -224,18 +224,6 @@
 				}
 
 				try {
-					/*if (this.post.id) {
-						await this.$store.dispatch('post/update', this.post);
-					} else {
-						await this.$store.dispatch('post/create', this.post);
-					}
-
-					this.docs = await this.$store.dispatch('post/list');
-
-					this.resetModal();
-				} catch (e) {
-					this.$store.dispatch('setInfo', {type: 'danger', message: e.message})
-				}*/
 					if (!this.post.id) {
 						await this.createPost(this.post);
 					} else {
