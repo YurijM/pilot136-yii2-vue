@@ -1,24 +1,18 @@
 <template>
-	<!--<div>
-		<h1 class="text-center">Сайт</h1>
-
-		<router-view></router-view>
-	</div>-->
-
 	<b-container class="wrap d-flex flex-column">
 		<header>
 			<b-img src="img/header.png" fluid-grow alt="ТСЖ 'Пилот'"></b-img>
 
-			<ym-menu background="#dbdbc7" fontSize="1.25em"/>
+			<ym-menu background="#dbdbc7" fontSize="1.25em" :items="menu"/>
 		</header>
 
 		<main class="content d-flex flex-grow-1">
 			<router-view></router-view>
 		</main>
 
-		<footer class="d-flex align-items-start justify-content-between pb-1 pb-2 px-3 bg-secondary text-white">
+		<footer class="d-flex align-items-start justify-content-between pb-2 px-3 bg-secondary text-white">
 			<b-img src="img/logo.png" fluid class="align-self-center"/>
-			<div class="footer-menu w-100 ml-3">
+			<div class="footer-menu w-75 ml-3">
 				<h5 class="footer-title text-center text-white pb-2 my-2 border-bottom">
 					Товарищество собственнихов жилья "Пилот"
 				</h5>
@@ -27,7 +21,9 @@
 						v-for="(item, i) in menuBottom"
 						:key="i"
 						:to="item.path"
-						active
+						small
+						exact-active-class="active"
+						link-classes="px-0 py-2"
 					>
 						<font-awesome-icon :icon="item.icon" :style="{fontSize: '2rem', marginBottom: '5px'}"/>
 						<br>
@@ -35,8 +31,8 @@
 					</b-nav-item>
 				</b-nav>
 			</div>
-			<div class="align-self-end">
-				<!--&copy;&nbsp;2019<span v-if="startYear !== currentYear">-{{currentYear}}</span>-->
+			<div class="align-self-end text-dark">
+				&copy;&nbsp;{{startYear}}<span v-if="startYear !== currentYear">-{{currentYear}}</span>
 			</div>
 		</footer>
 	</b-container>
@@ -52,6 +48,14 @@
 		},
 		data() {
 			return {
+				startYear: 2019,
+				currentYear: new Date().getFullYear(),
+				menu: [
+					{path: '/', title: 'Главная'},
+					{path: '/docs', title: 'Документы'},
+					{path: '/notice', title: 'Объявления'},
+					{path: '/photo', title: 'Фотографии'}
+				],
 				menuBottom: [
 					{path: '/docs', icon: 'file-contract', title: 'Документы'},
 					{path: '/notice', icon: 'ad', title: 'Объявления'},
@@ -85,16 +89,16 @@
 			outline: none;
 			line-height: 1em;
 			color: #fff;
-		}
 
-		a:hover {
-			background-color: transparent;
-			color: #7cc;
-		}
+			&:hover {
+				background-color: transparent;
+				color: #7cc;
+			}
 
-		a:focus {
-			background-color: transparent;
-			color: #ff7;
+			&.active {
+				background-color: transparent;
+				color: #ff7;
+			}
 		}
 
 		img {

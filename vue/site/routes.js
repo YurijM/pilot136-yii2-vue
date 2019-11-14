@@ -4,8 +4,9 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import Main from './components/Main';
-/*import Certificate from './components/Certificate';
-import Finance from './components/Finance';*/
+import Docs from './components/Docs';
+import Notice from './components/Notice';
+import Photo from './components/Photo';
 
 import {store} from '../store';
 
@@ -25,16 +26,21 @@ const routes = [
 			next();
 		}*/
 	},
-	/*{
-		name: 'certificate',
-		path: '/certificate',
-		component: Certificate
+	{
+		name: 'docs',
+		path: '/docs',
+		component: Docs
 	},
 	{
-		name: 'finance',
-		path: '/finance',
-		component: Finance
-	},*/
+		name: 'notice',
+		path: '/notice',
+		component: Notice
+	},
+	{
+		name: 'photo',
+		path: '/photo',
+		component: Photo
+	},
 	/*{
 		path: '*',
 		component: E404

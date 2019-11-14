@@ -4,10 +4,19 @@
 
 		<b-collapse id="nav-collapse" is-nav>
 			<b-navbar-nav>
-				<b-nav-item exact-active-class="active" to="/">Главная</b-nav-item>
+				<b-nav-item
+					v-for="(item, i) in items"
+					:key="i"
+					:to="item.path"
+					exact-active-class="active"
+				>
+					{{item.title}}
+				</b-nav-item>
+
+				<!--<b-nav-item exact-active-class="active" to="/">Главная</b-nav-item>
 				<b-nav-item exact-active-class="active" to="/docs">Документы</b-nav-item>
 				<b-nav-item exact-active-class="active" to="/notice">Объявления</b-nav-item>
-				<b-nav-item exact-active-class="active" to="/photo">Фотографии</b-nav-item>
+				<b-nav-item exact-active-class="active" to="/photo">Фотографии</b-nav-item>-->
 			</b-navbar-nav>
 		</b-collapse>
 	</b-navbar>
@@ -22,6 +31,9 @@
 			},
 			fontSize: {
 				type: String
+			},
+			items: {
+				type: Array
 			}
 		},
 	}
