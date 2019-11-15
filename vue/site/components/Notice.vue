@@ -1,5 +1,7 @@
 <template>
-	<h1>Объявления</h1>
+	<div class="animated fadeIn slow">
+		<h1>Объявления</h1>
+	</div>
 </template>
 
 <script>

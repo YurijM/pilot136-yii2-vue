@@ -29,10 +29,6 @@ select:-moz-focusring {
   font-size: .95em
 }
 
-/*.nav > li > a {
-  padding: 0 !important;
-}*/
-
 /* Сайт */
 /************************************************/
 * {
@@ -177,13 +173,13 @@ body {
   }
 }
 
-.page-enter-active, .page-leave-active {
-  transition: opacity .5s;
+/*.page-enter-active, .page-leave-active {
+  transition: opacity 1.5s;
 }
 
 .page-enter, .page-leave-active {
   opacity: 0;
-}
+}*/
 
 .markdown {
   margin-top: .25em;

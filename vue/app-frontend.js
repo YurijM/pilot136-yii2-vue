@@ -6,6 +6,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import BootstrapVue from 'bootstrap-vue';
 
 import './site/style/main.scss';
+import './site/style/animate.min.css';
 
 Vue.use(BootstrapVue);
 

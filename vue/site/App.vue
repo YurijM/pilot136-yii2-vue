@@ -14,7 +14,7 @@
 			<b-img src="img/logo.png" fluid class="align-self-center"/>
 			<div class="footer-menu w-75 ml-3">
 				<h5 class="footer-title text-center text-white pb-2 my-2 border-bottom">
-					Товарищество собственнихов жилья "Пилот"
+					Товарищество собственников жилья "Пилот"
 				</h5>
 				<b-nav justified class="menu-bottom">
 					<b-nav-item
@@ -89,6 +89,7 @@
 			outline: none;
 			line-height: 1em;
 			color: #fff;
+			font-size: 1.25rem;
 
 			&:hover {
 				background-color: transparent;
