@@ -31,6 +31,20 @@ export default {
 				return result;
 			});
 		},
+		SORT_POSTS_BY_ORDER(state) {
+			state.posts.sort((a, b) => {
+				const item1 = a.order_no;
+				const item2 = b.order_no;
+
+				let result = 0;
+				if (item1 > item2) {
+					result = 1;
+				} else if (item1 < item2) {
+					result = -1;
+				}
+				return result;
+			});
+		},
 		GET_POST(state, payload) {
 			state.post = null;
 			state.post = state.posts.filter(post => post.id === payload)[0];

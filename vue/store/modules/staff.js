@@ -4,6 +4,7 @@ export default {
 	namespaced: true,
 	state: {
 		staff: [],
+		staffByPost: [],
 		person: [],
 		count: 0,
 		currentIdx: 1
@@ -11,7 +12,7 @@ export default {
 	getters: {
 		getStaff: state => state.staff,
 		getCount: state => state.staff.length,
-		getCurrentIdx: state => state.currentIdx
+		getCurrentIdx: state => state.currentIdx,
 	},
 	mutations: {
 		CLEAR_STAFF(state) {
