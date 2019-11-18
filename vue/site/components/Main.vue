@@ -9,8 +9,8 @@
 					<strong>ТСЖ "Пилот"</strong> зарегистрировано <strong>17 июня 2005 года</strong>.<br>
 
 					Благоустроенный <strong>5</strong>-этажный <strong>100</strong>-квартирный жилой дом. Построен в период с
-					<strong>1985г.</strong> по
-					<strong>1988г</strong>.<br>
+					<strong>1985г.</strong> по <strong>1988г</strong>.
+					<br>
 
 					Общая полезная площадь жилого дома составляет <strong>6127.3 кв.м</strong>, кроме того:
 					<ul class="ml-5">
@@ -27,7 +27,7 @@
 
 		<b-card-group deck>
 			<div class="card animated fadeInRightBig">
-				<b-card class="mx-0" border-variant="primary" header="Адрес" body-class="alert-info" header-tag="h5"
+				<b-card class="mx-0 mb-0" border-variant="primary" header="Адрес" body-class="alert-info" header-tag="h5"
 								header-border-variant="primary"
 								header-class="alert-primary font-weight-bold">
 					<b-card-text>
@@ -37,7 +37,8 @@
 			</div>
 
 			<div class="card animated fadeInUpBig">
-				<b-card class="mx-0" border-variant="primary" header="Штат" body-class="alert-info" header-tag="h5" header-border-variant="primary"
+				<b-card class="mx-0 mb-0" border-variant="primary" header="Штат" body-class="alert-info" header-tag="h5"
+				        header-border-variant="primary"
 								header-class="alert-primary font-weight-bold">
 					<b-card-text text-tag="div">
 						<b-row v-for="post in posts" :key="post.id">
@@ -60,7 +61,8 @@
 			</div>
 
 			<div class="card animated fadeInLeftBig">
-				<b-card class="mx-0" border-variant="primary" header="Реквизиты" body-class="alert-info" header-tag="h5" header-border-variant="primary"
+				<b-card class="mx-0 mb-0" border-variant="primary" header="Реквизиты" body-class="alert-info"
+				        header-tag="h5" header-border-variant="primary"
 								header-class="alert-primary font-weight-bold">
 					<b-card-text text-tag="div">
 						<b-row v-for="requisite in requisites" :key="requisite.id">
@@ -83,11 +85,17 @@
 
 	export default {
 		name: 'Main',
-		async created() {
+		async mounted() {
 			await this.$store.dispatch('requisite/loadRequisites');
 
 			await this.$store.dispatch('post/loadPosts');
 			this.$store.commit('post/SORT_POSTS_BY_ORDER');
+
+			const posts = this.$store.getters['post/getPosts'];
+			let post;
+			for (post in posts) {
+				await this.$store.dispatch('post/getStaffByPost', post.id);
+			}
 
 			await this.$store.dispatch('staff/loadStaff');
 		},
@@ -108,8 +116,8 @@
 		methods: {
 			staffByPost(id) {
 				const staff = this.$store.state.staff.staff.map(el => {if(el.post_id.indexOf(id) > -1) return el.person});
-				console.log('id: ', id);
-				console.log('staff :', staff);
+				//console.log('id: ', id);
+				//console.log('staff :', staff);
 				//return staff
 				return staff.map(el => {
 					if (el) {

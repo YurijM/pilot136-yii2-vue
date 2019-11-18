@@ -53,7 +53,7 @@ class PostStaff extends \yii\db\ActiveRecord
      */
     public function getPost()
     {
-        return $this->hasOne(Post::className(), ['id' => 'post_id']);
+        return $this->hasOne(Post::class, ['id' => 'post_id']);
     }
 
     /**
@@ -61,6 +61,6 @@ class PostStaff extends \yii\db\ActiveRecord
      */
     public function getStaff()
     {
-        return $this->hasOne(Staff::className(), ['id' => 'staff_id']);
+        return $this->hasOne(Staff::class, ['id' => 'staff_id']);
     }
 }

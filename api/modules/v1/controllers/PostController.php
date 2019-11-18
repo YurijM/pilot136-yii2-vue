@@ -2,6 +2,9 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Post;
+use common\models\PostStaff;
+use Yii;
 use yii\db\Query;
 
 class PostController extends ApiController
@@ -20,5 +23,14 @@ class PostController extends ApiController
 			->all();
 
 		return ['posts' => $model];
+	}
+
+	public function actionStaffByPost()
+	{
+		$post = Post::findOne(['id' => Yii::$app->request->get('id')]);
+		$staff = $post->getStaff()
+			->orderBy('family ASC, name ASC, patronymic ASC')
+			->all();
+		return $staff;
 	}
 }

@@ -54,7 +54,7 @@ class Staff extends \yii\db\ActiveRecord
      */
     public function getPostStaff()
     {
-        return $this->hasMany(PostStaff::className(), ['staff_id' => 'id']);
+        return $this->hasMany(PostStaff::class, ['staff_id' => 'id']);
     }
 
     /**
@@ -62,6 +62,6 @@ class Staff extends \yii\db\ActiveRecord
      */
     public function getPosts()
     {
-        return $this->hasMany(Post::className(), ['id' => 'post_id'])->viaTable('post_staff', ['staff_id' => 'id']);
+        return $this->hasMany(Post::class, ['id' => 'post_id'])->viaTable('post_staff', ['staff_id' => 'id']);
     }
 }

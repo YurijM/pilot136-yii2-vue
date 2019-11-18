@@ -53,6 +53,7 @@ return [
 					'controller' => 'v1/post',
 					'extraPatterns' => [
 						'GET list' => 'list',
+						'GET staff-by-post' => 'staff-by-post',
 						/*'POST' => 'create',
 						'PUT {id}' => 'update',
 						'DELETE' => 'delete'*/

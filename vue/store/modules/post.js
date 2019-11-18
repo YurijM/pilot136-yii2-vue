@@ -96,6 +96,12 @@ export default {
 				}, {root: true});
 			});
 		},
+		async getStaffByPost({dispatch}, id) {
+			await axios.get(`http://pilot136-yii2-vue-api/v1/staff-by-post/${{id}}`)
+			.then(response => {
+				console.log('staffByPost: ', response.data.staff);
+			});
+		},
 		async updatePost({commit, dispatch}, post) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
