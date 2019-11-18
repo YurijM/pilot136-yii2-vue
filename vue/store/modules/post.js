@@ -4,10 +4,12 @@ export default {
 	namespaced: true,
 	state: {
 		posts: [],
-		post: null
+		post: null,
+		staffByPost: null
 	},
 	getters: {
 		getPosts: state => state.posts,
+		getStaffByPost: state => state.staffByPost
 	},
 	mutations: {
 		CLEAR_POSTS(state) {
@@ -16,25 +18,14 @@ export default {
 		SET_POSTS(state, payload) {
 			state.posts = payload;
 		},
+		SET_STAFF_BY_POST(state, payload) {
+			state.staffByPost = payload;
+		},
 		SORT_POSTS(state) {
 			state.posts.sort((a, b) => {
 				// Используем toUpperCase() для преобразования регистра
 				const item1 = a.post.toUpperCase();
 				const item2 = b.post.toUpperCase();
-
-				let result = 0;
-				if (item1 > item2) {
-					result = 1;
-				} else if (item1 < item2) {
-					result = -1;
-				}
-				return result;
-			});
-		},
-		SORT_POSTS_BY_ORDER(state) {
-			state.posts.sort((a, b) => {
-				const item1 = a.order_no;
-				const item2 = b.order_no;
 
 				let result = 0;
 				if (item1 > item2) {
@@ -96,10 +87,10 @@ export default {
 				}, {root: true});
 			});
 		},
-		async getStaffByPost({dispatch}, id) {
-			await axios.get(`http://pilot136-yii2-vue-api/v1/staff-by-post/${{id}}`)
+		async getStaffByPost({commit}, id) {
+			await axios.get('http://pilot136-yii2-vue-api/v1/post/staff-by-post')//, {params: {id: id}})
 			.then(response => {
-				console.log('staffByPost: ', response.data.staff);
+				commit('SET_STAFF_BY_POST', response.data);
 			});
 		},
 		async updatePost({commit, dispatch}, post) {

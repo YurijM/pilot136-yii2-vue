@@ -27,10 +27,25 @@ class PostController extends ApiController
 
 	public function actionStaffByPost()
 	{
-		$post = Post::findOne(['id' => Yii::$app->request->get('id')]);
+		$staff = [];
+		$posts = Post::find()->orderBy('order_no ASC')->all();
+
+		foreach ($posts as $post) {
+			$staffByPost = Post::findOne(['id' => $post->id])
+				->getStaff()
+				->orderBy('family ASC, name ASC, patronymic ASC')
+				->all();
+			$staff[] = ['post' => $post->post, 'staff' =>  $staffByPost];
+			//$staff[$post->post] = $staffByPost;
+		}
+
+		return $staff;
+
+		/*$post = Post::findOne(['id' => Yii::$app->request->get('id')]);
 		$staff = $post->getStaff()
 			->orderBy('family ASC, name ASC, patronymic ASC')
 			->all();
-		return $staff;
+
+		return compact(['staff', 'post' => $post->post]);*/
 	}
 }

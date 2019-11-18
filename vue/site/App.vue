@@ -31,7 +31,7 @@
 					</b-nav-item>
 				</b-nav>
 			</div>
-			<div class="align-self-end text-dark">
+			<div class="align-self-end">
 				&copy;&nbsp;{{startYear}}<span v-if="startYear !== currentYear">-{{currentYear}}</span>
 			</div>
 		</footer>
@@ -88,12 +88,12 @@
 		a {
 			outline: none;
 			line-height: 1em;
-			color: #fff;
+			color: #99e5ff;
 			font-size: 1.25rem;
 
 			&:hover {
 				background-color: transparent;
-				color: #7cc;
+				color: #fff; /*#7cc;*/
 			}
 
 			&.active {
