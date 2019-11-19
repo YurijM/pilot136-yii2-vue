@@ -15,6 +15,8 @@ import {
 	faFileContract,
 	faAd,
 	faCameraRetro,
+	faUsers,
+	faThList
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -22,6 +24,8 @@ library.add(
 	faFileContract,
 	faAd,
 	faCameraRetro,
+	faUsers,
+	faThList
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
