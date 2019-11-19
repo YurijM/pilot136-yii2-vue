@@ -28,6 +28,9 @@
 							</ul>
 							Общий объём жилого дома составляет <strong>32756.0 куб.м</strong>, в т.ч. подвальные помещения - <strong>5054
 							куб.м</strong>.
+							<div class="mt-2">
+								<strong>Адрес</strong>: 357207 Ставропольский край, г.Минеральные Воды, ул.Анджиевского, д.136.
+							</div>
 						</b-card-text>
 					</b-col>
 					<b-col class="hidden-xs" md="4" lg="3">
@@ -63,18 +66,24 @@
 			</b-card>-->
 		</div>
 
-		<b-card-group deck>
-			<div class="card mx-0 animated fadeInRightBig">
-				<b-card class="mx-0 mb-0" border-variant="primary" header="Адрес" body-class="alert-info" header-tag="h5"
-								header-border-variant="primary"
-								header-class="alert-primary font-weight-bold">
-					<b-card-text>
-						357207 Ставропольский край, г.Минеральные Воды, ул.Анджиевского, д.136.
-					</b-card-text>
-				</b-card>
-			</div>
+		<!--<div class="card animated fadeInUpBig">
+			<b-card
+				class="mb-0"
+				border-variant="primary"
+				header="Адрес"
+				body-class="alert-info"
+				header-tag="h5"
+				header-border-variant="primary"
+				header-class="alert-primary font-weight-bold"
+			>
+				<b-card-text>
+					357207 Ставропольский край, г.Минеральные Воды, ул.Анджиевского, д.136.
+				</b-card-text>
+			</b-card>
+		</div>-->
 
-			<div class="card mx-0 animated fadeInUpBig">
+		<b-card-group deck class="mx-0">
+			<div class="card ml-0 animated fadeInRightBig">
 				<b-card
 					class="mx-0 mb-0"
 					border-variant="primary"
@@ -99,7 +108,7 @@
 				</b-card>
 			</div>
 
-			<div class="card mx-0 animated fadeInLeftBig">
+			<div class="card mr-0 animated fadeInLeftBig">
 				<b-card class="mx-0 mb-0" border-variant="primary" header="Реквизиты" body-class="alert-info"
 				        header-tag="h5" header-border-variant="primary"
 								header-class="alert-primary font-weight-bold">
@@ -146,4 +155,8 @@
 </script>
 
 <style lang="scss" scoped>
+	/*.card {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}*/
 </style>
