@@ -119,10 +119,10 @@
 
 	export default {
 		name: 'Main',
-		async mounted() {
+		/*async mounted() {
 			await this.$store.dispatch('requisite/loadRequisites');
 			await this.$store.dispatch('post/getStaffByPost');
-		},
+		},*/
 		computed: {
 			...mapGetters('requisite', [
 				'getRequisites'

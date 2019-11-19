@@ -19,17 +19,20 @@ const routes = [
 		name: 'main',
 		path: '/',
 		component: Main,
-		/*async beforeEnter(from, to, next){
-			await store.dispatch('staff/loadPosts');
-			await store.dispatch('staff/sortPostsByOrderNo');
-			await store.dispatch('staff/loadStaff');
+		async beforeEnter(from, to, next){
+			await store.dispatch('requisite/loadRequisites');
+			await store.dispatch('post/getStaffByPost');
 			next();
-		}*/
+		}
 	},
 	{
 		name: 'docs',
 		path: '/docs',
-		component: Docs
+		component: Docs,
+		async beforeEnter(from, to, next) {
+			await store.dispatch('act/loadActs');
+			next();
+		}
 	},
 	{
 		name: 'notice',
