@@ -8,7 +8,7 @@ use yii\helpers\BaseFileHelper;
 
 class ActController extends ApiController
 {
-	const PATH_TO_ACTS = '@api/web/downloads/acts';
+	const PATH_TO_ACTS = '@frontend/web/downloads/acts';
 	public $modelClass = 'common\models\Act';
 
 	public function actionList()

@@ -19,7 +19,7 @@
 					<b-button
 						size="sm"
 						class="d-inline-flex align-items-center"
-						:href="`./${doc.file}`"
+						:href="`downloads/${docs.folder}/${doc.file}`"
 						target="_blank"
 						variant="primary"
 					>

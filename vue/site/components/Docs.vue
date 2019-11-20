@@ -39,12 +39,12 @@
 		async created() {
 			this.acts = this.$store.getters['act/getActs'];
 
-			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts});
-			this.docs.push({title: 'Финансы', docs: this.acts});
-			this.docs.push({title: 'Договоры', docs: this.acts});
-			this.docs.push({title: 'Акты', docs: this.acts});
-			this.docs.push({title: 'Протоколы', docs: this.acts});
-			this.docs.push({title: 'Капитальный ремонт', docs: this.acts});
+			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Договоры', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Протоколы', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Капитальный ремонт', docs: this.acts, folder: 'acts'});
 
 			this.docs.sort(this.sortDocs);
 
@@ -70,11 +70,14 @@
 				setTimeout(() => {
 					this.showDocs = true;
 				}, 1000);*/
+				this.docsCurrent = docs;
 			}
 		}
 	}
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+	.list-group-item {
+		cursor: pointer
+	}
 </style>
