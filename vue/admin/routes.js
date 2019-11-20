@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 import Login from './components/Login';
 import Act from "./components/Act";
+import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
 import Requisite from './components/Requisite';
@@ -73,7 +74,20 @@ const routes = [
 			await store.dispatch('act/loadActs');
 			next();
 		}
+	},
+	{
+		name: 'notice',
+		path: '/notice',
+		component: Notice,
+		meta: {
+			title: 'Объявления'
+		},
+		/*async beforeEnter(from, to, next) {
+			await store.dispatch('act/loadActs');
+			next();
+		}*/
 	}
+
 	/*{
 		name: 'logout',
 		path: '/logout',
