@@ -54,9 +54,6 @@ return [
 					'extraPatterns' => [
 						'GET list' => 'list',
 						'GET staff-by-post' => 'staff-by-post',
-						/*'POST' => 'create',
-						'PUT {id}' => 'update',
-						'DELETE' => 'delete'*/
 					],
 					'pluralize' => false, //отключение множественного числа
 				],
@@ -87,6 +84,14 @@ return [
 						'POST add' => 'add',
 						'PUT edit' => 'edit',
 						'DELETE remove' => 'remove',
+					],
+					'pluralize' => false, //отключение множественного числа
+				],
+				[
+					'class' => UrlRule::class,
+					'controller' => 'v1/notice',
+					'extraPatterns' => [
+						'GET list' => 'list'
 					],
 					'pluralize' => false, //отключение множественного числа
 				]

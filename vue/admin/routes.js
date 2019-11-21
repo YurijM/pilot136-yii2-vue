@@ -82,10 +82,10 @@ const routes = [
 		meta: {
 			title: 'Объявления'
 		},
-		/*async beforeEnter(from, to, next) {
-			await store.dispatch('act/loadActs');
+		async beforeEnter(from, to, next) {
+			await store.dispatch('notice/loadNotices');
 			next();
-		}*/
+		}
 	}
 
 	/*{
