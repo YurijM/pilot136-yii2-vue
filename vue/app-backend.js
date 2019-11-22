@@ -18,6 +18,7 @@ Vue.use(BootstrapVue);
 
 import '../node_modules/nprogress/nprogress.css';
 import './admin/style/main.scss';
+import './admin/style/animate.min.css';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {

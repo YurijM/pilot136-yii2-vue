@@ -72,7 +72,7 @@ export default {
 				commit('SORT_NOTICES');
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: `Объявление от '${response.data.date}' добавлено`
+					message: `Объявление от ${new Date(response.data.date).toLocaleDateString()} добавлено`
 				}, {root: true});
 			})
 			.catch(error => {
@@ -88,7 +88,7 @@ export default {
 			formData.set('_method', 'PUT');
 			formData.set('notice', notice.notice);
 			formData.set('sign', notice.sign);
-			formData.set('dateNotice', notice.dateNotice);
+			formData.set('date', notice.date);
 			await axios
 			.post(`http://pilot136-yii2-vue-api/v1/notice/${notice.id}`, formData)
 			.then(response => {
@@ -97,7 +97,7 @@ export default {
 
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: `Объявление от '${response.data.notice}' обновлено`
+					message: `Объявление от ${new Date(response.data.date).toLocaleDateString()} обновлено`
 				}, {root: true});
 			})
 			.catch(error => {
@@ -116,7 +116,7 @@ export default {
 				commit('DELETE_NOTICE', id);
 				dispatch('common/setInfo', {
 					type: 'success',
-					message: `Объявление от '${state.notice.dateNotice}' удалено`
+					message: `Объявление от ${new Date(state.notice.date).toLocaleDateString()} удалено`
 				}, {root: true});
 			})
 			.catch(error => {

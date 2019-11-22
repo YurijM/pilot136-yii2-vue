@@ -101,32 +101,37 @@
 			Объявления не заведены
 		</b-alert>
 
-		<b-table
+		<div
 			v-else
-			striped
-			small
-			class="mx-auto mt-3"
-			responsive="sm"
-			:fields="fields"
-			:items="notices"
+			class="d-flex flex-column justify-content-between mt-3 mx-2"
+			:style="{minHeight: '80vh'}"
 		>
-			<template v-slot:cell(recNo)="data">
-				{{data.index + 1}}
-			</template>
+			<b-table
+				striped
+				small
+				class="mx-auto mt-3"
+				responsive="sm"
+				:fields="fields"
+				:items="notices"
+			>
+				<template v-slot:cell(recNo)="data">
+					{{data.index + 1}}
+				</template>
 
-			<template v-slot:cell(notice)="data">
-				<markdown-it-vue :content="data.item.notice"/>
-			</template>
+				<template v-slot:cell(notice)="data">
+					<markdown-it-vue :content="data.value"/>
+				</template>
 
-			<template v-slot:cell(edit)="data">
-				<b-button @click="editNotice(data.item, $event.target)" variant="outline-primary">
-					<font-awesome-icon icon="pencil-alt"/>
-				</b-button>
-				<b-button @click="deleteNotice(data.item)" variant="outline-danger">
-					<font-awesome-icon icon="trash-alt"/>
-				</b-button>
-			</template>
-		</b-table>
+				<template v-slot:cell(edit)="data">
+					<b-button @click="editNotice(data.item, $event.target)" variant="outline-primary">
+						<font-awesome-icon icon="pencil-alt"/>
+					</b-button>
+					<b-button @click="deleteNotice(data.item)" variant="outline-danger">
+						<font-awesome-icon icon="trash-alt"/>
+					</b-button>
+				</template>
+			</b-table>
+		</div>
 	</b-container>
 </template>
 
@@ -163,47 +168,44 @@
 						label: '№',
 						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '2em'},
-						tdClass: ['p-1', 'text-center', 'table-rec-no'],
+						tdClass: ['p-1', 'text-center'],
 					},
 					{
 						key: 'date',
 						label: 'Дата',
-						thClass: ['text-center', 'align-middle'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '5em'},
-						tdClass: ['px-2', 'text-center'],
+						tdClass: ['p-1', 'text-center'],
 						formatter: value => {
 							return (new Date(value)).toLocaleDateString();
 						}
-					},
-					{
+					}, {
 						key: 'notice',
 						label: 'Объявление',
-						thClass: ['text-center', 'align-middle'],
-						tdClass: ['px-2'],
+						thClass: ['p-1', 'text-center', 'align-middle'],
+						tdClass: ['p-1'],
 						formatter: value => {
 							let strLength = 80;
-							let str = value;
+							//let str = value;
 
 							if (value.length > strLength) {
-								str = (value.substr(0, strLength));
-								let substr = '___';
+								value = (value.substr(0, strLength));
+								let substr = '***';
 
 								while (substr.length > 0) {
-									let count = ((strLength - str.replace(new RegExp(substr, 'g'), '').length) / substr.length);
+									let count = ((strLength - (value.split(substr).join('')).length) / substr.length);
 									if (count % 2 !== 0) {
-										str = str.substr(0, strLength - substr.length).trim() + substr;
+										value = value.substr(0, strLength - substr.length).trim() + substr;
 										break
 									} else {
 										substr = substr.substr(0, substr.length - 1);
 									}
 								}
 
-								str += '...'
+								value += '...'
 							}
 
-							console.log('str: ', str);
-
-							return str;
+							return value;
 						}
 					},
 					{
@@ -211,7 +213,7 @@
 						label: '',
 						thStyle: {width: '6em'},
 						thClass: ['p-1', 'text-center', 'align-middle'],
-						tdClass: ['p-1', 'text-right', 'table-edit-button']
+						tdClass: ['p-1', 'text-right']
 					}
 				]
 			}
@@ -233,7 +235,7 @@
 				'updateNotice'
 			]),
 			...mapActions('notice', {
-				removeDoc: 'deleteNotices'
+				removeDoc: 'deleteNotice'
 			}),
 			dateToString(date) {
 				let dd = date.getDate();
@@ -262,8 +264,8 @@
 			deleteNotice(item) {
 				this.deleteDoc(this, item, {
 					type: 'Notice',
-					name: 'объявление',
-					title: item.notice
+					name: 'объявление от',
+					title: new Date(item.date).toLocaleDateString()
 				});
 			},
 			checkFormValidity() {

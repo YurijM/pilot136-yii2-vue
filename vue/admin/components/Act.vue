@@ -164,7 +164,7 @@
 						label: '№',
 						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '2em'},
-						tdClass: ['p-1', 'text-center', 'table-rec-no'],
+						tdClass: ['p-1', 'text-center'],
 					},
 					{
 						key: 'title',
@@ -178,15 +178,11 @@
 						thClass: ['p-1', 'text-center', 'align-middle'],
 						thStyle: {width: '4em'},
 						tdClass: ['p-1', 'text-center'],
-						/*formatter: value => {
-							return (value === YEAR_NONE ? '' : value)
-						}*/
 					},
 					{
 						key: 'file',
 						label: 'Файл',
 						thClass: ['p-1', 'text-center', 'align-middle'],
-						//thStyle: {width: '10em'},
 						tdClass: ['p-1', 'text-center'],
 					},
 					{
@@ -194,7 +190,7 @@
 						label: '',
 						thStyle: {width: '6em'},
 						thClass: ['p-1', 'text-center', 'align-middle'],
-						tdClass: ['p-1', 'text-right', 'table-edit-button']
+						tdClass: ['p-1', 'text-right']
 					}
 				],
 			}
