@@ -42,6 +42,16 @@ select:-moz-focusring {
   font-size: 1em !important;
 }
 
+/* Markdown */
+/************************************************/
+.markdown-body ol, .markdown-body ul {
+  padding-left: 1em;
+}
+
+/*.markdown-body ol li, .markdown-body ul li {
+  margin-bottom: .25em;
+}*/
+
 /* Сайт */
 /************************************************/
 * {
