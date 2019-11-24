@@ -13,6 +13,7 @@
 			:footer-class="['alert-primary', 'border-primary', 'border-top']"
 			modal-class="in"
 			ref="modal"
+			size="lg"
 			:title="modalTitle"
 			hide-header-close
 			ok-variant="primary"
@@ -95,7 +96,6 @@
 		<b-alert
 			v-if="notices.length === 0"
 			class="text-center"
-			show
 			variant="info"
 		>
 			Объявления не заведены
@@ -138,7 +138,7 @@
 <script>
 	import YmPageHeader from './PageHeader'
 	import MarkdownItVue from 'markdown-it-vue'
-	/*import 'markdown-it-vue/dist/markdown-it-vue.css'*/
+	//import 'markdown-it-vue/dist/markdown-it-vue.css'
 	import {mapGetters, mapActions} from 'vuex'
 
 	export default {
@@ -281,8 +281,8 @@
 				this.notice.sign = this.dateToString(new Date());
 
 				this.stateNotice = null;
-				this.stateSign = null
-				this.stateDate = null
+				this.stateSign = null;
+				this.stateDate = null;
 			},
 			handleOk(bvModalEvt) {
 				// Prevent modal from closing
@@ -320,5 +320,10 @@
 <style lang="scss" scoped>
 	input[type="date"].form-control {
 		line-height: normal;
+	}
+
+	.markdown-body {
+		max-height: 10em !important;
+		overflow: auto !important;
 	}
 </style>
