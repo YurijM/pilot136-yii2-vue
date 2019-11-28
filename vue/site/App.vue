@@ -58,7 +58,7 @@
 				],
 				menuBottom: [
 					{path: '/docs', icon: 'file-contract', title: 'Документы'},
-					{path: '/notice', icon: 'ad', title: 'Объявления'},
+					{path: '/notice', icon: 'bars', title: 'Объявления'},
 					{path: '/photo', icon: 'camera-retro', title: 'Фотографии'}
 				]
 			}
