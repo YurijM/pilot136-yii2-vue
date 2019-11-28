@@ -26,7 +26,6 @@ AppAsset::register($this);
 
 <?php $this->registerJsFile('backend/web/js/app-backend.js'); ?>
 <?php /*$this->registerJsFile('/js/app-backend.js'); */?>
-<!--<script type="text/javascript" src="/js/app-backend.js"></script>-->
 
 <?php $this->endBody() ?>
 </body>
