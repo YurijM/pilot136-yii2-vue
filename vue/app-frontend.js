@@ -13,7 +13,7 @@ Vue.use(BootstrapVue);
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {
 	faFileContract,
-	faAd,
+	faBars,
 	faCameraRetro,
 	faUsers,
 	faThList,
@@ -23,7 +23,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 library.add(
 	faFileContract,
-	faAd,
+	faBars,
 	faCameraRetro,
 	faUsers,
 	faThList,

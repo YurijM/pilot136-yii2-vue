@@ -35,8 +35,8 @@
 							</ul>
 
 							<div class="mb-xs-2 mb-sm-0 mb-xl-2">
-								Общий объём жилого дома составляет <strong>32756.0 куб.м</strong>, в т.ч. подвальные помещения - <strong>5054
-								куб.м</strong>.
+								Общий объём жилого дома составляет <strong>32756&nbsp;куб.м</strong>, в т.ч. подвальные
+								помещения - <strong>5054&nbsp;куб.м</strong>.
 							</div>
 
 							<div class="mt-xl-4">
@@ -75,7 +75,7 @@
 							</div>
 							<div class="col-7 pl-0 d-flex flex-wrap">
 								<div class="pr-2" v-for="(item, i) in person.staff" :key="item.id">
-									{{item.family}} {{item.name[0]}}. {{item.patronymic[0]}}.{{i < person.staff.length - 1 ? ',' : ''}}
+									{{item.family}} {{item.name[0]}}.{{item.patronymic[0]}}.{{i < person.staff.length - 1 ? ',' : ''}}
 								</div>
 							</div>
 						</b-row>
