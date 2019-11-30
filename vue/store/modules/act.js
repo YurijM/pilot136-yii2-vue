@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://localhost/api/modules/v1/';
+
 export default {
 	namespaced: true,
 	state: {
@@ -59,7 +61,8 @@ export default {
 		},
 		async loadActs({commit, dispatch}) {
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/act/list')
+			//.get('http://pilot136-yii2-vue-api/v1/act/list')
+			.get('act/list')
 			.then(response => {
 				dispatch('clearActs');
 				commit('SET_ACTS', response.data.acts);
