@@ -9,14 +9,14 @@ $params = array_merge(
 return [
 	'id' => 'app-backend',
 	'basePath' => dirname(__DIR__),
-	/*'homeUrl' => '/admin',*/
+	'homeUrl' => '/admin',
 	'language' => 'ru',
 	'controllerNamespace' => 'backend\controllers',
 	'bootstrap' => ['log'],
 	'modules' => [],
 	'components' => [
 		'request' => [
-			/*'baseUrl' => '/admin',*/
+			'baseUrl' => '/admin',
 			'csrfParam' => '_csrf-backend',
 		],
 		'user' => [
