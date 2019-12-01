@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-//axios.defaults.baseURL = 'http://pilot136-yii2-vue/api/web/';
+//axios.defaults.baseURL = 'http://pilot136-yii2-vue-api/v1/';
+axios.defaults.baseURL = 'http://cl07722.tmweb.ru/api/v1/';
 
 export default {
 	namespaced: true,
@@ -61,7 +62,8 @@ export default {
 		},
 		async loadActs({commit, dispatch}) {
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/act/list')
+			//.get('http://pilot136-yii2-vue-api/v1/act/list')
+			.get('act/list')
 			.then(response => {
 				dispatch('clearActs');
 				commit('SET_ACTS', response.data.acts);
@@ -74,7 +76,8 @@ export default {
 			formData.append('year', act.year);
 			formData.append('file', act.file);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/act/add', formData, {
+			//.post('http://pilot136-yii2-vue-api/v1/act/add', formData, {
+			.post('act/add', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -112,7 +115,8 @@ export default {
 			formData.set('fileName', act.fileName);
 			formData.set('file', act.file);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/act/edit', formData)
+			//.post('http://pilot136-yii2-vue-api/v1/act/edit', formData)
+			.post('act/edit', formData)
 			.then(response => {
 				if (response.data.result === '') {
 					commit('UPDATE_ACT', response.data.act);
@@ -142,7 +146,8 @@ export default {
 			formData.set('_method', 'DELETE');
 			formData.set('id', id);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/act/remove', formData)
+			//.post('http://pilot136-yii2-vue-api/v1/act/remove', formData)
+			.post('act/remove', formData)
 			.then(response => {
 				commit('GET_ACT', id);
 				commit('DELETE_ACT', id);

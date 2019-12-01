@@ -90,7 +90,7 @@ class ActController extends ApiController
 
 		if ($result === '') {
 			if (!$act->delete()) {
-				$result = 'Ошибка при удалении записи из табдицы act (' . $act->id . ')';
+				$result = 'Ошибка при удалении записи из таблицы act (' . $act->id . ')';
 			}
 		}
 
