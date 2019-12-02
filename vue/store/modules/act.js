@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 //axios.defaults.baseURL = 'http://pilot136-yii2-vue-api/v1/';
-axios.defaults.baseURL = 'http://cl07722.tmweb.ru/api/v1/';
+//axios.defaults.baseURL = 'http://cl07722.tmweb.ru/api/v1/';
+
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
 
 export default {
 	namespaced: true,

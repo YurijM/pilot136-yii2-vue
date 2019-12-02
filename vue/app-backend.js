@@ -67,6 +67,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 import {router} from './admin/routes';
 import {store} from './store';
 
+import {config} from './config';
+Vue.prototype.appConfig = config;
+
 Vue.config.productionTip = false;
 
 new Vue({

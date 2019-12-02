@@ -11,8 +11,6 @@
 </template>
 
 <script>
-  const {PER_PAGE} = require('../../constants');
-
 	export default {
 		name: 'page-header',
     props: {
@@ -23,7 +21,7 @@
       },
       perPage: {
         type: Number,
-        default: PER_PAGE
+        default: this.appConfig.perPage
       },
       link: String,
       functionName: String

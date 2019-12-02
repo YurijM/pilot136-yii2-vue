@@ -130,8 +130,6 @@
 	import YmPageHeader from './PageHeader'
 	import YmFileInput from './FileInput'
 
-	const {PER_PAGE, START_YEAR, END_YEAR, YEAR_NONE, MIMETYPE_PDF, EXT_PDF} = require('../../constants');
-
 	export default {
 		name: 'Act',
 		components: {
@@ -145,7 +143,7 @@
 				act: {
 					id: null,
 					title: '',
-					year: YEAR_NONE,
+					year: this.appConfig.yearNone,
 					fileName: '',
 					file: null
 				},
@@ -154,10 +152,10 @@
 				stateFile: null,
 				modalTitle: '',
 				okTitle: '',
-				perPage: PER_PAGE,
+				perPage: this.appConfig.perPage,
 				currentPage: 1,
 				years: [],
-				accept: [...MIMETYPE_PDF, ...EXT_PDF].join(','),
+				accept: [...this.appConfig.mimetypePdf, ...this.appConfig.extPdf].join(','),
 				fields: [
 					{
 						key: 'recNo',
@@ -196,9 +194,9 @@
 			}
 		},
 		created() {
-			this.years.push({value: YEAR_NONE, text: 'Укажите год'});
+			this.years.push({value: this.appConfig.yearNone, text: 'Укажите год'});
 
-			for (let year = START_YEAR; year <= END_YEAR; year++) {
+			for (let year = this.appConfig.startYear; year <= this.appConfig.endYear; year++) {
 				this.years.push({value: year, text: '' + year})
 			}
 		},
@@ -244,7 +242,7 @@
 			},
 			checkFormValidity() {
 				this.stateTitle = this.$refs.form.inputTitle.checkValidity();
-				this.stateYear = (this.$refs.form.inputYear.value !== YEAR_NONE);
+				this.stateYear = (this.$refs.form.inputYear.value !== this.appConfig.yearNone);
 				this.stateFile = (this.act.id ? true : Boolean(this.act.file));
 
 				return (this.stateTitle && this.stateYear && this.stateFile);
@@ -252,7 +250,7 @@
 			resetModal() {
 				this.act.id = null;
 				this.act.title = '';
-				this.act.year = YEAR_NONE;
+				this.act.year = this.appConfig.yearNone;
 				this.act.fileName = '';
 				this.act.file = null;
 

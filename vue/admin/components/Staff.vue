@@ -152,8 +152,6 @@
 	import YmPageHeader from './PageHeader'
 	import {mapGetters, mapActions} from 'vuex'
 
-	const {PER_PAGE} = require('../../constants');
-
 	export default {
 		name: 'Staff',
 		components: {
@@ -168,7 +166,7 @@
 				selected: [],
 				labelPost: 'ещё ничего не выбрано',
 				selectedPosts: '',
-				perPage: PER_PAGE,
+				perPage: this.appConfig.perPage,
 				currentPage: 1,
 				person: {
 					id: null,
