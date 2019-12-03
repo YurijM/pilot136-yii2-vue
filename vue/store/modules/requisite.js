@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
+
 export default {
 	namespaced: true,
 	state: {
@@ -54,7 +57,7 @@ export default {
 			commit('CLEAR_REQUISITES');
 
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/requisite/list')
+			.get('requisite/list')
 			.then(response => {
 				commit('SET_REQUISITES', response.data.requisites);
 			});
@@ -64,7 +67,7 @@ export default {
 			formData.set('requisite', requisite.requisite);
 			formData.set('value', requisite.value);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/requisite', formData)
+			.post('requisite', formData)
 			.then(response => {
 				commit('ADD_REQUISITE', response.data);
 				commit('SORT_REQUISITES');
@@ -87,7 +90,7 @@ export default {
 			formData.set('requisite', requisite.requisite);
 			formData.set('value', requisite.value);
 			await axios
-			.post(`http://pilot136-yii2-vue-api/v1/requisite/${requisite.id}`, formData)
+			.post(`requisite/${requisite.id}`, formData)
 			.then(response => {
 				commit('UPDATE_REQUISITE', response.data);
 				commit('SORT_REQUISITES');
@@ -107,7 +110,7 @@ export default {
 		},
 		async deleteRequisite({state, commit, dispatch}, id) {
 			await axios
-			.delete(`http://pilot136-yii2-vue-api/v1/requisite/${id}`)
+			.delete(`requisite/${id}`)
 			.then(response => {
 				commit('GET_REQUISITE', id);
 				commit('DELETE_REQUISITE', id);

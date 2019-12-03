@@ -62,7 +62,6 @@ export default {
 		},
 		async loadActs({commit, dispatch}) {
 			await axios
-			//.get('http://pilot136-yii2-vue-api/v1/act/list')
 			.get('act/list')
 			.then(response => {
 				dispatch('clearActs');

@@ -37,7 +37,11 @@ const routes = [
 	{
 		name: 'notice',
 		path: '/notice',
-		component: Notice
+		component: Notice,
+		async beforeEnter(from, to, next) {
+			await store.dispatch('notice/loadNotices');
+			next();
+		}
 	},
 	{
 		name: 'photo',

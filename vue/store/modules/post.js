@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
+
 export default {
 	namespaced: true,
 	state: {
@@ -60,7 +63,7 @@ export default {
 			commit('CLEAR_POSTS');
 
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/post/list')
+			.get('post/list')
 			.then(response => {
 				commit('SET_POSTS', response.data.posts);
 			});
@@ -70,7 +73,7 @@ export default {
 			formData.set('post', post.post);
 			formData.set('order_no', post.order_no);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/post', formData)
+			.post('post', formData)
 			.then(response => {
 				commit('ADD_POST', response.data);
 				commit('SORT_POSTS');
@@ -88,7 +91,8 @@ export default {
 			});
 		},
 		async getStaffByPost({commit}, id) {
-			await axios.get('http://pilot136-yii2-vue-api/v1/post/staff-by-post')//, {params: {id: id}})
+			await axios
+			.get('post/staff-by-post')//, {params: {id: id}})
 			.then(response => {
 				commit('SET_STAFF_BY_POST', response.data);
 			});
@@ -99,7 +103,7 @@ export default {
 			formData.set('post', post.post);
 			formData.set('order_no', post.order_no);
 			await axios
-			.post(`http://pilot136-yii2-vue-api/v1/post/${post.id}`, formData)
+			.post(`post/${post.id}`, formData)
 			.then(response => {
 				commit('UPDATE_POST', response.data);
 				commit('SORT_POSTS');
@@ -119,7 +123,7 @@ export default {
 		},
 		async deletePost({state, commit, dispatch}, id) {
 			await axios
-			.delete(`http://pilot136-yii2-vue-api/v1/post/${id}`)
+			.delete(`post/${id}`)
 			.then(response => {
 				commit('GET_POST', id);
 				commit('DELETE_POST', id);

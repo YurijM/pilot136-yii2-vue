@@ -17,7 +17,8 @@ import {
 	faCameraRetro,
 	faUsers,
 	faThList,
-	faFilePdf
+	faFilePdf,
+	faPaperclip
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
@@ -27,7 +28,8 @@ library.add(
 	faCameraRetro,
 	faUsers,
 	faThList,
-	faFilePdf
+	faFilePdf,
+	faPaperclip
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

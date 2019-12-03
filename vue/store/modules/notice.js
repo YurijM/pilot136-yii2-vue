@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
+
 export default {
 	namespaced: true,
 	state: {
@@ -55,7 +58,7 @@ export default {
 			commit('CLEAR_NOTICES');
 
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/notice/list')
+			.get('notice/list')
 			.then(response => {
 				commit('SET_NOTICES', response.data.notices);
 			});
@@ -66,7 +69,7 @@ export default {
 			formData.set('sign', notice.sign);
 			formData.set('date', notice.date);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/notice', formData)
+			.post('notice', formData)
 			.then(response => {
 				commit('ADD_NOTICE', response.data);
 				commit('SORT_NOTICES');
@@ -90,7 +93,7 @@ export default {
 			formData.set('sign', notice.sign);
 			formData.set('date', notice.date);
 			await axios
-			.post(`http://pilot136-yii2-vue-api/v1/notice/${notice.id}`, formData)
+			.post(`notice/${notice.id}`, formData)
 			.then(response => {
 				commit('UPDATE_NOTICE', response.data);
 				commit('SORT_NOTICES');
@@ -110,7 +113,7 @@ export default {
 		},
 		async deleteNotice({state, commit, dispatch}, id) {
 			await axios
-			.delete(`http://pilot136-yii2-vue-api/v1/notice/${id}`)
+			.delete(`notice/${id}`)
 			.then(response => {
 				commit('GET_NOTICE', id);
 				commit('DELETE_NOTICE', id);

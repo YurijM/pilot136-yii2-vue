@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
+
 export default {
 	namespaced: true,
 	state: {
@@ -24,7 +27,7 @@ export default {
 			dispatch('clearUsers');
 
 			await axios
-			.get('http://pilot-vue-api/v1/user')
+			.get('user')
 			.then(response => commit('SET_USERS', response.data));
 		}
 	}

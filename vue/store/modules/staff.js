@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import {config} from '../../config';
+axios.defaults.baseURL = config.apiUrl;
+
 export default {
 	namespaced: true,
 	state: {
@@ -89,7 +92,7 @@ export default {
 			commit('CLEAR_STAFF');
 
 			await axios
-			.get('http://pilot136-yii2-vue-api/v1/staff/list')
+			.get('staff/list')
 			.then(response => {
 				commit('SET_STAFF', response.data);
 			});
@@ -101,7 +104,7 @@ export default {
 			formData.set('patronymic', staff.patronymic);
 			formData.set('postIds', staff.postIds);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/staff/add', formData)
+			.post('staff/add', formData)
 			.then(response => {
 				if (response.data.result === '') {
 					commit('ADD_PERSON', {staff: response.data.staff, post: staff.posts, post_id: staff.postIds});
@@ -138,7 +141,7 @@ export default {
 			formData.set('patronymic', staff.patronymic);
 			formData.set('postIds', staff.postIds);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/staff/edit', formData)
+			.post('staff/edit', formData)
 			.then(response => {
 				if (response.data.result === '') {
 					commit('UPDATE_STAFF', {staff: response.data.staff, post_id: staff.postIds, posts: response.data.posts});
@@ -171,7 +174,7 @@ export default {
 			formData.set('_method', 'DELETE');
 			formData.set('id', id);
 			await axios
-			.post('http://pilot136-yii2-vue-api/v1/staff/remove', formData)
+			.post('staff/remove', formData)
 			.then(response => {
 				commit('GET_PERSON', id);
 				commit('DELETE_STAFF', id);

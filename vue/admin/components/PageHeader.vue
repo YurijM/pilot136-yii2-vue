@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  import {config} from '../../config';
+
 	export default {
 		name: 'page-header',
     props: {
@@ -21,7 +23,7 @@
       },
       perPage: {
         type: Number,
-        default: this.appConfig.perPage
+        default: config.perPage
       },
       link: String,
       functionName: String
