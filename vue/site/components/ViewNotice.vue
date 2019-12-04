@@ -9,12 +9,12 @@
 				<font-awesome-icon icon="paperclip" class="fa-2x" transform="rotate-335"/>
 			</div>
 
-			<div class="d-flex justify-content-between mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
-				<div>
+			<div class="d-flex mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
+				<div class="w-75" :style="{fontSize: '1.25em'}">
 					{{notice.sign}}
 				</div>
 
-				<div class="text-right">
+				<div class="w-25 text-right" :style="{fontSize: '1.1em'}">
 					{{new Date(notice.date).toLocaleDateString()}}
 				</div>
 			</div>

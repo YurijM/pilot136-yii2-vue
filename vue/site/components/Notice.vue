@@ -6,11 +6,13 @@
 
 				<b-list-group>
 					<b-list-group-item
-						v-for="notice in notices"
+						v-for="(notice, i) in notices"
 						:key="notice.id"
-						variant="info"
+						variant="primary"
+						:active="(i == currentIndex ? true : false)"
+						exact-active-class="success"
 						href="javascript:void(0)"
-						@focus="viewNotice(notice)"
+						@focus="viewNotice(notice, i)"
 					>
 						{{new Date(notice.date).toLocaleDateString()}}
 					</b-list-group-item>
@@ -19,7 +21,7 @@
 
 			<section class="col pt-3">
 				<ym-view-notice
-					:notice="noticeCurrent"
+					:notice="currentNotice"
 				/>
 			</section>
 		</b-row>
@@ -37,27 +39,29 @@
 		data() {
 			return {
 				notices: null,
-				noticeCurrent: null,
+				currentNotice: null,
+				currentIndex: 0
 			}
 		},
 		async created() {
 			this.notices = this.$store.getters['notice/getNotices'];
 
-			this.noticeCurrent = this.notices[0]
+			this.currentNotice = this.notices[0]
 		},
 		methods: {
-			viewNotice(notice) {
-				this.noticeCurrent = notice;
+			viewNotice(notice, i) {
+				this.currentNotice = notice;
+				this.currentIndex = i;
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.list-group-item-action:focus {
+	/*.list-group-item-action:focus {
 		color: #fff;
 		background-color: #007bff;
-	}
+	}*/
 
 	.notice {
 		border-radius: 1em;
