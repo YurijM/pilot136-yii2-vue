@@ -10,11 +10,11 @@
 			</div>
 
 			<div class="d-flex mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
-				<div class="w-75" :style="{fontSize: '1.25em'}">
+				<div class="w-75" :style="{fontSize: '1.15em'}">
 					{{notice.sign}}
 				</div>
 
-				<div class="w-25 text-right" :style="{fontSize: '1.1em'}">
+				<div class="w-25 text-right" :style="{fontSize: '1.05em'}">
 					{{new Date(notice.date).toLocaleDateString()}}
 				</div>
 			</div>

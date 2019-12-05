@@ -21,6 +21,7 @@
 
 			<section class="col pt-3">
 				<ym-view-notice
+					class="animated fadeIn slow"
 					:notice="currentNotice"
 				/>
 			</section>
