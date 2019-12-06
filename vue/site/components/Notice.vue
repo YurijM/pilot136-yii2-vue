@@ -21,7 +21,6 @@
 
 			<section class="col pt-3">
 				<ym-view-notice
-					class="animated fadeIn slow"
 					:notice="currentNotice"
 				/>
 			</section>
@@ -41,7 +40,7 @@
 			return {
 				notices: null,
 				currentNotice: null,
-				currentIndex: 0
+				currentIndex: 0,
 			}
 		},
 		async created() {

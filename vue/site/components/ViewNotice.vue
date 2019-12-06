@@ -9,17 +9,23 @@
 				<font-awesome-icon icon="paperclip" class="fa-2x" transform="rotate-335"/>
 			</div>
 
-			<div class="d-flex mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
-				<div class="w-75" :style="{fontSize: '1.15em'}">
-					{{notice.sign}}
+			<div
+				v-cloak
+				class="animated fadeIn slow"
+				@load="showNotice()"
+			>
+				<div class="d-flex mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
+					<div class="w-75" :style="{fontSize: '1.15em'}">
+						{{notice.sign}}
+					</div>
+
+					<div class="w-25 text-right" :style="{fontSize: '1.05em'}">
+						{{new Date(notice.date).toLocaleDateString()}}
+					</div>
 				</div>
 
-				<div class="w-25 text-right" :style="{fontSize: '1.05em'}">
-					{{new Date(notice.date).toLocaleDateString()}}
-				</div>
+				<markdown-it-vue :style="{color: '#000080', fontSize: '1.7rem'}" :content="notice.notice"/>
 			</div>
-
-			<markdown-it-vue :style="{color: '#000080', fontSize: '1.7rem'}" :content="notice.notice"/>
 		</div>
 	</div>
 </template>
@@ -36,11 +42,33 @@
 			notice: {
 				type: Object
 			}
+		},
+		data() {
+			return {
+				i: 0
+			}
+		},
+		computed: {
+			show() {
+				return this.i > 0;
+			}
+		},
+		methods: {
+			showNotice() {
+				this.show = false;
+				setTimeout(() => {
+					this.show = true;
+				}, 1000);
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	[v-cloak] {
+		display: none;
+	}
+
 	.notice {
 		border-radius: 1em;
 		min-height: 200px;
