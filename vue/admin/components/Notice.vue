@@ -278,7 +278,8 @@
 			resetModal() {
 				this.notice.id = null;
 				this.notice.notice = '';
-				this.notice.sign = this.dateToString(new Date());
+				this.notice.sign = '';
+				this.notice.date = this.dateToString(new Date());
 
 				this.stateNotice = null;
 				this.stateSign = null;

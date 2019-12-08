@@ -10,9 +10,8 @@
 			</div>
 
 			<div
-				v-cloak
+				v-if="i === idx"
 				class="animated fadeIn slow"
-				@load="showNotice()"
 			>
 				<div class="d-flex mt-3 mb-2 pb-1 font-weight-bold font-italic border-bottom border-dark">
 					<div class="w-75" :style="{fontSize: '1.15em'}">
@@ -39,6 +38,10 @@
 			MarkdownItVue
 		},
 		props: {
+			idx: {
+				type: Number,
+				default: -1
+			},
 			notice: {
 				type: Object
 			}
@@ -50,35 +53,34 @@
 		},
 		computed: {
 			show() {
-				return this.i > 0;
+				return this.idx
 			}
 		},
-		methods: {
-			showNotice() {
-				this.show = false;
+		watch: {
+			show(index) {
 				setTimeout(() => {
-					this.show = true;
-				}, 1000);
+					this.i = index;
+				}, 10);
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	[v-cloak] {
-		display: none;
-	}
-
 	.notice {
 		border-radius: 1em;
-		min-height: 200px;
+		min-height: 50vh;
 		line-height: 22px;
 		background: repeating-linear-gradient(
-				transparent, transparent 20px, #ccf 22px
+				transparent,
+				transparent 20px,
+				#ccf 22px
 		),
 		repeating-linear-gradient(
 				90deg,
-				transparent, transparent 20px, #ccf 22px
+				transparent,
+				transparent 20px,
+				#ccf 22px
 		);
 	}
 </style>

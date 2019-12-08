@@ -22,6 +22,7 @@
 			<section class="col pt-3">
 				<ym-view-notice
 					:notice="currentNotice"
+					:idx="currentIndex"
 				/>
 			</section>
 		</b-row>
@@ -63,13 +64,13 @@
 		background-color: #007bff;
 	}*/
 
-	.notice {
+	/*.notice {
 		border-radius: 1em;
-		min-height: 200px;
+		min-height: 500px;
 		line-height: 30px;
-		/*background: linear-gradient(#bbb, transparent 1px), linear-gradient(90deg, #bbb, transparent 1px);
+		!*background: linear-gradient(#bbb, transparent 1px), linear-gradient(90deg, #bbb, transparent 1px);
 		background-size: 20px 20px;
-		background-position: center center;*/
+		background-position: center center;*!
 		background: repeating-linear-gradient(
 				transparent, transparent 20px, #ccf 22px
 		),
@@ -77,5 +78,5 @@
 				90deg,
 				transparent, transparent 20px, #ccf 22px
 		);
-	}
+	}*/
 </style>
