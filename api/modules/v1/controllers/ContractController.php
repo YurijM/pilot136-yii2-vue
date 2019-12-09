@@ -2,18 +2,19 @@
 
 namespace api\modules\v1\controllers;
 
-use common\models\Act;
+use common\models\Contract;
 use Yii;
 use yii\helpers\BaseFileHelper;
 
-class ActController extends ApiController
+class ContractController extends ApiController
 {
-	const PATH_TO_ACTS = '@frontend/web/downloads/acts';
-	public $modelClass = 'common\models\Act';
+	const PATH_TO_CONTRCTS = '@frontend/web/downloads/contracts';
+	public $modelClass = 'common\models\Contract';
 
 	public function actionList()
 	{
-		return Act::find()->all();
+		$contracts = Contract::find()->all();
+		return $contracts;
 	}
 
 	public function actionAdd()
@@ -25,19 +26,19 @@ class ActController extends ApiController
 		$loadResult = $this->loadFile($_FILES['file'], $params['year']);
 
 		if ($loadResult['result'] === '') {
-			$act = new Act();
-			$act->title = $params['title'];
-			$act->year = $params['year'];
-			$act->file = $loadResult['fileName'];
+			$contract = new Contract();
+			$contract->title = $params['title'];
+			$contract->year = $params['year'];
+			$contract->file = $loadResult['fileName'];
 
-			if (!$act->save()) {
-				$result = 'Ошибка при сохранении в БД акта "' . $act->title . '"';
+			if (!$contract->save()) {
+				$result = 'Ошибка при сохранении в БД договора "' . $contract->title . '"';
 			}
 		} else {
 			$result = $loadResult['result'];
 		}
 
-		return compact(['act', 'result']);
+		return compact(['contract', 'result']);
 	}
 
 	public function actionEdit()
@@ -48,7 +49,7 @@ class ActController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$act = Act::findOne($params['id']);
+		$contract = Contract::findOne($params['id']);
 
 		if ($_FILES) {
 			$deleteResult = $this->deleteFile($params['fileName']);
@@ -57,17 +58,17 @@ class ActController extends ApiController
 				$loadResult = $this->loadFile($_FILES['file'], $params['year']);
 
 				if ($loadResult['result'] === '') {
-					$act->file = $loadResult['fileName'];
+					$contract->file = $loadResult['fileName'];
 				}
 			}
 		}
 
 		if ((is_null($loadResult) and $deleteResult === '') or $loadResult['result'] === '') {
-			$act->title = $params['title'];
-			$act->year = $params['year'];
+			$contract->title = $params['title'];
+			$contract->year = $params['year'];
 
-			if (!$act->save()) {
-				$result = 'Ошибка при обновлении документа "' . $act->title . '"';
+			if (!$contract->save()) {
+				$result = 'Ошибка при обновлении документа "' . $contract->title . '"';
 			}
 		} elseif (!is_null($loadResult)) {
 			$result = $loadResult['result'];
@@ -75,7 +76,7 @@ class ActController extends ApiController
 			$result = $deleteResult;
 		}
 
-		return compact(['act', 'result']);
+		return compact(['contract', 'result']);
 	}
 
 	public function actionRemove() {
@@ -83,12 +84,12 @@ class ActController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$act = Act::findOne($params['id']);
-		$result = $this->deleteFile($act->file);
+		$contract = Contract::findOne($params['id']);
+		$result = $this->deleteFile($contract->file);
 
 		if ($result === '') {
-			if (!$act->delete()) {
-				$result = 'Ошибка при удалении записи из таблицы act (' . $act->id . ')';
+			if (!$contract->delete()) {
+				$result = 'Ошибка при удалении записи из таблицы contract (' . $contract->id . ')';
 			}
 		}
 
@@ -99,7 +100,7 @@ class ActController extends ApiController
 	{
 		$result = '';
 
-		$path = Yii::getAlias(self::PATH_TO_ACTS);
+		$path = Yii::getAlias(self::PATH_TO_CONTRCTS);
 		BaseFileHelper::createDirectory($path);
 
 		$ext = substr($file['name'], strrpos($file['name'], '.'));
@@ -125,7 +126,7 @@ class ActController extends ApiController
 	protected function deleteFile($fileName)
 	{
 		$result = '';
-		$path = Yii::getAlias(self::PATH_TO_ACTS);
+		$path = Yii::getAlias(self::PATH_TO_CONTRCTS);
 		$file = $path . DIRECTORY_SEPARATOR . $fileName;
 
 		if (!unlink($file)) {

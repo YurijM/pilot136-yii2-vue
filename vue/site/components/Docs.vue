@@ -2,12 +2,12 @@
 	<b-container class="animated fadeIn slow">
 		<h4 class="font-weight-bold text-center">Документы</h4>
 
-		<b-list-group class="mt-2 mb-3 justify-content-center flex-wrap" :style="{fontSize: '1.15em'}" horizontal>
+		<b-list-group class="mb-3 justify-content-center flex-wrap" :style="{fontSize: '1.15em'}" horizontal>
 			<b-list-group-item
 				v-for="(doc, i) in docs"
 				:key="i"
 				variant="info"
-				class="d-flex justify-content-between align-items-center"
+				class="d-flex mt-2 justify-content-between align-items-center"
 				@click="listDocs(doc)"
 			>
 				{{doc.title}}
@@ -33,15 +33,17 @@
 			return {
 				docs: [],
 				docsCurrent: null,
-				acts: null
+				acts: null,
+				contracts: null
 			}
 		},
 		async created() {
 			this.acts = this.$store.getters['act/getActs'];
+			this.contracts = this.$store.getters['contract/getContracts'];
 
 			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts, folder: 'acts'});
 			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts'});
-			this.docs.push({title: 'Договоры', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Договоры', docs: this.contracts, folder: 'contracts'});
 			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts'});
 			this.docs.push({title: 'Протоколы', docs: this.acts, folder: 'acts'});
 			this.docs.push({title: 'Капитальный ремонт', docs: this.acts, folder: 'acts'});

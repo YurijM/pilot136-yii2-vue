@@ -11,6 +11,7 @@ import requisite from './modules/requisite';
 import post from './modules/post';
 import staff from './modules/staff';
 import act from './modules/act';
+import contract from './modules/contract';
 import notice from './modules/notice';
 
 export const store = new Vuex.Store({
@@ -22,6 +23,7 @@ export const store = new Vuex.Store({
 		post,
 		staff,
 		act,
+		contract,
 		notice
 	},
 	/*plugins: [createPersistedState(

@@ -89,6 +89,17 @@ return [
 				],
 				[
 					'class' => UrlRule::class,
+					'controller' => 'v1/contract',
+					'extraPatterns' => [
+						'GET list' => 'list',
+						'POST add' => 'add',
+						'PUT edit' => 'edit',
+						'DELETE remove' => 'remove',
+					],
+					'pluralize' => false, //отключение множественного числа
+				],
+				[
+					'class' => UrlRule::class,
 					'controller' => 'v1/notice',
 					'extraPatterns' => [
 						'GET list' => 'list'

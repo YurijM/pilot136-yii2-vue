@@ -65,7 +65,7 @@ export default {
 			.get('act/list')
 			.then(response => {
 				dispatch('clearActs');
-				commit('SET_ACTS', response.data.acts);
+				commit('SET_ACTS', response.data);
 				commit('SORT_ACTS');
 			});
 		},
