@@ -56,7 +56,7 @@ export default {
 			state.contracts = state.contracts.filter(el => el.id !== payload);
 		}
 	},
-	contractions: {
+	actions: {
 		clearContracts({commit}) {
 			commit('CLEAR_CONTRACTS');
 		},
@@ -65,7 +65,7 @@ export default {
 			.get('contract/list')
 			.then(response => {
 				dispatch('clearContracts');
-				commit('SET_CONTRACTS', response.data.contracts);
+				commit('SET_CONTRACTS', response.data);
 				commit('SORT_CONTRACTS');
 			});
 		},

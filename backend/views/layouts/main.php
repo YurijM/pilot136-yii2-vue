@@ -24,7 +24,7 @@ AppAsset::register($this);
 
 <div id="app"></div>
 
-<!--Для ностинга:-->
+<!--Для хостинга:-->
 <?php /*$this->registerJsFile('admin/js/app-backend.js'); */?>
 <!--или-->
 <?php /*$this->registerJsFile('backend/web/js/app-backend.js'); */?>

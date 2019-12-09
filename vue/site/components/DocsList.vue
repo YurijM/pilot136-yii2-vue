@@ -3,16 +3,19 @@
 		<h5 class="font-weight-bold text-center">{{docs.title}}</h5>
 
 		<b-card-group class="justify-content-center" deck>
-			<b-card v-for="doc in docs.docs" :key="doc._id"
-							body-class="alert-info"
+			<b-card v-for="doc in docs.docs" :key="doc.id"
+							body-class="alert-info py-1 px-2"
 							border-variant="primary"
-							class="my-2 text-center"
-							:style="{minWidth: '19rem', maxWidth: '19rem'}"
+							class="m-2 text-center"
+							:style="{minWidth: '17.5rem', maxWidth: '17.5rem'}"
 							footer-tag="footer"
 							footer-class="alert-primary"
 			>
 				<b-card-text>
 					{{doc.title}}
+					<span v-if="docs.showYear">
+						({{doc.year}}г.)
+					</span>
 				</b-card-text>
 
 				<template v-slot:footer>
@@ -42,6 +45,10 @@
 	}
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+	@media (min-width: 200px) {
+		.card-deck {
+			flex-flow: row wrap !important;
+		}
+	}
 </style>

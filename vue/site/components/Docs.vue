@@ -41,12 +41,12 @@
 			this.acts = this.$store.getters['act/getActs'];
 			this.contracts = this.$store.getters['contract/getContracts'];
 
-			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts, folder: 'acts'});
-			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts'});
-			this.docs.push({title: 'Договоры', docs: this.contracts, folder: 'contracts'});
-			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts'});
-			this.docs.push({title: 'Протоколы', docs: this.acts, folder: 'acts'});
-			this.docs.push({title: 'Капитальный ремонт', docs: this.acts, folder: 'acts'});
+			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts, folder: 'acts', showYear: false});
+			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts', showYear: false});
+			this.docs.push({title: 'Договоры', docs: this.contracts, folder: 'contracts', showYear: true});
+			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts', showYear: true});
+			this.docs.push({title: 'Протоколы', docs: this.acts, folder: 'acts', showYear: false});
+			this.docs.push({title: 'Капитальный ремонт', docs: this.acts, folder: 'acts', showYear: false});
 
 			this.docs.sort(this.sortDocs);
 
@@ -66,13 +66,13 @@
 				}
 				return result;
 			},
-			listDocs(docs) {
+			listDocs(doc) {
 				/*this.showDocs = false;
 				this.docsCurrent = docs;
 				setTimeout(() => {
 					this.showDocs = true;
 				}, 1000);*/
-				this.docsCurrent = docs;
+				this.docsCurrent = doc;
 			}
 		}
 	}

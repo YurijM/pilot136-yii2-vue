@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 import Login from './components/Login';
 import Act from "./components/Act";
+import Contract from "./components/Contract";
 import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
@@ -72,6 +73,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('act/loadActs');
+			next();
+		}
+	},
+	{
+		name: 'contract',
+		path: '/contract',
+		component: Contract,
+		meta: {
+			title: 'Договоры'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('contract/loadContracts');
 			next();
 		}
 	},

@@ -31,6 +31,7 @@ const routes = [
 		component: Docs,
 		async beforeEnter(from, to, next) {
 			await store.dispatch('act/loadActs');
+			await store.dispatch('contract/loadContracts');
 			next();
 		}
 	},

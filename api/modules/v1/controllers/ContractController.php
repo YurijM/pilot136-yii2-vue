@@ -13,8 +13,7 @@ class ContractController extends ApiController
 
 	public function actionList()
 	{
-		$contracts = Contract::find()->all();
-		return $contracts;
+		return Contract::find()->all();
 	}
 
 	public function actionAdd()
