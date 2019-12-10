@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 import Login from './components/Login';
 import Act from "./components/Act";
 import Contract from "./components/Contract";
+import Certificate from "./components/Certificate";
 import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
@@ -85,6 +86,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('contract/loadContracts');
+			next();
+		}
+	},
+	{
+		name: 'certificate',
+		path: '/certificate',
+		component: Certificate,
+		meta: {
+			title: 'Свидетельства и паспорта'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('certificate/loadCertificates');
 			next();
 		}
 	},

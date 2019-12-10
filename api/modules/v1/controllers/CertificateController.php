@@ -2,18 +2,18 @@
 
 namespace api\modules\v1\controllers;
 
-use common\models\Contract;
+use common\models\Certificate;
 use Yii;
 use yii\helpers\BaseFileHelper;
 
-class ContractController extends ApiController
+class CertificateController extends ApiController
 {
-	const PATH_TO_CONTRCTS = '@frontend/web/downloads/contracts';
-	public $modelClass = 'common\models\Contract';
+	const PATH_TO_CERTIFICATES = '@frontend/web/downloads/certificates';
+	public $modelClass = 'common\models\Certificate';
 
 	public function actionList()
 	{
-		return Contract::find()->all();
+		return Certificate::find()->all();
 	}
 
 	public function actionAdd()
@@ -22,22 +22,21 @@ class ContractController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$loadResult = $this->loadFile($_FILES['file'], $params['year']);
+		$loadResult = $this->loadFile($_FILES['file']);
 
 		if ($loadResult['result'] === '') {
-			$contract = new Contract();
-			$contract->title = $params['title'];
-			$contract->year = $params['year'];
-			$contract->file = $loadResult['fileName'];
+			$certificate = new Certificate();
+			$certificate->title = $params['title'];
+			$certificate->file = $loadResult['fileName'];
 
-			if (!$contract->save()) {
-				$result = 'Ошибка при сохранении в БД договора "' . $contract->title . '"';
+			if (!$certificate->save()) {
+				$result = 'Ошибка при сохранении в БД документа "' . $certificate->title . '"';
 			}
 		} else {
 			$result = $loadResult['result'];
 		}
 
-		return compact(['contract', 'result']);
+		return compact(['certificate', 'result']);
 	}
 
 	public function actionEdit()
@@ -48,26 +47,25 @@ class ContractController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$contract = Contract::findOne($params['id']);
+		$certificate = Certificate::findOne($params['id']);
 
 		if ($_FILES) {
 			$deleteResult = $this->deleteFile($params['fileName']);
 
 			if ($deleteResult === '') {
-				$loadResult = $this->loadFile($_FILES['file'], $params['year']);
+				$loadResult = $this->loadFile($_FILES['file']);
 
 				if ($loadResult['result'] === '') {
-					$contract->file = $loadResult['fileName'];
+					$certificate->file = $loadResult['fileName'];
 				}
 			}
 		}
 
 		if ((is_null($loadResult) and $deleteResult === '') or $loadResult['result'] === '') {
-			$contract->title = $params['title'];
-			$contract->year = $params['year'];
+			$certificate->title = $params['title'];
 
-			if (!$contract->save()) {
-				$result = 'Ошибка при обновлении документа "' . $contract->title . '"';
+			if (!$certificate->save()) {
+				$result = 'Ошибка при обновлении документа "' . $certificate->title . '"';
 			}
 		} elseif (!is_null($loadResult)) {
 			$result = $loadResult['result'];
@@ -75,7 +73,7 @@ class ContractController extends ApiController
 			$result = $deleteResult;
 		}
 
-		return compact(['contract', 'result']);
+		return compact(['certificate', 'result']);
 	}
 
 	public function actionRemove() {
@@ -83,29 +81,29 @@ class ContractController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$contract = Contract::findOne($params['id']);
-		$result = $this->deleteFile($contract->file);
+		$certificate = Certificate::findOne($params['id']);
+		$result = $this->deleteFile($certificate->file);
 
 		if ($result === '') {
-			if (!$contract->delete()) {
-				$result = 'Ошибка при удалении записи из таблицы contract (' . $contract->id . ')';
+			if (!$certificate->delete()) {
+				$result = 'Ошибка при удалении записи из таблицы certificate (' . $certificate->id . ')';
 			}
 		}
 
 		return $result;
 	}
 
-	protected function loadFile($file, $year)
+	protected function loadFile($file)
 	{
 		$result = '';
 
-		$path = Yii::getAlias(self::PATH_TO_CONTRCTS);
+		$path = Yii::getAlias(self::PATH_TO_CERTIFICATES);
 		BaseFileHelper::createDirectory($path);
 
 		$ext = substr($file['name'], strrpos($file['name'], '.'));
 		//$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
 		$now = date('Ymdhis');
-		$fileName = 'contract-' . $year . '-' . $now . $ext;
+		$fileName = 'certificate-' . $now . $ext;
 		$fullName = $path . DIRECTORY_SEPARATOR . $fileName;
 
 		// Проверяем загружен ли файл
@@ -125,7 +123,7 @@ class ContractController extends ApiController
 	protected function deleteFile($fileName)
 	{
 		$result = '';
-		$path = Yii::getAlias(self::PATH_TO_CONTRCTS);
+		$path = Yii::getAlias(self::PATH_TO_CERTIFICATES);
 		$file = $path . DIRECTORY_SEPARATOR . $fileName;
 
 		if (!unlink($file)) {

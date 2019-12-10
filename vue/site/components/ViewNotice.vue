@@ -60,7 +60,7 @@
 			show(index) {
 				setTimeout(() => {
 					this.i = index;
-				}, 10);
+				}, 1);
 			}
 		}
 	}

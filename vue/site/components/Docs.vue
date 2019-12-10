@@ -1,5 +1,5 @@
 <template>
-	<b-container class="animated fadeIn slow">
+	<b-container>
 		<h4 class="font-weight-bold text-center">Документы</h4>
 
 		<b-list-group class="mb-3 justify-content-center flex-wrap" :style="{fontSize: '1.15em'}" horizontal>
@@ -8,7 +8,7 @@
 				:key="i"
 				variant="info"
 				class="d-flex mt-2 justify-content-between align-items-center"
-				@click="listDocs(doc)"
+				@click="listDocs(doc, i)"
 			>
 				{{doc.title}}
 				<b-badge class="ml-3" variant="primary" pill>{{doc.docs.length}}</b-badge>
@@ -17,6 +17,7 @@
 
 		<ym-docs-list
 			:docs="docsCurrent"
+			:idx="currentIndex"
 		/>
 	</b-container>
 </template>
@@ -34,14 +35,18 @@
 				docs: [],
 				docsCurrent: null,
 				acts: null,
-				contracts: null
+				contracts: null,
+				certificates: null,
+				currentIndex: 0,
 			}
 		},
 		async created() {
 			this.acts = this.$store.getters['act/getActs'];
 			this.contracts = this.$store.getters['contract/getContracts'];
+			this.certificates = this.$store.getters['certificate/getCertificates'];
 
-			this.docs.push({title: 'Свидетельства и паспорта', docs: this.acts, folder: 'acts', showYear: false});
+			this.docs.push({title: 'Свидетельства и паспорта', docs: this.certificates, folder: 'certificates',
+				showYear: false});
 			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts', showYear: false});
 			this.docs.push({title: 'Договоры', docs: this.contracts, folder: 'contracts', showYear: true});
 			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts', showYear: true});
@@ -50,6 +55,7 @@
 
 			this.docs.sort(this.sortDocs);
 
+			this.currentIndex = 0;
 			this.docsCurrent = this.docs[0];
 		},
 		methods: {
@@ -66,13 +72,9 @@
 				}
 				return result;
 			},
-			listDocs(doc) {
-				/*this.showDocs = false;
-				this.docsCurrent = docs;
-				setTimeout(() => {
-					this.showDocs = true;
-				}, 1000);*/
+			listDocs(doc, i) {
 				this.docsCurrent = doc;
+				this.currentIndex = i;
 			}
 		}
 	}

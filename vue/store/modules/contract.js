@@ -101,7 +101,7 @@ export default {
 				console.log('Create Contract Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при добавлении акта (см. в консоли "Create Contract Error")'
+					message: 'Ошибка при добавлении договора (см. в консоли "Create Contract Error")'
 				}, {root: true});
 			});
 		},
@@ -136,7 +136,7 @@ export default {
 				console.log('Update Contract Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при изменении акта (см. в консоли "Update Contract Error")'
+					message: 'Ошибка при изменении договора (см. в консоли "Update Contract Error")'
 				}, {root: true});
 			});
 		},
@@ -166,7 +166,7 @@ export default {
 				console.log('Delete Contract Error ', error);
 				dispatch('common/setInfo', {
 					type: 'danger',
-					message: 'Ошибка при удалении акта (см. в консоли "Delete Contract Error")'
+					message: 'Ошибка при удалении договора (см. в консоли "Delete Contract Error")'
 				}, {root: true});
 			});
 		}

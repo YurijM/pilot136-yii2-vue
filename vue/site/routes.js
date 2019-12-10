@@ -32,6 +32,7 @@ const routes = [
 		async beforeEnter(from, to, next) {
 			await store.dispatch('act/loadActs');
 			await store.dispatch('contract/loadContracts');
+			await store.dispatch('certificate/loadCertificates');
 			next();
 		}
 	},

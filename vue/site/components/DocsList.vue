@@ -1,5 +1,8 @@
 <template>
-	<div>
+	<div
+		v-if="i === idx"
+		class="animated fadeIn slow"
+	>
 		<h5 class="font-weight-bold text-center">{{docs.title}}</h5>
 
 		<b-card-group class="justify-content-center" deck>
@@ -38,9 +41,30 @@
 	export default {
 		name: 'DocsList',
 		props: {
+			idx: {
+				type: Number,
+				default: -1
+			},
 			docs: {
 				type: Object
 			},
+		},
+		data() {
+			return {
+				i: 0
+			}
+		},
+		computed: {
+			show() {
+				return this.idx
+			}
+		},
+		watch: {
+			show(index) {
+				setTimeout(() => {
+					this.i = index;
+				}, .001);
+			}
 		}
 	}
 </script>
