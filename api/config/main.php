@@ -78,7 +78,7 @@ return [
 				],
 				[
 					'class' => UrlRule::class,
-					'controller' => 'v1/act',
+					'controller' => ['v1/act', 'v1/contract', 'v1/certificate'],
 					'extraPatterns' => [
 						'GET list' => 'list',
 						'POST add' => 'add',
@@ -87,7 +87,7 @@ return [
 					],
 					'pluralize' => false, //отключение множественного числа
 				],
-				[
+				/*[
 					'class' => UrlRule::class,
 					'controller' => 'v1/contract',
 					'extraPatterns' => [
@@ -97,8 +97,8 @@ return [
 						'DELETE remove' => 'remove',
 					],
 					'pluralize' => false, //отключение множественного числа
-				],
-				[
+				],*/
+				/*[
 					'class' => UrlRule::class,
 					'controller' => 'v1/certificate',
 					'extraPatterns' => [
@@ -106,7 +106,16 @@ return [
 						'POST add' => 'add',
 						'PUT edit' => 'edit',
 						'DELETE remove' => 'remove',
-					],
+					],*/
+					[
+						'class' => UrlRule::class,
+						'controller' => 'v1/finance',
+						'extraPatterns' => [
+							'GET list' => 'list',
+							'POST add' => 'add',
+							'PUT edit' => 'edit',
+							'DELETE remove' => 'remove',
+						],
 					'pluralize' => false, //отключение множественного числа
 				],
 				[
