@@ -33,6 +33,7 @@ const routes = [
 			await store.dispatch('act/loadActs');
 			await store.dispatch('contract/loadContracts');
 			await store.dispatch('certificate/loadCertificates');
+			await store.dispatch('finance/loadFinances');
 			next();
 		}
 	},

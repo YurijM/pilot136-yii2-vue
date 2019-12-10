@@ -15,7 +15,7 @@ class m191210_104501_create_finance_table extends Migration
 		$this->createTable('{{%finance}}', [
 			'id' => $this->primaryKey(),
 			'year' => $this->integer()->notNull(),
-			'quarter' => $this->integer()->notNull(),
+			'period' => $this->float(1)->notNull(),
 			'title' => $this->string(256)->notNull(),
 			'file' => $this->string(64)->notNull(),
 		]);

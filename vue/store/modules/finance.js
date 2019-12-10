@@ -24,8 +24,10 @@ export default {
 				// Используем toUpperCase() для преобразования регистра
 				const year1 = a.year;
 				const year2 = b.year;
-				const quarter1 = a.quarter;
-				const quarter2 = b.quarter;
+				const period1 = a.period;
+				const period2 = b.period;
+				const title1 = a.title.toUpperCase();
+				const title2 = b.title.toUpperCase();
 
 				let result = 0;
 				if (year1 < year2) {
@@ -33,10 +35,16 @@ export default {
 				} else if (year1 > year2) {
 					result = -1;
 				} else {
-					if (quarter1 < quarter2) {
+					if (period1 < period2) {
 						result = 1;
-					} else {
+					} else if (period1 > period2) {
 						result = -1;
+					} else {
+						if (title1 > title2) {
+							result = 1;
+						} else {
+							result = -1;
+						}
 					}
 				}
 				return result;
@@ -73,7 +81,7 @@ export default {
 			const formData = new FormData();
 			formData.append('title', finance.title);
 			formData.append('year', finance.year);
-			formData.append('quarter', finance.quarter);
+			formData.append('period', finance.period);
 			formData.append('file', finance.file);
 			await axios
 			//.post('http://pilot136-yii2-vue-api/v1/finance/add', formData, {
@@ -112,7 +120,7 @@ export default {
 			formData.set('id', finance.id);
 			formData.set('title', finance.title);
 			formData.set('year', finance.year);
-			formData.set('quarter', finance.quarter);
+			formData.set('period', finance.period);
 			formData.set('fileName', finance.fileName);
 			formData.set('file', finance.file);
 			await axios

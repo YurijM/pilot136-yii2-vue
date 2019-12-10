@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 import Login from './components/Login';
 import Act from "./components/Act";
 import Contract from "./components/Contract";
+import Finance from "./components/Finance";
 import Certificate from "./components/Certificate";
 import Notice from "./components/Notice";
 import Post from './components/Post';
@@ -98,6 +99,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('certificate/loadCertificates');
+			next();
+		}
+	},
+	{
+		name: 'finance',
+		path: '/finance',
+		component: Finance,
+		meta: {
+			title: 'Финансы'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('finance/loadFinances');
 			next();
 		}
 	},

@@ -22,13 +22,13 @@ class FinanceController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['quarter']);
+		$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['period']);
 
 		if ($loadResult['result'] === '') {
 			$finance = new Finance();
 			$finance->title = $params['title'];
 			$finance->year = $params['year'];
-			$finance->quarter = $params['quarter'];
+			$finance->period = $params['period'];
 			$finance->file = $loadResult['fileName'];
 
 			if (!$finance->save()) {
@@ -55,7 +55,7 @@ class FinanceController extends ApiController
 			$deleteResult = $this->deleteFile($params['fileName']);
 
 			if ($deleteResult === '') {
-				$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['quarter']);
+				$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['period']);
 
 				if ($loadResult['result'] === '') {
 					$finance->file = $loadResult['fileName'];
@@ -66,7 +66,7 @@ class FinanceController extends ApiController
 		if ((is_null($loadResult) and $deleteResult === '') or $loadResult['result'] === '') {
 			$finance->title = $params['title'];
 			$finance->year = $params['year'];
-			$finance->quarter = $params['quarter'];
+			$finance->period = $params['period'];
 
 			if (!$finance->save()) {
 				$result = 'Ошибка при обновлении документа "' . $finance->title . '"';
@@ -97,7 +97,7 @@ class FinanceController extends ApiController
 		return $result;
 	}
 
-	protected function loadFile($file, $year, $quarter)
+	protected function loadFile($file, $year, $period)
 	{
 		$result = '';
 
@@ -108,7 +108,7 @@ class FinanceController extends ApiController
 		//$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
 		$now = date('Ymdhis');
 		$fileName = ($year > Yii::$app->params['noneYear'] ? '-' . $year : '');
-		$fileName = ($quarter > Yii::$app->params['noneQuarter'] ? '-' . $quarter : '') . $fileName;
+		$fileName = ($period > Yii::$app->params['nonePeriod'] ? '-' . $period : '') . $fileName;
 		$fileName = 'finance-' . $fileName . '-' . $now . $ext;
 		$fullName = $path . DIRECTORY_SEPARATOR . $fileName;
 

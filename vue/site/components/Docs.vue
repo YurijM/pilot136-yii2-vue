@@ -44,14 +44,43 @@
 			this.acts = this.$store.getters['act/getActs'];
 			this.contracts = this.$store.getters['contract/getContracts'];
 			this.certificates = this.$store.getters['certificate/getCertificates'];
+			this.finances = this.$store.getters['finance/getFinances'];
 
-			this.docs.push({title: 'Свидетельства и паспорта', docs: this.certificates, folder: 'certificates',
-				showYear: false});
-			this.docs.push({title: 'Финансы', docs: this.acts, folder: 'acts', showYear: false});
-			this.docs.push({title: 'Договоры', docs: this.contracts, folder: 'contracts', showYear: true});
-			this.docs.push({title: 'Акты', docs: this.acts, folder: 'acts', showYear: true});
-			this.docs.push({title: 'Протоколы', docs: this.acts, folder: 'acts', showYear: false});
-			this.docs.push({title: 'Капитальный ремонт', docs: this.acts, folder: 'acts', showYear: false});
+			this.docs.push({
+				title: 'Свидетельства и паспорта',
+				docs: this.certificates,
+				folder: 'certificates',
+				showYear: false
+			});
+			this.docs.push({
+				title: 'Финансы',
+				docs: this.finances,
+				folder: 'finances',
+				showYear: false
+			});
+			this.docs.push({
+				title: 'Договоры',
+				docs: this.contracts,
+				folder: 'contracts',
+				showYear: true
+			});
+			this.docs.push({
+				title: 'Акты',
+				docs: this.acts,
+				folder: 'acts',
+				showYear: true});
+			this.docs.push({
+				title: 'Протоколы',
+				docs: this.acts,
+				folder: 'acts',
+				showYear: false
+			});
+			this.docs.push({
+				title: 'Капитальный ремонт',
+				docs: this.acts,
+				folder: 'acts',
+				showYear: false
+			});
 
 			this.docs.sort(this.sortDocs);
 

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $year
- * @property int $quarter
+ * @property float $period
  * @property string $title
  * @property string $file
  */
@@ -29,8 +29,9 @@ class Finance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['year', 'quarter', 'title', 'file'], 'required'],
-            [['year', 'quarter'], 'integer'],
+            [['year', 'period', 'title', 'file'], 'required'],
+            [['year'], 'integer'],
+            [['period'], 'number'],
             [['title'], 'string', 'max' => 256],
             [['file'], 'string', 'max' => 64],
         ];
@@ -44,7 +45,7 @@ class Finance extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'year' => 'Year',
-            'quarter' => 'Quarter',
+            'period' => 'Period',
             'title' => 'Title',
             'file' => 'File',
         ];
