@@ -54,7 +54,6 @@
 						id="inputTitle"
 						v-model="protocol.title"
 						:state="stateTitle"
-						:autofocus="true"
 						required
 					></b-form-input>
 				</b-form-group>

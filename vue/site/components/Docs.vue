@@ -59,36 +59,37 @@
 				title: 'Свидетельства и паспорта',
 				docs: this.certificates,
 				folder: 'certificates',
-				showYear: false
+				period: ''
 			});
 			this.docs.push({
 				title: 'Финансы',
 				docs: this.finances,
 				folder: 'finances',
-				showYear: false
+				period: ''
 			});
 			this.docs.push({
 				title: 'Договоры',
 				docs: this.contracts,
 				folder: 'contracts',
-				showYear: true
+				period: 'year'
 			});
 			this.docs.push({
 				title: 'Акты',
 				docs: this.acts,
 				folder: 'acts',
-				showYear: true});
+				period: 'year'
+			});
 			this.docs.push({
 				title: 'Протоколы',
 				docs: this.protocols,
 				folder: 'protocols',
-				showYear: false
+				period: 'date'
 			});
 			this.docs.push({
 				title: 'Капитальный ремонт',
 				docs: this.overhauls,
 				folder: 'overhauls',
-				showYear: false
+				period: ''
 			});
 
 			this.docs.sort(this.sortDocs);

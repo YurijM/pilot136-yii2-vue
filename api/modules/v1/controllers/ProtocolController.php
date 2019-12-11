@@ -104,7 +104,8 @@ class ProtocolController extends ApiController
 
 		$ext = substr($file['name'], strrpos($file['name'], '.'));
 		//$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
-		$now = date('Ymd', $date);
+		$date = date('Ymd', strtotime($date));
+		$now = date('Ymdhis');
 		$fileName = 'protocol-' . $date . '-' . $now . $ext;
 		$fullName = $path . DIRECTORY_SEPARATOR . $fileName;
 

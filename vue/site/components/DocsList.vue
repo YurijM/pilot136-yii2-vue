@@ -20,8 +20,8 @@
 			>
 				<b-card-text>
 					{{doc.title}}
-					<span v-if="docs.showYear">
-						({{doc.year}}г.)
+					<span v-if="docs.period">
+						{{docs.period == 'year' ? `(${doc.year})` : `от ${dateFormat(doc.date)}`}}
 					</span>
 				</b-card-text>
 
@@ -74,7 +74,19 @@
 					this.i = index;
 				}, .001);
 			}
-		}
+		},
+		methods: {
+			dateFormat(str) {
+				const date = new Date(Date.parse(str));
+				let dd = date.getDate();
+				let mm = date.getMonth() + 1;
+				const yyyy = date.getFullYear();
+
+				dd = (dd < 10 ? '0' + dd : dd);
+				mm = (mm < 10 ? '0' + mm : mm);
+
+				return `${dd}.${mm}.${yyyy}`;
+			},		}
 	}
 </script>
 
