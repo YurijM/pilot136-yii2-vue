@@ -179,7 +179,8 @@
 						formatter: value => {
 							return (new Date(value)).toLocaleDateString();
 						}
-					}, {
+					},
+					{
 						key: 'notice',
 						label: 'Объявление',
 						thClass: ['p-1', 'text-center', 'align-middle'],

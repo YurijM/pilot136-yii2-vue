@@ -10,6 +10,7 @@ import Contract from "./components/Contract";
 import Finance from "./components/Finance";
 import Overhaul from "./components/Overhaul";
 import Certificate from "./components/Certificate";
+import Protocol from "./components/Protocol";
 import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
@@ -124,6 +125,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('overhaul/loadOverhauls');
+			next();
+		}
+	},
+	{
+		name: 'protocol',
+		path: '/protocol',
+		component: Protocol,
+		meta: {
+			title: 'Протоколы'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('protocol/loadProtocols');
 			next();
 		}
 	},

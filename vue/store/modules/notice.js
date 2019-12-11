@@ -21,7 +21,6 @@ export default {
 		},
 		SORT_NOTICES(state) {
 			state.notices.sort((a, b) => {
-				// Используем toUpperCase() для преобразования регистра
 				const item1 = a.date.toInteger;
 				const item2 = b.date.toInteger;
 
@@ -31,6 +30,7 @@ export default {
 				} else if (item1 > item2) {
 					result = -1;
 				}
+
 				return result;
 			});
 		},

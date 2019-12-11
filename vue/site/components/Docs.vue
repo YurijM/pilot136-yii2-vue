@@ -43,6 +43,7 @@
 				certificates: null,
 				finances: null,
 				overhauls: null,
+				protocols: null,
 				currentIndex: 0,
 			}
 		},
@@ -52,6 +53,7 @@
 			this.certificates = this.$store.getters['certificate/getCertificates'];
 			this.finances = this.$store.getters['finance/getFinances'];
 			this.overhauls = this.$store.getters['overhaul/getOverhauls'];
+			this.protocols = this.$store.getters['protocol/getProtocols'];
 
 			this.docs.push({
 				title: 'Свидетельства и паспорта',
@@ -78,8 +80,8 @@
 				showYear: true});
 			this.docs.push({
 				title: 'Протоколы',
-				docs: this.acts,
-				folder: 'acts',
+				docs: this.protocols,
+				folder: 'protocols',
 				showYear: false
 			});
 			this.docs.push({

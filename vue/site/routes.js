@@ -42,6 +42,7 @@ const routes = [
 			await store.dispatch('certificate/loadCertificates');
 			await store.dispatch('finance/loadFinances');
 			await store.dispatch('overhaul/loadOverhauls');
+			await store.dispatch('protocol/loadProtocols');
 			next();
 		}
 	},
