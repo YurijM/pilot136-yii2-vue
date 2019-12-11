@@ -5,7 +5,11 @@
 	>
 		<h5 class="font-weight-bold text-center">{{docs.title}}</h5>
 
-		<b-card-group class="justify-content-center" deck>
+		<b-card-group
+			v-if="docs.docs.length > 0"
+			class="justify-content-center"
+			deck
+		>
 			<b-card v-for="doc in docs.docs" :key="doc.id"
 							body-class="alert-info py-1 px-2"
 							border-variant="primary"
@@ -35,7 +39,12 @@
 
 			</b-card>
 		</b-card-group>
-	</div></template>
+
+		<div v-else class="alert alert-warning text-center font-weight-bold">
+			Нет загруженных документов
+		</div>
+	</div>
+</template>
 
 <script>
 	export default {

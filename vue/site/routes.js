@@ -9,6 +9,7 @@ import Notice from './components/Notice';
 import Photo from './components/Photo';
 
 import {store} from '../store';
+import NProgress from "nprogress";
 
 const routes = [
 	{
@@ -19,6 +20,9 @@ const routes = [
 		name: 'main',
 		path: '/',
 		component: Main,
+		meta: {
+			title: 'Главная'
+		},
 		async beforeEnter(from, to, next){
 			await store.dispatch('requisite/loadRequisites');
 			await store.dispatch('post/getStaffByPost');
@@ -29,11 +33,15 @@ const routes = [
 		name: 'docs',
 		path: '/docs',
 		component: Docs,
+		meta: {
+			title: 'Документы'
+		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('act/loadActs');
 			await store.dispatch('contract/loadContracts');
 			await store.dispatch('certificate/loadCertificates');
 			await store.dispatch('finance/loadFinances');
+			await store.dispatch('overhaul/loadOverhauls');
 			next();
 		}
 	},
@@ -41,6 +49,9 @@ const routes = [
 		name: 'notice',
 		path: '/notice',
 		component: Notice,
+		meta: {
+			title: 'Объявления'
+		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('notice/loadNotices');
 			next();
@@ -49,7 +60,10 @@ const routes = [
 	{
 		name: 'photo',
 		path: '/photo',
-		component: Photo
+		component: Photo,
+		meta: {
+			title: 'Фотографии'
+		},
 	},
 	/*{
 		path: '*',
@@ -60,4 +74,19 @@ const routes = [
 export const router = new VueRouter({
 	routes,
 	mode: 'history'
+});
+
+const TITLE_DEFAULT = 'ТСЖ "Пилот"';
+
+router.beforeResolve((to, from, next) => {
+	if (to.name) {
+		NProgress.start();
+	}
+	next();
+});
+
+router.afterEach((to, from) => {
+	document.title = (to.meta.title ? to.meta.title + ' - ' : '') + TITLE_DEFAULT;
+
+	NProgress.done();
 });

@@ -13,6 +13,7 @@ import staff from './modules/staff';
 import act from './modules/act';
 import contract from './modules/contract';
 import finance from './modules/finance';
+import overhaul from './modules/overhaul';
 import certificate from './modules/certificate';
 import notice from './modules/notice';
 
@@ -27,6 +28,7 @@ export const store = new Vuex.Store({
 		act,
 		contract,
 		finance,
+		overhaul,
 		certificate,
 		notice
 	},

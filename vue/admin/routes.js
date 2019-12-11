@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Act from "./components/Act";
 import Contract from "./components/Contract";
 import Finance from "./components/Finance";
+import Overhaul from "./components/Overhaul";
 import Certificate from "./components/Certificate";
 import Notice from "./components/Notice";
 import Post from './components/Post';
@@ -111,6 +112,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('finance/loadFinances');
+			next();
+		}
+	},
+	{
+		name: 'overhaul',
+		path: '/overhaul',
+		component: Overhaul,
+		meta: {
+			title: 'Капитальный ремонт'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('overhaul/loadOverhauls');
 			next();
 		}
 	},

@@ -2,13 +2,13 @@
 	<b-container>
 		<ym-page-header
 			:title="title"
-			:count="finances.length"
+			:count="overhauls.length"
 			link="Добавить документ"
-			@onAddNewDoc="addFinance"
+			@onAddNewDoc="addOverhaul"
 		/>
 
 		<b-modal
-			id="financeEdit"
+			id="overhaulEdit"
 			:header-class="['alert-primary', 'border-primary', 'border-bottom']"
 			modal-class="in"
 			:footer-class="['alert-primary', 'border-primary', 'border-top']"
@@ -33,7 +33,7 @@
 				>
 					<b-form-input
 						id="inputTitle"
-						v-model="finance.title"
+						v-model="overhaul.title"
 						:state="stateTitle"
 						:autofocus="true"
 						required
@@ -41,18 +41,18 @@
 				</b-form-group>
 
 				<b-form-group
-					:state="statePeriod"
-					label="Отчётный период"
-					label-for="inputPeriod"
+					:state="stateMonth"
+					label="Отчётный месяц"
+					label-for="inputMonth"
 					label-size="sm"
 					label-class="font-weight-bold"
-					invalid-feedback="Если указан отчётный год, то надо указать и период"
+					invalid-feedback="Если указан отчётный год, то надо указать и месяц"
 				>
 					<b-form-select
-						id="inputPeriod"
-						:state="statePeriod"
-						v-model="finance.period"
-						:options="periods"
+						id="inputMonth"
+						:state="stateMonth"
+						v-model="overhaul.month"
+						:options="months"
 					/>
 				</b-form-group>
 
@@ -65,15 +65,15 @@
 				>
 					<b-form-select
 						id="inputYear"
-						v-model="finance.year"
+						v-model="overhaul.year"
 						:state="stateYear"
 						:options="years"
 					/>
 				</b-form-group>
 
 				<ym-file-input
-					:isEdit="finance.id !== null"
-					:doc="finance"
+					:isEdit="overhaul.id !== null"
+					:doc="overhaul"
 					:stateFile="stateFile"
 					:accept="accept"
 				/>
@@ -81,7 +81,7 @@
 		</b-modal>
 
 		<b-alert
-			v-if="finances.length === 0"
+			v-if="overhauls.length === 0"
 			class="text-center"
 			show
 			variant="info"
@@ -96,7 +96,7 @@
 		>
 			<div>
 				<b-pagination
-					v-if="finances.length > perPage"
+					v-if="overhauls.length > perPage"
 					v-model="currentPage"
 					:total-rows="docRows"
 					:per-page="perPage"
@@ -110,7 +110,7 @@
 					small
 					responsive="sm"
 					:fields="fields"
-					:items="finances"
+					:items="overhauls"
 					:per-page="perPage"
 					:current-page="currentPage"
 				>
@@ -119,10 +119,10 @@
 					</template>
 
 					<template v-slot:cell(edit)="data">
-						<b-button @click="editFinance(data.item, $event.target)" variant="outline-primary">
+						<b-button @click="editOverhaul(data.item, $event.target)" variant="outline-primary">
 							<font-awesome-icon icon="pencil-alt"/>
 						</b-button>
-						<b-button @click="deleteFinance(data.item)" variant="outline-danger">
+						<b-button @click="deleteOverhaul(data.item)" variant="outline-danger">
 							<font-awesome-icon icon="trash-alt"/>
 						</b-button>
 					</template>
@@ -130,7 +130,7 @@
 			</div>
 
 			<b-pagination
-				v-if="finances.length > perPage"
+				v-if="overhauls.length > perPage"
 				v-model="currentPage"
 				:total-rows="docRows"
 				:per-page="perPage"
@@ -147,7 +147,7 @@
 	import YmFileInput from './FileInput'
 
 	export default {
-		name: 'Finance',
+		name: 'Overhaul',
 		components: {
 			YmPageHeader,
 			YmFileInput
@@ -155,24 +155,24 @@
 		inject: ['deleteDoc'],
 		data() {
 			return {
-				title: 'Финансы',
-				finance: {
+				title: 'Капитальный ремонт',
+				overhaul: {
 					id: null,
 					title: '',
-					period: this.appConfig.periodNone,
+					month: this.appConfig.monthNone,
 					year: this.appConfig.yearNone,
 					fileName: '',
 					file: null
 				},
 				stateTitle: null,
-				statePeriod: null,
+				stateMonth: null,
 				stateYear: null,
 				stateFile: null,
 				modalTitle: '',
 				okTitle: '',
 				perPage: this.appConfig.perPage,
 				currentPage: 1,
-				periods: [],
+				months: [],
 				years: [],
 				accept: [...this.appConfig.mimetypePdf, ...this.appConfig.extPdf].join(','),
 				fields: [
@@ -197,14 +197,14 @@
 						tdClass: ['p-1', 'text-center'],
 					},
 					{
-						key: 'period',
-						label: 'Период',
+						key: 'month',
+						label: 'Месяц',
 						thClass: ['p-1', 'text-center', 'align-middle'],
 						tdClass: ['p-1', 'text-center'],
 						formatter: value => {
-							if (value === this.appConfig.periodNone) return '';
+							if (value === this.appConfig.monthNone) return '';
 
-							const item = this.periods.find(period => period.value === parseFloat(value));
+							const item = this.months.find(month => month.value === parseFloat(value));
 
 							return (item ? item.text : '')
 						}
@@ -226,14 +226,20 @@
 			}
 		},
 		created() {
-			this.periods = [
-				{value: this.appConfig.periodNone, text: 'Укажите период'},
-				{value: 1, text: '1-й квартал'},
-				{value: 2, text: '2-й квартал'},
-				{value: 2.5, text: '1-ое полугодие'},
-				{value: 3, text: '3-й квартал'},
-				{value: 4, text: '4-й квартал'},
-				{value: 5, text: 'год'},
+			this.months = [
+				{value: this.appConfig.monthNone, text: 'Укажите месяц'},
+				{value: 1, text: 'январь'},
+				{value: 2, text: 'февраль'},
+				{value: 3, text: 'март'},
+				{value: 4, text: 'апрель'},
+				{value: 5, text: 'май'},
+				{value: 6, text: 'июнь'},
+				{value: 7, text: 'июль'},
+				{value: 8, text: 'август'},
+				{value: 9, text: 'сентябрь'},
+				{value: 10, text: 'октябрь'},
+				{value: 11, text: 'ноябрь'},
+				{value: 12, text: 'декабрь'},
 			];
 
 			this.years.push({value: this.appConfig.yearNone, text: 'Укажите год'});
@@ -243,64 +249,64 @@
 			}
 		},
 		computed: {
-			...mapGetters('finance', [
-				'getFinances'
+			...mapGetters('overhaul', [
+				'getOverhauls'
 			]),
-			finances() {
-				return this.getFinances;
+			overhauls() {
+				return this.getOverhauls;
 			},
 			docRows() {
-				return this.finances.length
+				return this.overhauls.length
 			},
 		},
 		methods: {
-			...mapActions('finance', [
-				'createFinance',
-				'updateFinance',
+			...mapActions('overhaul', [
+				'createOverhaul',
+				'updateOverhaul',
 			]),
-			...mapActions('finance', {
-				removeDoc: 'deleteFinance'
+			...mapActions('overhaul', {
+				removeDoc: 'deleteOverhaul'
 			}),
-			addFinance() {
+			addOverhaul() {
 				this.modalTitle = 'Добавить документ';
 				this.okTitle = 'Сохранить';
-				this.$bvModal.show('financeEdit');
+				this.$bvModal.show('overhaulEdit');
 			},
-			editFinance(item, button) {
+			editOverhaul(item, button) {
 				this.modalTitle = 'Редактировать запись';
 				this.okTitle = 'Обновить';
-				this.finance.id = item.id;
-				this.finance.title = item.title;
-				this.finance.period = item.period;
-				this.finance.year = item.year;
-				this.finance.fileName = item.file;
-				this.$root.$emit('bv::show::modal', 'financeEdit', button)
+				this.overhaul.id = item.id;
+				this.overhaul.title = item.title;
+				this.overhaul.month = item.month;
+				this.overhaul.year = item.year;
+				this.overhaul.fileName = item.file;
+				this.$root.$emit('bv::show::modal', 'overhaulEdit', button)
 			},
-			deleteFinance(item) {
+			deleteOverhaul(item) {
 				this.deleteDoc(this, item, {
-					type: 'Finance',
+					type: 'Overhaul',
 					name: 'документ',
 					title: item.title
 				});
 			},
 			checkFormValidity() {
 				this.stateTitle = this.$refs.form.inputTitle.checkValidity();
-				this.statePeriod = (this.$refs.form.inputPeriod.value !== this.appConfig.periodNone);
+				this.stateMonth = (this.$refs.form.inputMonth.value !== this.appConfig.monthNone);
 				this.stateYear = (this.$refs.form.inputYear.value !== this.appConfig.yearNone);
-				this.stateFile = (this.finance.id ? true : Boolean(this.finance.file));
+				this.stateFile = (this.overhaul.id ? true : Boolean(this.overhaul.file));
 
-				return (this.stateTitle && this.statePeriod && this.stateYear && this.stateFile);
+				return (this.stateTitle && this.stateMonth && this.stateYear && this.stateFile);
 			},
 			resetModal() {
-				this.finance.id = null;
-				this.finance.title = '';
-				this.finance.period = this.appConfig.periodNone;
-				this.finance.year = this.appConfig.yearNone;
-				this.finance.fileName = '';
-				this.finance.file = null;
+				this.overhaul.id = null;
+				this.overhaul.title = '';
+				this.overhaul.month = this.appConfig.monthNone;
+				this.overhaul.year = this.appConfig.yearNone;
+				this.overhaul.fileName = '';
+				this.overhaul.file = null;
 
 				this.stateTitle = null;
-				this.statePeriod = null;
+				this.stateMonth = null;
 				this.stateYear = null;
 				this.stateFile = null;
 			},
@@ -316,13 +322,13 @@
 				}
 
 				try {
-					if (!this.finance.id) {
-						await this.createFinance(this.finance);
+					if (!this.overhaul.id) {
+						await this.createOverhaul(this.overhaul);
 					} else {
-						await this.updateFinance(this.finance);
+						await this.updateOverhaul(this.overhaul);
 					}
 				} catch (e) {
-					console.log('Ошибка try finance: ', e)
+					console.log('Ошибка try overhaul: ', e)
 				}
 
 				// Hide the modal manually

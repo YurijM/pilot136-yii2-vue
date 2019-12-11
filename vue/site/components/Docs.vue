@@ -2,7 +2,11 @@
 	<b-container>
 		<h4 class="font-weight-bold text-center">Документы</h4>
 
-		<b-list-group class="mb-3 justify-content-center flex-wrap" :style="{fontSize: '1.15em'}" horizontal>
+		<b-list-group
+			class="mb-3 pb-3 justify-content-center flex-wrap"
+			:style="{fontSize: '1.15em', borderBottom: '2px solid #007bff'}"
+			horizontal
+		>
 			<b-list-group-item
 				v-for="(doc, i) in docs"
 				:key="i"
@@ -37,6 +41,8 @@
 				acts: null,
 				contracts: null,
 				certificates: null,
+				finances: null,
+				overhauls: null,
 				currentIndex: 0,
 			}
 		},
@@ -45,6 +51,7 @@
 			this.contracts = this.$store.getters['contract/getContracts'];
 			this.certificates = this.$store.getters['certificate/getCertificates'];
 			this.finances = this.$store.getters['finance/getFinances'];
+			this.overhauls = this.$store.getters['overhaul/getOverhauls'];
 
 			this.docs.push({
 				title: 'Свидетельства и паспорта',
@@ -77,8 +84,8 @@
 			});
 			this.docs.push({
 				title: 'Капитальный ремонт',
-				docs: this.acts,
-				folder: 'acts',
+				docs: this.overhauls,
+				folder: 'overhauls',
 				showYear: false
 			});
 

@@ -2,18 +2,18 @@
 
 namespace api\modules\v1\controllers;
 
-use common\models\Finance;
+use common\models\Overhaul;
 use Yii;
 use yii\helpers\BaseFileHelper;
 
-class FinanceController extends ApiController
+class OverhaulController extends ApiController
 {
-	const PATH_TO_FINANCES = '@frontend/web/downloads/finances';
-	public $modelClass = 'common\models\Finance';
+	const PATH_TO_OVERHAULS = '@frontend/web/downloads/overhauls';
+	public $modelClass = 'common\models\Overhaul';
 
 	public function actionList()
 	{
-		return Finance::find()->all();
+		return Overhaul::find()->all();
 	}
 
 	public function actionAdd()
@@ -22,23 +22,23 @@ class FinanceController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['period']);
+		$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['month']);
 
 		if ($loadResult['result'] === '') {
-			$finance = new Finance();
-			$finance->title = $params['title'];
-			$finance->year = $params['year'];
-			$finance->period = $params['period'];
-			$finance->file = $loadResult['fileName'];
+			$overhaul = new Overhaul();
+			$overhaul->title = $params['title'];
+			$overhaul->year = $params['year'];
+			$overhaul->month = $params['month'];
+			$overhaul->file = $loadResult['fileName'];
 
-			if (!$finance->save()) {
-				$result = 'Ошибка при сохранении в БД документа "' . $finance->title . '"';
+			if (!$overhaul->save()) {
+				$result = 'Ошибка при сохранении в БД документа "' . $overhaul->title . '"';
 			}
 		} else {
 			$result = $loadResult['result'];
 		}
 
-		return compact(['finance', 'result']);
+		return compact(['overhaul', 'result']);
 	}
 
 	public function actionEdit()
@@ -49,27 +49,27 @@ class FinanceController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$finance = Finance::findOne($params['id']);
+		$overhaul = Overhaul::findOne($params['id']);
 
 		if ($_FILES) {
 			$deleteResult = $this->deleteFile($params['fileName']);
 
 			if ($deleteResult === '') {
-				$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['period']);
+				$loadResult = $this->loadFile($_FILES['file'], $params['year'], $params['month']);
 
 				if ($loadResult['result'] === '') {
-					$finance->file = $loadResult['fileName'];
+					$overhaul->file = $loadResult['fileName'];
 				}
 			}
 		}
 
 		if ((is_null($loadResult) and $deleteResult === '') or $loadResult['result'] === '') {
-			$finance->title = $params['title'];
-			$finance->year = $params['year'];
-			$finance->period = $params['period'];
+			$overhaul->title = $params['title'];
+			$overhaul->year = $params['year'];
+			$overhaul->month = $params['month'];
 
-			if (!$finance->save()) {
-				$result = 'Ошибка при обновлении документа "' . $finance->title . '"';
+			if (!$overhaul->save()) {
+				$result = 'Ошибка при обновлении документа "' . $overhaul->title . '"';
 			}
 		} elseif (!is_null($loadResult)) {
 			$result = $loadResult['result'];
@@ -77,7 +77,7 @@ class FinanceController extends ApiController
 			$result = $deleteResult;
 		}
 
-		return compact(['finance', 'result']);
+		return compact(['overhaul', 'result']);
 	}
 
 	public function actionRemove() {
@@ -85,31 +85,31 @@ class FinanceController extends ApiController
 
 		$params = Yii::$app->getRequest()->getBodyParams();
 
-		$finance = Finance::findOne($params['id']);
-		$result = $this->deleteFile($finance->file);
+		$overhaul = Overhaul::findOne($params['id']);
+		$result = $this->deleteFile($overhaul->file);
 
 		if ($result === '') {
-			if (!$finance->delete()) {
-				$result = 'Ошибка при удалении записи из таблицы finance (' . $finance->id . ')';
+			if (!$overhaul->delete()) {
+				$result = 'Ошибка при удалении записи из таблицы overhaul (' . $overhaul->id . ')';
 			}
 		}
 
 		return $result;
 	}
 
-	protected function loadFile($file, $year, $period)
+	protected function loadFile($file, $year, $month)
 	{
 		$result = '';
 
-		$path = Yii::getAlias(self::PATH_TO_FINANCES);
+		$path = Yii::getAlias(self::PATH_TO_OVERHAULS);
 		BaseFileHelper::createDirectory($path);
 
 		$ext = substr($file['name'], strrpos($file['name'], '.'));
 		//$now = Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'));
 		$now = date('Ymdhis');
 		$fileName = ($year > Yii::$app->params['noneYear'] ? '-' . $year : '');
-		$fileName = $fileName . ($period > Yii::$app->params['nonePeriod'] ? '-' . $period : '');
-		$fileName = 'finance' . $fileName . '-' . $now . $ext;
+		$fileName = $fileName . ($month > Yii::$app->params['noneMonth'] ? '-' . $month : '');
+		$fileName = 'overhaul' . $fileName . '-' . $now . $ext;
 		$fullName = $path . DIRECTORY_SEPARATOR . $fileName;
 
 		// Проверяем загружен ли файл
@@ -129,7 +129,7 @@ class FinanceController extends ApiController
 	protected function deleteFile($fileName)
 	{
 		$result = '';
-		$path = Yii::getAlias(self::PATH_TO_FINANCES);
+		$path = Yii::getAlias(self::PATH_TO_OVERHAULS);
 		$file = $path . DIRECTORY_SEPARATOR . $fileName;
 
 		if (!unlink($file)) {
