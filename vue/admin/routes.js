@@ -15,6 +15,7 @@ import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
 import Requisite from './components/Requisite';
+import Photo from './components/Photo';
 //import NotFound from './components/NotFound';
 
 import {store} from "../store";
@@ -151,7 +152,20 @@ const routes = [
 			await store.dispatch('notice/loadNotices');
 			next();
 		}
+	},
+	{
+		name: 'photo',
+		path: '/photo',
+		component: Photo,
+		meta: {
+			title: 'Объявления'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('photo/loadPhotos');
+			next();
+		}
 	}
+
 
 	/*{
 		name: 'logout',

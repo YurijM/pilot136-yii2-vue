@@ -17,6 +17,7 @@ import overhaul from './modules/overhaul';
 import protocol from './modules/protocol';
 import certificate from './modules/certificate';
 import notice from './modules/notice';
+import photo from './modules/photo';
 
 export const store = new Vuex.Store({
 	modules: {
@@ -32,7 +33,8 @@ export const store = new Vuex.Store({
 		overhaul,
 		protocol,
 		certificate,
-		notice
+		notice,
+		photo
 	},
 	/*plugins: [createPersistedState(
 		{
