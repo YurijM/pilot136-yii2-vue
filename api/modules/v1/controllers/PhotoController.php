@@ -5,6 +5,9 @@ namespace api\modules\v1\controllers;
 use common\models\Photo;
 use Yii;
 use yii\helpers\BaseFileHelper;
+use yii\imagine\Image;
+use Imagine\Image\Point;
+use Imagine\Image\Box;
 
 class PhotoController extends ApiController
 {
@@ -38,7 +41,8 @@ class PhotoController extends ApiController
 		return compact(['photo', 'result']);
 	}
 
-	public function actionRemove() {
+	public function actionRemove()
+	{
 		$result = '';
 
 		$params = Yii::$app->getRequest()->getBodyParams();
@@ -73,6 +77,29 @@ class PhotoController extends ApiController
 			// из временной директории в конечную
 			if (!move_uploaded_file($file['tmp_name'], $fullName)) {
 				$result = 'Ошибка при сохранении файла "' . $fullName . '"';
+			} else {
+				/************************/
+				//$img = Yii::getAlias($fullName);
+				//$image = Image::getImagine()->open($img);
+				$size = getimagesize($fullName);
+				$width = $size[0];
+				$height = $size[1];
+
+				if ($width > $height) {
+					$k = 800.00 / $width;
+					$newHeight = $k * $height;
+					$newWidth = 800;
+				} else {
+					$k = 600.00 / $height;
+					$newWidth = $k * $width;
+					$newHeight = 600;
+				}
+
+				Image::frame($fullName, 0, '666', 0)
+					->crop(new Point(0, 0), new Box($width, $height))
+					->resize(new Box($newWidth, $newHeight))
+					->save($fullName, ['quality' => 80]);
+				/************************/
 			}
 		} else {
 			$result = 'Ошибка при загрузке файла "' . $file['name'] . '"';

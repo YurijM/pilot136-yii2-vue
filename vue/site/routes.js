@@ -65,6 +65,10 @@ const routes = [
 		meta: {
 			title: 'Фотографии'
 		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('photo/loadPhotos');
+			next();
+		}
 	},
 	/*{
 		path: '*',
