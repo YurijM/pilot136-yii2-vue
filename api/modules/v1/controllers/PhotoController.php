@@ -81,24 +81,28 @@ class PhotoController extends ApiController
 				/************************/
 				//$img = Yii::getAlias($fullName);
 				//$image = Image::getImagine()->open($img);
-				$size = getimagesize($fullName);
+
+				Image::resize($fullName, 900, 675)
+					->save($fullName, ['quality' => 80]);
+
+				/*$size = getimagesize($fullName);
 				$width = $size[0];
 				$height = $size[1];
 
 				if ($width > $height) {
-					$k = 800.00 / $width;
+					$k = 900.00 / $width;
 					$newHeight = $k * $height;
-					$newWidth = 800;
+					$newWidth = 900;
 				} else {
-					$k = 600.00 / $height;
+					$k = 675.00 / $height;
 					$newWidth = $k * $width;
-					$newHeight = 600;
+					$newHeight = 675;
 				}
 
 				Image::frame($fullName, 0, '666', 0)
 					->crop(new Point(0, 0), new Box($width, $height))
 					->resize(new Box($newWidth, $newHeight))
-					->save($fullName, ['quality' => 80]);
+					->save($fullName, ['quality' => 80]);*/
 				/************************/
 			}
 		} else {

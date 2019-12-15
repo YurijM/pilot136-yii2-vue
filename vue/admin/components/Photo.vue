@@ -43,8 +43,8 @@
 
 		<div
 			v-else
-			class="d-flex flex-column justify-content-between mt-3 mx-2"
-			:style="{minHeight: '80vh'}"
+			class="d-flex flex-column justify-content-between mt-3 mx-auto"
+			:style="{minHeight: '78vh', maxWidth: '350px'}"
 		>
 			<div>
 				<b-pagination
@@ -52,16 +52,17 @@
 					v-model="currentPage"
 					:total-rows="docRows"
 					:per-page="perPage"
+					pills
+					size="sm"
 					aria-controls="table-doc"
 					align="center"
 				></b-pagination>
 
 				<b-table
 					id="table-doc"
+					class="mt-3"
 					striped
 					small
-					class="mx-auto"
-					:style="{maxWidth: '350px'}"
 					responsive="sm"
 					:fields="fields"
 					:items="photos"
@@ -83,6 +84,8 @@
 			<b-pagination
 				v-if="photos.length > perPage"
 				v-model="currentPage"
+				pills
+				size="sm"
 				:total-rows="docRows"
 				:per-page="perPage"
 				aria-controls="table-doc"

@@ -158,7 +158,7 @@ const routes = [
 		path: '/photo',
 		component: Photo,
 		meta: {
-			title: 'Объявления'
+			title: 'Фотографии'
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('photo/loadPhotos');
