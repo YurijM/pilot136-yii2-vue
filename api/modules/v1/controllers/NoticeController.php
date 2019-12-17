@@ -1,7 +1,6 @@
 <?php
 namespace api\modules\v1\controllers;
 
-use common\models\Notice;
 use yii\db\Query;
 
 class NoticeController extends ApiController
@@ -10,7 +9,7 @@ class NoticeController extends ApiController
 
 	public function actionList()
 	{
-		$model = (new Query())->from('notice')
+		/*$model = (new Query())->from('notice')
 			->select([
 				'id' => 'id',
 				'notice' => 'notice',
@@ -20,6 +19,16 @@ class NoticeController extends ApiController
 			->orderBy(['date' => SORT_DESC])
 			->all();
 
-		return ['notices' => $model];
+		return ['notices' => $model];*/
+
+		return (new Query())->from('notice')
+			->select([
+				'id' => 'id',
+				'notice' => 'notice',
+				'sign' => 'sign',
+				'date' => 'date'
+			])
+			->orderBy(['date' => SORT_DESC])
+			->all();
 	}
 }

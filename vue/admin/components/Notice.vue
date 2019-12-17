@@ -226,9 +226,6 @@
 			notices() {
 				return this.getNotices
 			},
-			docRows() {
-				return this.notices.length
-			}
 		},
 		methods: {
 			...mapActions('notice', [

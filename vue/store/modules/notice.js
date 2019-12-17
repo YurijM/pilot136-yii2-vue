@@ -60,7 +60,7 @@ export default {
 			await axios
 			.get('notice/list')
 			.then(response => {
-				commit('SET_NOTICES', response.data.notices);
+				commit('SET_NOTICES', response.data);
 			});
 		},
 		async createNotice({commit, dispatch}, notice) {
