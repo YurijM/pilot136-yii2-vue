@@ -16,7 +16,8 @@
 
 const config = {
 	//apiUrl: 'http://cl07722.tmweb.ru/api/v1/',
-	apiUrl: 'http://pilot136-yii2-vue-api/v1/',
+	apiUrl: 'http://pilot136.ru/api/web/v1/',
+	//apiUrl: 'http://pilot136-yii2-vue-api/v1/',
 	monthNone: 0,
 	periodNone: 0,
 	yearNone: 0,

@@ -25,11 +25,11 @@ AppAsset::register($this);
 <div id="app"></div>
 
 <!--Для хостинга:-->
-<?php /*$this->registerJsFile('admin/js/app-backend.js'); */?>
+<?php $this->registerJsFile('admin/js/app-backend.js'); ?>
 <!--или-->
 <?php /*$this->registerJsFile('backend/web/js/app-backend.js'); */?>
 
-<?php $this->registerJsFile('/js/app-backend.js'); ?>
+<?php /*$this->registerJsFile('/js/app-backend.js'); */?>
 
 <?php $this->endBody() ?>
 </body>
