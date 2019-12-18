@@ -87,10 +87,10 @@
 						name: localStore.name,
 						codeError: 0
 					});
-					this.$router.push('/requisite')
+					this.$router.push('/admin/requisite')
 				}
 			} else {
-				this.$router.push('/requisite')
+				this.$router.push('/admin/requisite')
 			}
 		},
 		computed: {

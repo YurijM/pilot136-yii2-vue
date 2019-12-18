@@ -7,10 +7,14 @@ export default {
 	namespaced: true,
 	state: {
 		overhauls: [],
-		overhaul: null
+		overhaul: null,
+		count: 0,
+		currentIdx: 1
 	},
 	getters: {
-		getOverhauls: state => state.overhauls
+		getOverhauls: state => state.overhauls,
+		getCount: state => state.overhauls.length,
+		getCurrentIdx: state => state.currentIdx
 	},
 	mutations: {
 		CLEAR_OVERHAULS(state) {
@@ -22,10 +26,10 @@ export default {
 		SORT_OVERHAULS(state) {
 			state.overhauls.sort((a, b) => {
 				// Используем toUpperCase() для преобразования регистра
-				const year1 = a.year;
-				const year2 = b.year;
-				const month1 = a.month;
-				const month2 = b.month;
+				const year1 = parseInt(a.year);
+				const year2 = parseInt(b.year);
+				const month1 = parseInt(a.month);
+				const month2 = parseInt(b.month);
 				const title1 = a.title.toUpperCase();
 				const title2 = b.title.toUpperCase();
 
@@ -53,6 +57,9 @@ export default {
 		GET_OVERHAUL(state, payload) {
 			state.overhaul = state.overhauls.filter(el => el.id === payload)[0];
 		},
+		SET_CURRENT_IDX(state, payload) {
+			state.currentIdx = payload;
+		},
 		ADD_OVERHAUL(state, payload) {
 			state.overhauls.push(payload);
 		},
@@ -77,7 +84,7 @@ export default {
 				commit('SORT_OVERHAULS');
 			});
 		},
-		async createOverhaul({commit, dispatch}, overhaul) {
+		async createOverhaul({state, commit, dispatch}, overhaul) {
 			const formData = new FormData();
 			formData.append('title', overhaul.title);
 			formData.append('year', overhaul.year);
@@ -94,6 +101,10 @@ export default {
 				if (response.data.result === '') {
 					commit('ADD_OVERHAUL', response.data.overhaul);
 					commit('SORT_OVERHAULS');
+					commit(
+						'SET_CURRENT_IDX',
+						state.overhauls.map(el => parseInt(el.id)).indexOf(response.data.overhaul.id)
+					);
 
 					dispatch('common/setInfo', {
 						type: 'success',
@@ -114,7 +125,7 @@ export default {
 				}, {root: true});
 			});
 		},
-		async updateOverhaul({commit, dispatch}, overhaul) {
+		async updateOverhaul({state, commit, dispatch}, overhaul) {
 			const formData = new FormData();
 			formData.set('_method', 'PUT');
 			formData.set('id', overhaul.id);
@@ -130,6 +141,10 @@ export default {
 				if (response.data.result === '') {
 					commit('UPDATE_OVERHAUL', response.data.overhaul);
 					commit('SORT_OVERHAULS');
+					commit(
+						'SET_CURRENT_IDX',
+						state.overhauls.map(el => parseInt(el.id)).indexOf(overhaul.id)
+					);
 
 					dispatch('common/setInfo', {
 						type: 'success',

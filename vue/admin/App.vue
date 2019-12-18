@@ -46,17 +46,17 @@
 				currentYear: new Date().getFullYear(),
 				admin: '',
 				menu: [
-					{path: '/requisite', icon: 'file-contract', title: 'Реквизиты'},
-					{path: '/staff', icon: 'users', title: 'Штат'},
-					{path: '/post', icon: 'briefcase', title: 'Должности'},
-					{path: '/certificate', icon: 'passport', title: 'Свидетельства и паспорта'},
-					{path: '/finance', icon: 'money-bill-alt', title: 'Финансы'},
-					{path: '/contract', icon: 'file-contract', title: 'Договоры'},
-					{path: '/act', icon: 'file-contract', title: 'Акты'},
-					{path: '/protocol', icon: 'file-contract', title: 'Протоколы'},
-					{path: '/overhaul', icon: 'tools', title: 'Капитальный ремонт'},
-					{path: '/notice', icon: 'ad', title: 'Объявления'},
-					{path: '/photo', icon: 'camera-retro', title: 'Фотографии'}
+					{path: '/admin/requisite', icon: 'file-contract', title: 'Реквизиты'},
+					{path: '/admin/staff', icon: 'users', title: 'Штат'},
+					{path: '/admin/post', icon: 'briefcase', title: 'Должности'},
+					{path: '/admin/certificate', icon: 'passport', title: 'Свидетельства и паспорта'},
+					{path: '/admin/finance', icon: 'money-bill-alt', title: 'Финансы'},
+					{path: '/admin/contract', icon: 'file-contract', title: 'Договоры'},
+					{path: '/admin/act', icon: 'file-contract', title: 'Акты'},
+					{path: '/admin/protocol', icon: 'file-contract', title: 'Протоколы'},
+					{path: '/admin/overhaul', icon: 'tools', title: 'Капитальный ремонт'},
+					{path: '/admin/notice', icon: 'ad', title: 'Объявления'},
+					{path: '/admin/photo', icon: 'camera-retro', title: 'Фотографии'}
 				]
 			}
 		},

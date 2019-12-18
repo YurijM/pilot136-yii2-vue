@@ -2,7 +2,7 @@
 	<b-container>
 		<ym-page-header
 			:title="title"
-			:count="overhauls.length"
+			:count="count"
 			link="Добавить документ"
 			@onAddNewDoc="addOverhaul"
 		/>
@@ -81,7 +81,7 @@
 		</b-modal>
 
 		<b-alert
-			v-if="overhauls.length === 0"
+			v-if="count === 0"
 			class="text-center"
 			show
 			variant="info"
@@ -96,9 +96,9 @@
 		>
 			<div>
 				<b-pagination
-					v-if="overhauls.length > perPage"
+					v-if="count > perPage"
 					v-model="currentPage"
-					:total-rows="docRows"
+					:total-rows="count"
 					:per-page="perPage"
 					aria-controls="table-doc"
 					align="center"
@@ -130,9 +130,9 @@
 			</div>
 
 			<b-pagination
-				v-if="overhauls.length > perPage"
+				v-if="count > perPage"
 				v-model="currentPage"
-				:total-rows="docRows"
+				:total-rows="count"
 				:per-page="perPage"
 				aria-controls="table-doc"
 				align="center"
@@ -250,13 +250,15 @@
 		},
 		computed: {
 			...mapGetters('overhaul', [
-				'getOverhauls'
+				'getOverhauls',
+				'getCount',
+				'getCurrentIdx'
 			]),
 			overhauls() {
 				return this.getOverhauls;
 			},
-			docRows() {
-				return this.overhauls.length
+			count() {
+				return this.getCount;
 			},
 		},
 		methods: {
@@ -327,6 +329,8 @@
 					} else {
 						await this.updateOverhaul(this.overhaul);
 					}
+
+					this.currentPage = Math.trunc(this.getCurrentIdx / this.perPage + 1);
 				} catch (e) {
 					console.log('Ошибка try overhaul: ', e)
 				}

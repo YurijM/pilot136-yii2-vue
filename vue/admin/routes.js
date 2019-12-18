@@ -22,12 +22,12 @@ import {store} from "../store";
 
 const routes = [
 	{
-		path: '',
+		path: '/admin',
 		redirect: {name: 'login'}
 	},
 	{
 		name: 'login',
-		path: '/login',
+		path: '/admin/login',
 		component: Login,
 		meta: {
 			title: 'Авторизация'
@@ -35,7 +35,7 @@ const routes = [
 	},
 	{
 		name: 'requisite',
-		path: '/requisite',
+		path: '/admin/requisite',
 		component: Requisite,
 		meta: {
 			title: 'Реквизиты'
@@ -47,7 +47,7 @@ const routes = [
 	},
 	{
 		name: 'post',
-		path: '/post',
+		path: '/admin/post',
 		component: Post,
 		meta: {
 			title: 'Должности'
@@ -59,7 +59,7 @@ const routes = [
 	},
 	{
 		name: 'staff',
-		path: '/staff',
+		path: '/admin/staff',
 		component: Staff,
 		meta: {
 			title: 'Штат'
@@ -71,7 +71,7 @@ const routes = [
 	},
 	{
 		name: 'act',
-		path: '/act',
+		path: '/admin/act',
 		component: Act,
 		meta: {
 			title: 'Акты'
@@ -83,7 +83,7 @@ const routes = [
 	},
 	{
 		name: 'contract',
-		path: '/contract',
+		path: '/admin/contract',
 		component: Contract,
 		meta: {
 			title: 'Договоры'
@@ -95,7 +95,7 @@ const routes = [
 	},
 	{
 		name: 'certificate',
-		path: '/certificate',
+		path: '/admin/certificate',
 		component: Certificate,
 		meta: {
 			title: 'Свидетельства и паспорта'
@@ -107,7 +107,7 @@ const routes = [
 	},
 	{
 		name: 'finance',
-		path: '/finance',
+		path: '/admin/finance',
 		component: Finance,
 		meta: {
 			title: 'Финансы'
@@ -119,7 +119,7 @@ const routes = [
 	},
 	{
 		name: 'overhaul',
-		path: '/overhaul',
+		path: '/admin/overhaul',
 		component: Overhaul,
 		meta: {
 			title: 'Капитальный ремонт'
@@ -131,7 +131,7 @@ const routes = [
 	},
 	{
 		name: 'protocol',
-		path: '/protocol',
+		path: '/admin/protocol',
 		component: Protocol,
 		meta: {
 			title: 'Протоколы'
@@ -143,7 +143,7 @@ const routes = [
 	},
 	{
 		name: 'notice',
-		path: '/notice',
+		path: '/admin/notice',
 		component: Notice,
 		meta: {
 			title: 'Объявления'
@@ -155,7 +155,7 @@ const routes = [
 	},
 	{
 		name: 'photo',
-		path: '/photo',
+		path: '/admin/photo',
 		component: Photo,
 		meta: {
 			title: 'Фотографии'
@@ -165,7 +165,6 @@ const routes = [
 			next();
 		}
 	}
-
 
 	/*{
 		name: 'logout',
@@ -193,7 +192,7 @@ async function checkLogin(action, next) {
 		await store.dispatch(action);
 		next();
 	} else {
-		next('/login');
+		next('/admin/login');
 	}
 }
 
@@ -235,7 +234,7 @@ router.beforeEach(async (from, to, next) => {
 					message: 'Сначала необходимо авторизоваться.'
 				});
 
-				next('/login');
+				next('/admin/login');
 			} else {
 				next();
 			}
