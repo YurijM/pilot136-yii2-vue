@@ -141,7 +141,7 @@
 								id: admin.id,
 								name: admin.name
 							});
-							this.$router.push('/requisite');
+							this.$router.push('/admin/requisite');
 						} else {
 							this.validLogin = false;
 							switch (this.getCodeError) {

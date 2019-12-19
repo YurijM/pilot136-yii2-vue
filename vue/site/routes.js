@@ -76,7 +76,8 @@ const routes = [
 	}*/
 ];
 
-export const router = new VueRouter({
+//export const router = new VueRouter({
+const router = new VueRouter({
 	routes,
 	mode: 'history'
 });
@@ -95,3 +96,5 @@ router.afterEach((to, from) => {
 
 	NProgress.done();
 });
+
+export {router};

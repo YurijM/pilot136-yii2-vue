@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import BootstrapVue from 'bootstrap-vue';
 
+import '../node_modules/nprogress/nprogress.css';
 import './site/style/main.scss';
 import './site/style/animate.min.css';
 
