@@ -51,3 +51,5 @@ phpunit.phar
 /frontend/tests/
 
 /frontend/web/downloads/
+/frontend/web/js/
+/backend/web/js/
