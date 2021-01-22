@@ -44,6 +44,7 @@
 				finances: null,
 				overhauls: null,
 				protocols: null,
+        reports: null,
 				currentIndex: 0,
 			}
 		},
@@ -54,6 +55,7 @@
 			this.finances = this.$store.getters['finance/getFinances'];
 			this.overhauls = this.$store.getters['overhaul/getOverhauls'];
 			this.protocols = this.$store.getters['protocol/getProtocols'];
+      this.reports = this.$store.getters['report/getReports'];
 
 			this.docs.push({
 				title: 'Свидетельства и паспорта',
@@ -93,6 +95,13 @@
 			});
 
 			this.docs.sort(this.sortDocs);
+
+      this.docs.push({
+        title: 'Разное',
+        docs: this.reports,
+        folder: 'reports',
+        period: ''
+      });
 
 			this.currentIndex = 0;
 			this.docsCurrent = this.docs[0];

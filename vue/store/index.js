@@ -15,6 +15,7 @@ import contract from './modules/contract';
 import finance from './modules/finance';
 import overhaul from './modules/overhaul';
 import protocol from './modules/protocol';
+import report from './modules/report';
 import certificate from './modules/certificate';
 import notice from './modules/notice';
 import photo from './modules/photo';
@@ -32,6 +33,7 @@ export const store = new Vuex.Store({
 		finance,
 		overhaul,
 		protocol,
+		report,
 		certificate,
 		notice,
 		photo

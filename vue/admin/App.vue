@@ -55,6 +55,7 @@
 					{path: '/admin/act', icon: 'file-contract', title: 'Акты'},
 					{path: '/admin/protocol', icon: 'file-contract', title: 'Протоколы'},
 					{path: '/admin/overhaul', icon: 'tools', title: 'Капитальный ремонт'},
+          {path: '/admin/report', icon: 'file-contract', title: 'Разное'},
 					{path: '/admin/notice', icon: 'ad', title: 'Объявления'},
 					{path: '/admin/photo', icon: 'camera-retro', title: 'Фотографии'}
 				]

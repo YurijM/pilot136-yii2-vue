@@ -84,7 +84,8 @@ return [
 						'v1/certificate',
 						'v1/finance',
 						'v1/overhaul',
-						'v1/protocol'
+						'v1/protocol',
+						'v1/report'
 					],
 					'extraPatterns' => [
 						'GET list' => 'list',

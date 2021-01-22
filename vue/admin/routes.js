@@ -11,6 +11,7 @@ import Finance from "./components/Finance";
 import Overhaul from "./components/Overhaul";
 import Certificate from "./components/Certificate";
 import Protocol from "./components/Protocol";
+import Report from "./components/Report";
 import Notice from "./components/Notice";
 import Post from './components/Post';
 import Staff from './components/Staff';
@@ -138,6 +139,18 @@ const routes = [
 		},
 		async beforeEnter(from, to, next) {
 			await store.dispatch('protocol/loadProtocols');
+			next();
+		}
+	},
+	{
+		name: 'report',
+		path: '/admin/report',
+		component: Report,
+		meta: {
+			title: 'Разное'
+		},
+		async beforeEnter(from, to, next) {
+			await store.dispatch('report/loadReports');
 			next();
 		}
 	},
