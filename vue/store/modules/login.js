@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Vue from "vue";
 
 export default {
 	namespaced: true,
@@ -39,11 +40,11 @@ export default {
 					password: admin.password
 				},
 			})
-				/*axios({
-					method: 'get',
-					url: 'http://pilot136-yii2-vue-api/v1/user/check',
-					headers: { Authorization: 'Bearer 12345'}
-				})*/
+			/*axios({
+				method: 'get',
+				url: 'http://pilot136-yii2-vue-api/v1/user/check',
+				headers: { Authorization: 'Bearer 12345'}
+			})*/
 			.then(response => {
 				if (isNaN(response.data)) {
 					commit('SET_ADMIN', {
@@ -51,8 +52,7 @@ export default {
 						name: response.data.username,
 						codeError: 0
 					});
-				}
-				else
+				} else
 					commit('SET_ADMIN', {
 						id: 0,
 						name: '',
@@ -62,10 +62,12 @@ export default {
 		},
 		logout({dispatch}) {
 			dispatch('clearAdmin');
-			/*dispatch('setInfo',
-				{type: 'info', message: 'Сессия закрыта'},
-				{root: true}
-			);*/
+			Vue.$storage.clear('admin');
+
+			dispatch('common/setInfo', {
+				type: 'info',
+				message: 'Сессия закрыта'
+			}, {root: true});
 		},
 	}
 };

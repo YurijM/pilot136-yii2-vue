@@ -177,14 +177,23 @@ const routes = [
 			await store.dispatch('photo/loadPhotos');
 			next();
 		}
+	},
+	{
+		name: 'logout',
+		path: '/logout',
+		async beforeEnter(from, to, next){
+			await store.dispatch('login/logout');
+			next('/login');
+		}
 	}
-
 	/*{
 		name: 'logout',
 		path: '/logout',
-		component: Logout,
-	},
-	{
+		async beforeEnter(from, to, next){
+			next('/login');
+		}
+	}*/
+	/*{
 		name: 'not-found',
 		path: '*',
 		component: NotFound,
